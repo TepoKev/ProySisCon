@@ -233,7 +233,7 @@ public class Controlador {
 	  return next;
    }
    
-   private ArrayList<CargoAbono> ordenarCA(Set cargoAbono){
+   public ArrayList<CargoAbono> ordenarCA(Set cargoAbono){
        ArrayList<CargoAbono> cargo = new ArrayList<CargoAbono>();
        ArrayList<CargoAbono> abono = new ArrayList<CargoAbono>();
        CargoAbono aux;

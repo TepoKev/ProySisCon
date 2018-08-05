@@ -82,7 +82,6 @@
                         Controlador ctr = new Controlador();
                         ArrayList<Partida> partida = (ArrayList<Partida>) ctr.recuperarPartidas();
                         ArrayList<CargoAbono> cargoabono = new ArrayList<CargoAbono>();
-                        CargoAbono c;
                         float tCargo = 0, tAbono = 0;
                         for (Partida p : partida) {
                     %>
@@ -105,11 +104,8 @@
                                     <th scope="col">Abono</th></tr>
                             </thead>
                             <tbody>
-                                <%
-                                    c = new CargoAbono();
-                                    
-                                    for (CargoAbono a : ctr) {
-                                        c =  a;
+                                <%  
+                                    for (CargoAbono c : ctr.ordenarCA(p.getCargosAbonos())) {
 
                                 %>
                                 <tr>
