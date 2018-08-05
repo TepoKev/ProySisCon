@@ -1,0 +1,50 @@
+.tree-root {
+   /*
+   background-color: #025aa5;
+   */
+   list-style: none;
+   padding:5px;
+}
+.tree-root ul, .tree-root ol, .tree-root dl {
+   list-style: none;
+}
+.tree-root ul {
+   padding-left: 20px;
+}
+.tree-root > li {
+   /*
+	  background-color: whitesmoke;
+   */
+   padding-left: 0px;
+   margin-left: 0!important;
+}
+.tree-root > li {
+   /*
+   background-color: #D2E0E6;
+   */
+   margin-top: 3px;
+   margin-bottom: 3px;
+   margin-left: 0px;
+
+}
+.tree-root ul li {
+
+}
+.focus-gained {
+   background-color: #49A5FF;
+   color:white!important;
+}
+.tree-root a {
+   padding: 1px 8px;
+   display: inline-block;
+}
+.tree-root a, .tree-root a:hover {
+   color:#555;
+   text-decoration: none;
+   cursor: pointer;
+}
+.tree-root a:hover {
+   background-color: #8fcafe;
+   color:white;
+   transition: all .2s;
+}

@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 12-26-2017 08:35:49 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="modelo.CargoAbono" table="cargos_abonos" schema="public" optimistic-lock="version">
+        <id name="id" type="int">
+            <column name="id" />
+            <generator class="increment" />
+        </id>
+        <many-to-one name="cuenta" class="modelo.Cuenta" fetch="select" lazy="false">
+            <column name="id_cuenta" />
+        </many-to-one>
+        <many-to-one name="partida" class="modelo.Partida" fetch="select">
+            <column name="id_partida" />
+        </many-to-one>
+        <property name="monto" type="java.lang.Float">
+            <column name="monto" precision="8" scale="8" />
+        </property>
+        <property name="operacion" type="string">
+            <column name="operacion" length="1" />
+        </property>
+        <set name="parciales" table="parciales" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_cargos_abonos" />
+            </key>
+            <one-to-many class="modelo.Parcial" />
+        </set>
+    </class>
+</hibernate-mapping>
