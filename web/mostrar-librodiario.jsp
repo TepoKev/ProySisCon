@@ -107,8 +107,9 @@
                             <tbody>
                                 <%
                                     c = new CargoAbono();
-                                    for (Object a : p.getCargosAbonos()) {
-                                        c = (CargoAbono) a;
+                                    
+                                    for (CargoAbono a : ctr) {
+                                        c =  a;
 
                                 %>
                                 <tr>

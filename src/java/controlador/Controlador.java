@@ -6,13 +6,14 @@
 package controlador;
 
 import java.io.Serializable;
+import static java.lang.reflect.Array.set;
 import java.util.ArrayList;
 import java.util.List;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import modelo.*;
-
+import java.util.Set;
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.type.StandardBasicTypes;
@@ -230,6 +231,24 @@ public class Controlador {
 		 this.session.close();
 	  }
 	  return next;
+   }
+   
+   private ArrayList<CargoAbono> ordenarCA(Set cargoAbono){
+       ArrayList<CargoAbono> cargo = new ArrayList<CargoAbono>();
+       ArrayList<CargoAbono> abono = new ArrayList<CargoAbono>();
+       CargoAbono aux;
+       try {
+           for(Object ca : cargoAbono){
+               aux =  (CargoAbono)ca;
+               if(aux.getOperacion().equals("c")){
+                   cargo.add(aux);
+               }else if(aux.getOperacion().equals("a")){
+                   abono.add(aux);
+               }
+           }cargo.addAll(abono);
+       } catch (Exception e) {
+       }
+       return cargo;
    }
    
 }
