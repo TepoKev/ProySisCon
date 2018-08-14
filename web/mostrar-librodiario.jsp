@@ -26,16 +26,15 @@
         <script src="js/bootstrap.js"></script>
     </head>
     <body>
-        <div class="bg-success text-warning" style="margin-bottom: 50px;
-             background-image: url(images/background-1.jpg);background-size: cover;">
+        <div class="bg-danger text-white" style="margin-bottom: 50px;">
 
-            <div style="background-color: rgba(255,255,255,.8);">
+            <div style="background-color: rgba(255,255,255,.2);">
                 <div class="container">
-                    <nav class="navbar navbar-toggleable-md navbar-light">
+                    <nav class="navbar navbar-toggleable-md navbar-inverse">
                         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                             <span class="navbar-toggler-icon"></span>
                         </button>
-                        <a class="navbar-brand" href="#">Proy-SisCon</a>
+	           <a class="navbar-brand" href="#">Proy-SisCon</a>
                         <div class="collapse navbar-collapse" id="navbarNav">
                             <ul class="navbar-nav mr-auto">
                                 <li class="nav-item active">
@@ -51,37 +50,24 @@
                                     <a class="nav-link disabled" href="#">Ayuda</a>
                                 </li>
                             </ul>
-                            <span class="navbar-text">Sistema Contable</span>
+                            <span class="navbar-text px-3  text-white font-weight-bold">Proy-SisCon</span>
                         </div>
                     </nav>
                 </div>
             </div>
 
             <div class="container" style="padding-top: 60px;padding-bottom: 60px;">
-                <h1 class="text-sm-center text-muted font-weight-bold">Libro Diario</h1>
+                <h1 class="text-sm-center font-weight-bold">Libro Diario</h1>
             </div>
 
         </div>
         <div class="container">
             <div class="row">
-                <div class="col-lg-3">
-
-                    <div class="list-group">
-                        <a class="list-group-item list-group-item-action active" href="#">Libro Diario</a>
-                        <a class="list-group-item list-group-item-action " href="registrar-catalogo.jsp">Registrar Catalogo</a>
-                        <a class="list-group-item list-group-item-action" href="registrar-partidas.html">Registrar Partidas</a>
-                        <a class="list-group-item list-group-item-action" href="#">Libro Mayor</a>
-                        <a class="list-group-item list-group-item-action" href="#">Balanza de Comprobación</a>
-                        <a class="list-group-item list-group-item-action" href="#">Estado de Resultados</a>
-                        <a class="list-group-item list-group-item-action" href="#">Balance General</a>
-                        <a class="list-group-item list-group-item-action" href="#">Cierre Contable</a>
-                    </div>
-                </div>
+	   <%@include file="aside.jsp" %>
                 <div class="col-lg-9">
                     <%
                         Controlador ctr = new Controlador();
                         ArrayList<Partida> partida = (ArrayList<Partida>) ctr.recuperarPartidas();
-                        ArrayList<CargoAbono> cargoabono = new ArrayList<CargoAbono>();
                         float tCargo = 0, tAbono = 0;
                         for (Partida p : partida) {
                     %>
@@ -90,7 +76,7 @@
                             <p>Fecha: <%= p.getFecha().toString()%></p>
                         </div>
                         <div class="col-sm-4">
-                            <p>Partida N&deg; <%= p.getContador()%></p>
+		   <p><span style="font-size: 100%" class="badge badge-info font-weight-bold">Partida N&deg; <%= p.getContador()%></span></p>
                         </div>
                     </div>  
 
@@ -115,11 +101,11 @@
                                                 tCargo += c.getMonto();
                                         %>
                                     <td><%= c.getMonto()%></td>
-                                    <td>0.0</td>
+                                    <td></td>
                                     <%} else {
                                         tAbono += c.getMonto();
                                     %>
-                                    <td>0.0</td>
+                                    <td></td>
                                     <td><%= c.getMonto()%></td><%}%>
                                 </tr>
                                 <%
@@ -131,6 +117,7 @@
                     <div class="col-lg-9">
                         <p class="text-muted"><%= p.getDescripcion()%></p>
                     </div>
+	        <hr>
                     <%
                         }
                     %>
@@ -165,7 +152,7 @@
             </div>
         </div>
 
-        <footer style="min-height: 170px">
+		<footer class="badge-danger text-white mt-3" style="min-height: 170px">
             <div class="container">
             </div>
         </footer>

@@ -11,27 +11,27 @@ Author     : deb
    Controlador ctl = new Controlador();
    String c = request.getParameter("num-partida");
    long i;
-   if(c != null) {
-	  try {
-		 i = Long.parseLong(c);
-		 if(i < 0) {
-			i = ctl.sigContador();
-			i--;
-		 } else {
-			i++;
-		 }
-	  }catch(Exception e){
-		 return;
-	  }
+   if (c != null) {
+      try {
+         i = Long.parseLong(c);
+         if (i < 0) {
+	i = ctl.sigContador();
+	i--;
+         } else {
+	i++;
+         }
+      } catch (Exception e) {
+         return;
+      }
    } else {
-	  i = 0;
-	  return;
+      i = 0;
+      return;
    }
 %>
 <%
    String opcion = request.getParameter("ajax-opcion");
    if (opcion == null) {
-	  return;
+      return;
    }
    if (opcion.equals("partida")) {
 %>
@@ -50,55 +50,55 @@ Author     : deb
 --%>
 <div class="mb-3 mt-1" data-num-partida="<%=i%>" data-type="partida">
    <a data-type='btn-agregar' href="#">
-	  <i class="fa fa-plus text-primary"></i> Cargo o abono
+      <i class="fa fa-plus text-primary"></i> Cargo o abono
    </a>
    <a class="ml-3 text-muted" data-type='btn-eliminar-partida' href="#">
-	  <i class="fa fa-trash text-danger"></i> Eliminar partida
+      <i class="fa fa-trash text-danger"></i> Eliminar partida
    </a>
    <div class="row">
-	  <div class="col-md-3">
-		 <h2>Partida # <span data-type="contador" class="text-primary"><%=i%></span></h2>
-	  </div>
-	  <div class="col-md-3" data-type="fecha">
-		 <input type="date" class="form-control" name="fecha" placeholder="Fecha de transacción">
-	  </div>
+      <div class="col-md-3">
+         <h2>Partida # <span data-type="contador" class="text-primary"><%=i%></span></h2>
+      </div>
+      <div class="col-md-3" data-type="fecha">
+         <input type="date" class="form-control" name="fecha" placeholder="Fecha de transacción">
+      </div>
    </div>
    <div data-type="lista-dh" >
-	  <div data-type="dh" class="row mb-1">
-		 <div class="col-md-6">
-			<input type="checkbox" data-type="checkbox-eliminar">
-			<a href="#" data-codigo="" class="text-muted font-weight-bold">Seleccionar cuenta</a>
-		 </div>
-		 <div class="col-md-3">
-			<input class="form-control" name="cargo" type="text" placeholder="Cargo">
-		 </div>
-		 <div class="col-md-3">
-			<input class="form-control" name="abono" type="text" placeholder="Abono">
-		 </div>
-	  </div>
-	  <div data-type="dh" class="row mb-1">
-		 <div class="col-md-6">
-			<input type="checkbox" data-type="checkbox-eliminar">
-			<a href="#" data-codigo="" class="text-muted font-weight-bold">Seleccionar cuenta</a>
-		 </div>
-		 <div class="col-md-3">
-			<input class="form-control" name="cargo" type="text" placeholder="Cargo">
-		 </div>
-		 <div class="col-md-3">
-			<input class="form-control" name="abono" type="text" placeholder="Abono">
-		 </div>
-	  </div>
+      <div data-type="dh" class="row mb-1">
+         <div class="col-md-6">
+	<input type="checkbox" data-type="checkbox-eliminar">
+	<a href="#" data-codigo="" class="text-muted font-weight-bold">Seleccionar cuenta</a>
+         </div>
+         <div class="col-md-3">
+	<input class="form-control" name="cargo" type="text" placeholder="Cargo">
+         </div>
+         <div class="col-md-3">
+	<input class="form-control" name="abono" type="text" placeholder="Abono">
+         </div>
+      </div>
+      <div data-type="dh" class="row mb-1">
+         <div class="col-md-6">
+	<input type="checkbox" data-type="checkbox-eliminar">
+	<a href="#" data-codigo="" class="text-muted font-weight-bold">Seleccionar cuenta</a>
+         </div>
+         <div class="col-md-3">
+	<input class="form-control" name="cargo" type="text" placeholder="Cargo">
+         </div>
+         <div class="col-md-3">
+	<input class="form-control" name="abono" type="text" placeholder="Abono">
+         </div>
+      </div>
    </div>
    <div class="row mb-3" data-type="total-partida">
-	  <div class="col-md-3">
-		 <a class="text-danger" data-type="btn-eliminar-ch" href="#"><i class="fa fa-trash"></i> Eliminar la selección</a>
-	  </div>
-	  <div class="col-md-3 text-right">Totales:</div>
-	  <div class="col-md-3" data-type="total-cargo">$</div>
-	  <div class="col-md-3" data-type="total-abono">$</div>
+      <div class="col-md-3">
+         <a class="text-danger" data-type="btn-eliminar-ch" href="#"><i class="fa fa-trash"></i> Eliminar la selección</a>
+      </div>
+      <div class="col-md-3 text-right">Totales:</div>
+      <div class="col-md-3" data-type="total-cargo">$</div>
+      <div class="col-md-3" data-type="total-abono">$</div>
    </div>
    <div data-type="descripcion">
-	  <textarea class="form-control" name="descripcion" placeholder="Descripcion de la transacción"></textarea>
+      <textarea class="form-control" name="descripcion" placeholder="Descripcion de la transacción"></textarea>
    </div>
 
 </div>
@@ -108,14 +108,14 @@ Author     : deb
 <div data-type="dh" class="row mb-1">
 
    <div class="col-md-6">
-	  <input type="checkbox" data-type="checkbox-eliminar">
-	  <a href="#" data-codigo="" class="text-muted font-weight-bold">Seleccionar cuenta</a>
+      <input type="checkbox" data-type="checkbox-eliminar">
+      <a href="#" data-codigo="" class="text-muted font-weight-bold">Seleccionar cuenta</a>
    </div>
    <div class="col-md-3">
-	  <input class="form-control" name="cargo" type="text" placeholder="Cargo">
+      <input class="form-control" name="cargo" type="text" placeholder="Cargo">
    </div>
    <div class="col-md-3">
-	  <input class="form-control" name="abono" type="text" placeholder="Abono">
+      <input class="form-control" name="abono" type="text" placeholder="Abono">
    </div>
 </div>
 <%

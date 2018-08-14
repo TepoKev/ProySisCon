@@ -68,19 +68,8 @@
 
             <div class="row">
 
-                <div class="col-lg-3">
-
-                    <div class="list-group">
-                        <a class="list-group-item list-group-item-action active" href="#">Registrar Catalogo</a>
-                        <a class="list-group-item list-group-item-action" href="registrar-partidas.html">Registrar Partidas</a>
-                        <a class="list-group-item list-group-item-action" href="mostrar-librodiario.jsp">Libro Diario</a>
-                        <a class="list-group-item list-group-item-action" href="#">Libro Mayor</a>
-                        <a class="list-group-item list-group-item-action" href="#">Balanza de Comprobación</a>
-                        <a class="list-group-item list-group-item-action" href="#">Estado de Resultados</a>
-                        <a class="list-group-item list-group-item-action" href="#">Balance General</a>
-                        <a class="list-group-item list-group-item-action" href="#">Cierre Contable</a>
-                    </div>
-                </div>
+	   <%@include file="aside.jsp"%>
+	   
                 <div class="col-lg-9">
 
                     <h1 class="h1 font-weight-bold text-muted">Registro de catálogo de cuentas</h1>
@@ -119,7 +108,7 @@
                                                             + t.getTipo() + "\"><i class=\"fa fa-folder text-info mr-1\"></i>"
                                                             + t.getNombre() + "</a>");
                                                     if (t.getCuentas().size() > 0) {
-                                                        out.print("<ul data-opened=true>");
+                                                        out.print("<ul data-opened=false>");
                                                         for (Object aux : t.getCuentas()) {
                                                             recursivo((Cuenta) aux, out);
                                                         }

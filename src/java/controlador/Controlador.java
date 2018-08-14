@@ -234,15 +234,15 @@ public class Controlador {
    }
    
    public ArrayList<CargoAbono> ordenarCA(Set cargoAbono){
-       ArrayList<CargoAbono> cargo = new ArrayList<CargoAbono>();
-       ArrayList<CargoAbono> abono = new ArrayList<CargoAbono>();
+       ArrayList<CargoAbono> cargo = new ArrayList();
+       ArrayList<CargoAbono> abono = new ArrayList();
        CargoAbono aux;
        try {
            for(Object ca : cargoAbono){
                aux =  (CargoAbono)ca;
-               if(aux.getOperacion().equals("c")){
+               if("c".equals(aux.getOperacion())){
                    cargo.add(aux);
-               }else if(aux.getOperacion().equals("a")){
+               }else if("a".equals(aux.getOperacion())){
                    abono.add(aux);
                }
            }cargo.addAll(abono);

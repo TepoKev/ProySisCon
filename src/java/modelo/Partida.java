@@ -104,5 +104,5 @@ public class Partida implements java.io.Serializable {
     public void setCargosAbonos(Set cargosAbonos) {
         this.cargosAbonos = cargosAbonos;
     }
-
+    
 }
