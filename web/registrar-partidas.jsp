@@ -8,10 +8,8 @@
    <head>
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-      <meta charset="UTF-8">
       <title>Registro de Partidas</title>
       <link rel="stylesheet" href="css/bootstrap.css">
-      <link rel="stylesheet" href="css/jstree.css">
       <link rel="stylesheet" href="fonts/font-awesome.css">
       <link rel="stylesheet" href="fonts/fonts.css">
       <link rel="stylesheet" href="css/style.css">
@@ -27,19 +25,18 @@
    <body style="margin-bottom: 200px">
 
 
-      <div class="bg-success text-warning" style="margin-bottom: 50px;
-           background-image: url(images/background-1.jpg);background-size: cover;">
-         <div style="background-color: rgba(255,255,255,.8);">
+      <div class="bg-danger text-white" style="margin-bottom: 50px;">
+         <div style="background-color: rgba(255,255,255,.2);">
 	<div class="container">
-	   <nav class="navbar navbar-toggleable-md navbar-light">
-	      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+	   <nav class="navbar navbar-expand-lg navbar-dark">
+	      <a class="navbar-brand" href="#">Proy-SisCon</a>
+	      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 	         <span class="navbar-toggler-icon"></span>
 	      </button>
-	      <a class="navbar-brand" href="#">Proy-SisCon</a>
-	      <div class="collapse navbar-collapse" id="navbarNav">
+	      <div class="collapse navbar-collapse" id="navbarSupportedContent">
 	         <ul class="navbar-nav mr-auto">
 		<li class="nav-item active">
-		   <a class="nav-link" href="#">Inicio <span class="sr-only">(current)</span></a>
+		   <a class="nav-link" href="index.jsp">Inicio <span class="sr-only">(current)</span></a>
 		</li>
 		<li class="nav-item">
 		   <a class="nav-link" href="#">Caracteristicas</a>
@@ -51,13 +48,13 @@
 		   <a class="nav-link disabled" href="#">Ayuda</a>
 		</li>
 	         </ul>
-	         <span class="navbar-text">Sistema Contable</span>
+	         <span class="navbar-text text-white">Sistema Contable</span>
 	      </div>
 	   </nav>
 	</div>
          </div>
          <div class="container" style="padding-top: 60px;padding-bottom: 60px;">
-	<h1 class="text-sm-center text-muted font-weight-bold">Partidas</h1>
+	<h1 class="text-sm-center font-weight-bold">Partidas</h1>
          </div>
 
       </div>
@@ -71,7 +68,7 @@
 	   <h1 class="bg-danger p-3 h1 font-weight-bold text-white">Registrar Partidas</h1>
 	   <hr style="border-color: rgba(0,0,0,.2);">
 	   <div class="spacer"></div>
-	   <div id="sticky-scroll-box" class="sticky-scroll-box bg-faded">
+	   <div id="sticky-scroll-box" class="sticky-scroll-box bg-light">
 
 	      <div class="row">
 	         <div class="col-md-8">
@@ -82,7 +79,7 @@
 		         <button class="btn btn-primary" type="submit">Aceptar <i class="fa fa-arrow-right"></i></button>
 		      </span>
 		      <span class="input-group-btn">
-		         <button type="button" class="btn px-2 py-2 text-muted btn-secondary btn-sm font-weight-bold" onclick="nueva_partida();"><i class="fa fa-plus text-success"></i> Partida</button>
+		         <button type="button" class="btn px-2 py-2 text-white btn-secondary btn-sm font-weight-bold" onclick="nueva_partida();"><i class="fa fa-plus"></i> Partida</button>
 		      </span>
 		   </div>
 		</form>

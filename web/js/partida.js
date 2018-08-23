@@ -129,7 +129,7 @@ function enviar_partidas(e) {
       }
    }
    //si hay error: prevenir envio del formulario y mostrar mensaje de error
-   //e.preventDefault();
+   e.preventDefault();
    //sino
    var data = {
       'numerospartidas[]': numeroPartidas,
