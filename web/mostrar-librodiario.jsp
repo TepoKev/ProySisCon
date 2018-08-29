@@ -72,7 +72,7 @@
 	   %>
 	   <div class="row">
 	      <div class="col-sm-4">
-	         <p>Fecha: <%= p.getFecha().toString()%></p>
+	         <p>Fecha: <%= p.getFecha()==null? "<span class=\"text-danger font-weight-bold\">fecha nula</span>":p.getFecha().toString()%></p>
 	      </div>
 	      <div class="col-sm-4">
 	         <p><span style="font-size: 100%" class="badge badge-info font-weight-bold">Partida N&deg; <%= p.getContador()%></span></p>

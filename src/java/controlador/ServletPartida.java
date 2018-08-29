@@ -143,6 +143,8 @@ public class ServletPartida extends HttpServlet {
 	return;
          }
          ctl.registrarPartidas(partidas, cargosAbonos);
+         response.sendRedirect("mostrar-librodiario.jsp");
+         
       }
    }//Fin processRequest 
 

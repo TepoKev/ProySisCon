@@ -4,10 +4,10 @@
  * https://stackoverflow.com/questions/11867269/replace-only-text-inside-a-div-using-jquery
  * 
  **/
-var _tree = {
+var treeCatalog = {
    name: '.tree-root',
-   new_text: 'nueva cuenta',
-   current_node: null
+   newText: 'nueva cuenta',
+   currentNode: null
 }
 
 $(document).ready(function () {
@@ -15,16 +15,16 @@ $(document).ready(function () {
    initialize();
 
    //generar codigo automatico para cada cuenta
-   var dataGen = $(_tree.name).attr('data-genCodigo');
+   var dataGen = $(treeCatalog.name).attr('data-genCodigo');
    ;
    if (dataGen === '' || typeof dataGen === 'undefined' || dataGen === 'true') {
-      genCodNodo($(_tree.name));
+      genCodNodo($(treeCatalog.name));
    } else {
-      dividirCodigo($(_tree.name));
+      dividirCodigo($(treeCatalog.name));
    }
    //observese que no se asignará el evento click de forma no tan usual
    //sino con delegacion de evento
-   $(_tree.name).on('click', 'li a', enfocar);
+   $(treeCatalog.name).on('click', 'li a', enfocar);
 
    //limpiar formulario
    limpiarFormulario();
@@ -35,7 +35,23 @@ $(document).ready(function () {
    $('#form-catalogo').submit(enviarFormulario);
 
    //funcion del doble click
-   $(_tree.name).on('dblclick', 'li a', manejadorDblclick);
+   $(treeCatalog.name).on('dblclick', 'li a', manejadorDblclick);
+   //hacer pegajoso el formulario de cuenta
+   var top = $('.sticky-scroll-box').offset().top;
+   $(window).scroll(function (event) {
+      var y = $(this).scrollTop();
+      var elem = $('.sticky-scroll-box');
+      var spacer = $('.spacer');
+
+      if (y >= top) {
+         elem.addClass('fixed');
+         spacer.height(elem.height());
+      } else {
+         elem.removeClass('fixed');
+         spacer.height(0);
+      }
+      elem.width(elem.parent().width());
+   });
 });
 
 function limpiarFormulario() {
@@ -55,18 +71,18 @@ function seleccionarElemento(actual) {
       saldo: $(actual).attr('data-saldo')
    };
    //cuando no hay ningun elemento seleccionado, seleccionar el actual
-   if (_tree.current_node === null) {
+   if (treeCatalog.currentNode === null) {
       $(actual).addClass("focus-gained");
       $(actual).focus();
-      _tree.current_node = actual;
+      treeCatalog.currentNode = actual;
    } else {
       //cuando hay un elemento seleccionado:
       //primeramente deseleccionar el actual
       //despues seleccionar el nodo actual
-      $(_tree.current_node).removeClass('focus-gained');
+      $(treeCatalog.currentNode).removeClass('focus-gained');
       $(actual).addClass('focus-gained');
       $(actual).focus();
-      _tree.current_node = actual;
+      treeCatalog.currentNode = actual;
    }
    llenarFormulario(obj);
 }
@@ -114,9 +130,15 @@ function dividirCodigo(nodo, nivel = 0) {
    }
    var listaNodos = $(nodo).children('li');
    var elem, cod;
+   var span;
    for (var i = 0; i < listaNodos.length; i++) {
+
       elem = $(listaNodos[i]).children('a');
+
       cod = $(elem).attr('data-codigo');
+      span = document.createElement('span');
+      span.innerHTML = cod;
+      $(span).insertBefore(elem);
       if (nivel === 0 || nivel === 1) {
          $(elem).attr('data-codigo', cod.substr(nivel, 1));
       } else {
@@ -181,7 +203,7 @@ function convert(numero, digitos = 2) {
  * Esta funcion convierte una lista en un elemento que sera usado como arbol desde este script
  */
 function initialize() {
-   var elementos = $(_tree.name + ' li');
+   var elementos = $(treeCatalog.name + ' li');
    var text = "";
    $(elementos).contents().filter(function () {
       return this.nodeType === 3;//cuando el nodo es un elemento de texto
@@ -196,7 +218,7 @@ function initialize() {
       $(this).replaceWith(nodo_nuevo);
    });
    //abrir o cerrar los nodos segun el atributo data-opened
-   elementos = $(_tree.name + ' li a').each(function () {
+   elementos = $(treeCatalog.name + ' li a').each(function () {
       var next = $(this).next('ul');
       var data_abierto = $(next).attr('data-opened');
 
@@ -208,24 +230,11 @@ function initialize() {
          collExp(this, 0);
       }
    });
-   var top = $('.sticky-scroll-box').offset().top;
-   $(window).scroll(function (event) {
-      var y = $(this).scrollTop();
-      var elem = $('.sticky-scroll-box');
-      var spacer = $('.spacer');
 
-      if (y >= top) {
-         elem.addClass('fixed');
-         spacer.height(elem.height());
-      } else {
-         elem.removeClass('fixed');
-         spacer.height(0);
-      }
-      elem.width(elem.parent().width());
-   });
 }
 function guardarCuenta(e) {
    e.preventDefault();
+   var span;
    var obj = {
       nombre: $('#nombre-cuenta').val(),
       codigo: $('#codigo-cuenta').val(),
@@ -233,12 +242,14 @@ function guardarCuenta(e) {
       saldo: $('#form-cuenta input[name=saldo]:checked').val()
    };
 
-   $(_tree.current_node).attr({
+   $(treeCatalog.currentNode).attr({
       'data-codigo': obj.codigo,
       'data-descripcion': obj.descripcion,
       'data-saldo': obj.saldo
    });
-   $(_tree.current_node).html('<i class="fa fa-folder mr-1 text-info"></i>' + obj.nombre);
+   $(treeCatalog.currentNode).html('<i class="fa fa-folder mr-1 text-info"></i>' + obj.nombre);
+   span = $(treeCatalog.currentNode).parent().find('span')[0];
+   $(span).html(obj.codigo);
 }
 function newElementA(text = null, saldoHeredado = true) {
 
@@ -254,7 +265,7 @@ function newElementA(text = null, saldoHeredado = true) {
    });
 
    if (text === null)
-      text = _tree.new_text;
+      text = treeCatalog.newText;
    $(nuevo).html('<i class="fa fa-folder text-info mr-1"></i>'
            + text);
    return nuevo;
@@ -268,28 +279,31 @@ function createNode() {
 
    //cuando se crea un nuevo elemento esta funcion debe ser llamada
    var nuevo;
-
+   var span;
    //no hay nodo seleccionado
-   if (_tree.current_node === null) {
+   if (treeCatalog.currentNode === null) {
       //crear un nuevo nodo de lista
-      var nuevo = newNode();
+      nuevo = newNode();
       //insertar el nuevo elemento RAIZ al final
-      $(_tree.name).append(nuevo);
+      $(treeCatalog.name).append(nuevo);
 
       //obtener un nuevo codigo generado
-      var lista = $(_tree.name + ' > li > a');
+      var lista = $(treeCatalog.name + ' > li > a');
       var mayor = mayorElementoPor('data-codigo', lista) + 1;
 
       //seleccionar el elemento recien creado
       var a = $(nuevo).find('a')[0];
+      span = document.createElement('span');
+      span.innerHTML = mayor;
+      $(span).insertBefore($(a));
       $(a).attr('data-codigo', mayor);
       seleccionarElemento($(nuevo).find('a')[0]);
 
    } else {
 
       //se obtenemos el elemento padre que se supone es un li
-      var dataSaldo = $(_tree.current_node).attr('data-saldo');
-      var par = $(_tree.current_node).parent();
+      var dataSaldo = $(treeCatalog.currentNode).attr('data-saldo');
+      var par = $(treeCatalog.currentNode).parent();
       //buscamos el primer ul
       var sel = $(par).find('ul:first');
       nuevo = null;
@@ -313,11 +327,14 @@ function createNode() {
 //		 console.log('codigo: ' + mayor);
          $(nuevo).attr('data-codigo', mayor);
          $(nuevo).attr('data-saldo', dataSaldo);
+         span = document.createElement('span');
+         span.innerHTML = mayor;
+         $(span).insertBefore(nuevo);
          seleccionarElemento(nuevo);
       } else {
 
          //para el caso que el elemento no tenga ningun hijo
-         nuevo = $('<ul>');
+         nuevo = document.createElement('ul');
          $(nuevo).append(newNode());
          $(par).append(nuevo);
 
@@ -332,27 +349,30 @@ function createNode() {
 //		 console.log('nivel: ' + nivel);
          mayor = genCodNivel(mayor, nivel);
 //		 console.log('codigo: ' + mayor);
-
+         span = document.createElement('span');
+         span.innerHTML = mayor;
+         $(span).insertBefore(nuevo);
          $(nuevo).attr('data-codigo', mayor);
          $(nuevo).attr('data-saldo', dataSaldo);
          seleccionarElemento(nuevo);
       }
       $(sel).show(125);
    }
+
    $('#nombre-cuenta').focus();
    $('#nombre-cuenta').selectRange(0, $('#nombre-cuenta').val().length);
 }
 
 function deleteNode() {
 
-   $(_tree.name + ' .focus-gained').removeClass('focus-gained');
-   $(_tree.current_node).parent().remove();
-   _tree.current_node = null;
+   $(treeCatalog.name + ' .focus-gained').removeClass('focus-gained');
+   $(treeCatalog.currentNode).parent().remove();
+   treeCatalog.currentNode = null;
    limpiarFormulario();
 }
 function deselect() {
-   $(_tree.name + ' .focus-gained').removeClass('focus-gained');
-   _tree.current_node = null;
+   $(treeCatalog.name + ' .focus-gained').removeClass('focus-gained');
+   treeCatalog.currentNode = null;
    limpiarFormulario();
 }
 //SET CURSOR POSITION
@@ -404,7 +424,7 @@ function obtenerNivel(elem) {
    var nivel = 0;
    var tmp = elem;
    //  console.log(elem);
-   while (tmp && !$(tmp).is(_tree.name + ' > li')) {
+   while (tmp && !$(tmp).is(treeCatalog.name + ' > li')) {
 //	  console.log(tmp);
       tmp = $(tmp).parent();
       if (!$(tmp).is('li')) {
@@ -448,7 +468,7 @@ function ordenarPorCodigo(elemA, elemB) {
 function enviarFormulario(e) {
    //primeramente se obtienen las cuentas del formulario
    var lista = new Array();
-   var arbol = $(_tree.name);
+   var arbol = $(treeCatalog.name);
    var i = 0;
    arbolALista("", arbol, lista);
    console.log(lista);

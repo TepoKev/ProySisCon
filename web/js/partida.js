@@ -86,7 +86,7 @@ function enviar_partidas(e) {
    //sel2 es para abonos
    //sel 3 es para los codigos de cuentas
    var sel1, sel2, sel3;
-   var val1, val2;
+   var val1, val2, val3;
    partidas = $('#partidas div[data-type="partida"]');
 
    for (i = 0; i < partidas.length; i++) {
@@ -125,7 +125,14 @@ function enviar_partidas(e) {
 	ops.push('a');
          }
          numPartidas.push(nump);
-         codigosCuentas.push($(sel3[c]).attr('data-codigo'));
+         val3 = $(sel3[c]).attr('data-codigo');
+         if(val3===null || val3==='') {
+	alert('Alguna cuenta no ha sido asignada\nPor favor complete el formulario seleccionando la/las cuentas faltantes');
+	e.preventDefault();
+	return;
+
+         }
+         codigosCuentas.push(val3);
       }
    }
    //si hay error: prevenir envio del formulario y mostrar mensaje de error
@@ -142,7 +149,7 @@ function enviar_partidas(e) {
    };
    console.log(data);
    $.post('ServletPartida', data, function (data) {
-      console.log(data);
+      //console.log(data);
    });
 
 
