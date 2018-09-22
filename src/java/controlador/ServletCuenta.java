@@ -31,6 +31,12 @@ public class ServletCuenta extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        /*********************************************************************
+         * Ojo: request.setCharacterEncoding("UTF-8") ha permitido 
+         * solucionar problemas con caracteres especiales como las tildes
+         * fuente: https://donnierock.com/2015/06/09/javajsp-al-enviar-formulario-por-metodo-post-los-caracteres-utf-8-no-aparecen-bien-representados/
+         *********************************************************************/
+        request.setCharacterEncoding("UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             Controlador ctr = new Controlador();

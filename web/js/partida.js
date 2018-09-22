@@ -149,7 +149,9 @@ function enviar_partidas(e) {
    };
    console.log(data);
    $.post('ServletPartida', data, function (data) {
-      //console.log(data);
+      $('#modal-contenido-partidas').empty();
+      $('#modal-contenido-partidas').append(data);
+      $('#modal-partidas').modal('show');
    });
 
 

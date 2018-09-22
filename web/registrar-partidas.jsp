@@ -123,6 +123,15 @@
          </div>
 
       </div>
+      <div class="modal fade" id="modal-partidas" tabindex="-1" role="dialog" aria-hidden="false">
+         <div class="modal-dialog" role="document">
+	<div class="modal-content" id="modal-contenido-partidas">
+	   <div class="modal-header" ></div>
+	   <div class="modal-body"></div>
+	   <div class="modal-footer"></div>
+	</div>
+         </div>
+      </div>
       <footer style="min-height: 170px">
          <div class="container">
 
