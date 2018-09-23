@@ -7,12 +7,12 @@
 var treeCatalog = {
   name: '.tree-root',
   newText: 'nueva cuenta',
-  currentNode: null
-}
+  currentNode: null,
+  maxLevel: 10
+};
 var stickyElement = {
   'idElement': '.sticky-scroll-box',
-  'idSpace': '.spacer',
-
+  'idSpace': '.spacer'
 };
 
 $(document).ready(function () {
@@ -56,11 +56,11 @@ function panelPegado() {
   var top = $(stickyElement.idElement).offset().top;
 
   $(window).scroll(function (event) {
-	
+
 	var y = $(this).scrollTop();
 	var elem = $(stickyElement.idElement);
 	var spacer = $(stickyElement.idSpace);
-	
+
 	if (y >= top) {
 	  elem.addClass('fixed');
 	  spacer.height(elem.height());
@@ -231,21 +231,21 @@ function convert(numero, digitos = 2) {
  <li>cuenta1</li>
  <li>cuenta2
 	<ul>
-		<li>subcuenta1</li>
-		<li>subcuenta2</li>
+	<li>subcuenta1</li>
+	<li>subcuenta2</li>
 	</ul>
  </li>
  </ul>
  Si se llama a la funcion ya habiendo sido creados los <a>, la funcion no hara su trabajo
  ya que solo convierte el "texto" dentro del <li>, ademas los espacios y lineas vacias son eliminadas por la funcion
  <ul class="tree-root">
-  <li><a>cuenta1</a></li>
-  <li><a>cuenta2</a>
-	   <ul>
-		 <li><a>subcuenta1</a></li>
-		 <li><a>subcuenta2</a></li>
-	   </ul>
-  </li>
+ <li><a>cuenta1</a></li>
+ <li><a>cuenta2</a>
+	<ul>
+	<li><a>subcuenta1</a></li>
+	<li><a>subcuenta2</a></li>
+	</ul>
+ </li>
  </ul>
  */
 function initialize() {
@@ -289,8 +289,8 @@ function initialize() {
 	  collExp(this, 0);
 	}
   });
-
 }
+
 function guardarCuenta(e) {
   e.preventDefault();
   var span;
@@ -301,14 +301,65 @@ function guardarCuenta(e) {
 	saldo: $('#form-cuenta input[name=saldo]:checked').val()
   };
 
+  //validacion de la cuenta
+  if(obj.nombre==='' || obj.codigo==='' || obj.saldo==='') {
+	alert('Por favor complete los campos:\nel nombre, codigo y saldo, son obligatorios');
+	return;
+  }
+  var elements = $(treeCatalog.currentNode).parent().parent().find('> li > a');
+  var codigo, nombre, i;
+  var msjs = new Array(), texto = '', valida = true;
+  for (i = 0; i < elements.length; i++) {
+	// verificar si no hay duplicados de nombre, ni codigo de cuenta
+	// pero omitir el nodo actual, pues la comparacion resultara cierta
+	
+	if ( treeCatalog.currentNode !== elements[i] )  {
+	  if (obj.codigo === $(elements[i]).attr('data-codigo')) {
+		msjs.push('El codigo "' + obj.codigo + '" ya existe');
+		valida = false;
+	  }
+	  if (obj.nombre === $(elements[i]).text()) {
+		msjs.push('La cuenta con nombre "' + obj.nombre + '" ya existe');
+		valida = false;
+	  }
+	}
+  }
+  if (!valida) {
+	for (i = 0; i < msjs.length; i++) {
+	  texto = texto + msjs[i] + '\n';
+	}
+	alert('Error: \n' + texto);
+	return;
+  }
+
+  // actualizar el nuevo nodo
   $(treeCatalog.currentNode).attr({
 	'data-codigo': obj.codigo,
 	'data-descripcion': obj.descripcion,
 	'data-saldo': obj.saldo
   });
-  $(treeCatalog.currentNode).html('<i class="fa fa-folder mr-1 text-info"></i>' + obj.nombre);
+  if($(treeCatalog.currentNode).attr('data-new')==='true') {
+	$(treeCatalog.currentNode).html('<i class="fa fa-folder mr-1 text-success"></i>' + obj.nombre);
+  } else {
+	$(treeCatalog.currentNode).html('<i class="fa fa-folder mr-1 text-warning"></i>' + obj.nombre);
+  }
   span = $(treeCatalog.currentNode).parent().find('span')[0];
-  $(span).html(obj.codigo);
+  $(span).html(fullCode(treeCatalog.currentNode));
+}
+function fullCode(element) {
+  var code = $(element).attr('data-codigo');
+  var i,reco;
+  reco = element;
+  for (i = 0;i < treeCatalog.maxLevel; i++) {
+	reco = $(reco).parent().parent()[0];
+	if(reco===$(treeCatalog.name)[0]) {
+	  return code;
+	} else {
+	  reco = $(reco).prev('a');
+	  code = $(reco).attr('data-codigo') + code;
+	}
+  }
+  return code;
 }
 function newElementA(text = null, saldoHeredado = true) {
 
@@ -326,8 +377,9 @@ function newElementA(text = null, saldoHeredado = true) {
   if (text === null) {
 	text = treeCatalog.newText;
   }
-  $(nuevo).html('<i class="fa fa-folder text-info mr-1"></i>'
-		  + text);
+  $(nuevo).html('<i class="fa fa-folder text-success mr-1"></i>' + text);
+  //el atributo data-new ha sido agregado para poder diferenciar las cuentas nuevas de las modificadas
+  $(nuevo).attr('data-new','true');
   return nuevo;
 }
 function newNode() {
@@ -338,13 +390,13 @@ function newNode() {
 /*
  * El abrol de cuentas, ya inicializado tiene una estructura similar a: 
  <ul class="tree-root">
-  <li><a>cuenta1</a></li>
-  <li><a>cuenta2</a>
-	   <ul>
-		 <li><a>subcuenta1</a></li>
-		 <li><a>subcuenta2</a></li>
-	   </ul>
-  </li>
+ <li.><a>cuenta1</a></li>
+ <li><a>cuenta2</a>
+	<ul>
+	<li><a>subcuenta1</a></li>
+	<li><a>subcuenta2</a></li>
+	</ul>
+ </li>
  </ul>
  */
 function createNode() {
@@ -388,12 +440,12 @@ function createNode() {
 	  $(sel).append(newNode());
 
 	  //nuevo es el nodo recien creado
-	  nuevo = $(sel).find('li:last a');
+	  nuevo = $(sel).find('li:last a')[0];
 
 	  //Ahora debemos obtener un codigo generado
 	  //primero obtenemos los elementos <a> inmediatamento hijos de los <li> inmediatamente hijos de <ul>
 	  var lista = $(sel).find('> li > a');
-	  
+
 	  var mayor = mayorElementoPor('data-codigo', lista) + 1;
 //		 console.log('mayor: ' + mayor);
 	  var nivel = obtenerNivel(nuevo);
@@ -415,7 +467,7 @@ function createNode() {
 	  //entonces crear la estructura necesaria: 
 	  /*
 	   <li><a>cuenta1</a>
-		  <ul></ul>
+	   <ul></ul>
 	   </li>
 	   */
 	  nuevo = document.createElement('ul');
@@ -423,7 +475,7 @@ function createNode() {
 	  $(par).append(nuevo);
 
 	  //nuevo es el nodo recien creado
-	  nuevo = $(par).find('ul li:last a');
+	  nuevo = $(par).find('ul li:last a')[0];
 
 	  //obtener un nuevo codigo generado
 	  var lista = $(sel).find('a');
