@@ -160,6 +160,7 @@ function dividirCodigo(nodo, nivel = 0) {
 
 	cod = $(elem).attr('data-codigo');
 	span = document.createElement('span');
+	span.setAttribute('data-codigo-heredado','');
 	span.innerHTML = cod;
 	$(span).insertBefore(elem);
 	if (nivel === 0 || nivel === 1) {
@@ -348,8 +349,10 @@ function guardarCuenta(e) {
 	$(treeCatalog.currentNode).html('<i class="fa fa-folder mr-1 text-warning"></i>' + obj.nombre);
   }
   
-  span = $(treeCatalog.currentNode).parent().children('span[data-codigo-heredado=""]')[0];
-  $(span).html(fullCode(treeCatalog.currentNode));
+  span = $(treeCatalog.currentNode).prev('span[data-codigo-heredado')[0];
+  var fc = fullCode(treeCatalog.currentNode);
+  $(span).html(fc);
+  updateNodosHijos(treeCatalog.currentNode,fc);
   //actualizar el indicador del nodo padre del elemento que esta editando
   //updateNodoPadre(treeCatalog.currentNode);
 }
@@ -358,11 +361,11 @@ function guardarCuenta(e) {
  * fullCode(element): funcion que recibe un elemento <a>
  * retorna el codigo completo del element, para ello recorre hacia afuera y obtiene cada codigo de su padre
  */
-function fullCode(element) {
+function fullCode(elementA) {
   
-  var code = $(element).attr('data-codigo');
+  var code = $(elementA).attr('data-codigo');
   var i,reco;
-  reco = element;
+  reco = elementA;
   for (i = 0;i < treeCatalog.maxLevel; i++) {
 	reco = $(reco).parent().parent()[0];
 	if(reco===$(treeCatalog.name)[0]) {
@@ -403,13 +406,13 @@ function newNode() {
 /*
  * El abrol de cuentas, ya inicializado tiene una estructura similar a: 
  <ul class="tree-root">
- <li.><a>cuenta1</a></li>
- <li><a>cuenta2</a>
-	<ul>
-	<li><a>subcuenta1</a></li>
-	<li><a>subcuenta2</a></li>
-	</ul>
- </li>
+	<li.><a>cuenta1</a></li>
+	<li><a>cuenta2</a>
+	   <ul>
+		  <li><a>subcuenta1</a></li>
+		  <li><a>subcuenta2</a></li>
+	   </ul>
+	</li>
  </ul>
  */
 function createNode() {
@@ -431,6 +434,7 @@ function createNode() {
 	//seleccionar el elemento recien creado
 	var a = $(nuevo).find('a')[0];
 	span = document.createElement('span');
+	//este atributo es agregado para poder encontrar facilmente el elemento span que contiene el codigo heradado
 	$(span).attr('data-codigo-heredado','');
 	span.innerHTML = mayor;
 	$(span).insertBefore($(a));
@@ -470,6 +474,7 @@ function createNode() {
 	  $(nuevo).attr('data-saldo', dataSaldo);
 	  updateNodoPadre(nuevo);
 	  span = document.createElement('span');
+	  	//este atributo es agregado para poder encontrar facilmente el elemento span que contiene el codigo heradado
 	  $(span).attr('data-codigo-heredado','');
 	  span.innerHTML = mayor;
 	  $(span).insertBefore(nuevo);
@@ -502,6 +507,7 @@ function createNode() {
 	  mayor = genCodNivel(mayor, nivel);
 //		 console.log('codigo: ' + mayor);
 	  span = document.createElement('span');
+	  	//este atributo es agregado para poder encontrar facilmente el elemento span que contiene el codigo heradado
 	  $(span).attr('data-codigo-heredado','');
 	  span.innerHTML = mayor;
 	  $(span).insertBefore(nuevo);
@@ -516,7 +522,20 @@ function createNode() {
   $('#nombre-cuenta').focus();
   $('#nombre-cuenta').selectRange(0, $('#nombre-cuenta').val().length);
 }
-
+/*
+ * Esta funcion actualiza el codigo heredado de cada nodo hijo, recursivamente
+ */
+function updateNodosHijos(elementA,fc='') {
+  
+  var hijos = $(elementA).next('ul').find('> li > a');
+  if(fc==='') {
+	fc = fullCode(elementA);
+  }
+  for (var i=0;i<hijos.length;i++) {
+	$(hijos[i]).prev('span[data-codigo-heredado]').text(fc+$(hijos[i]).attr('data-codigo'));
+	updateNodosHijos(hijos[i],fc+$(hijos[i]).attr('data-codigo'));
+  }
+}
 function updateNodoPadre(elementA) {
   var indicadorHijos;
   
@@ -530,7 +549,14 @@ function updateNodoPadre(elementA) {
 	}
   }
 }
-
+/*
+ * <a>padre</a>
+ * <ul>
+ *	  <li>
+ *		 <a>hijo</a>
+ *	  </li>
+ * </ul>
+ */
 function getParentA(elementA) {
   var padre = $(elementA).parent().parent()[0];
   if (padre !== $(treeCatalog.name)[0]) {
@@ -539,6 +565,7 @@ function getParentA(elementA) {
 	return null;
   }
 }
+
 function hasChildrensA(elementA) {
   if($(elementA).next('ul').find('> li > a').length>0) {
 	return true;
