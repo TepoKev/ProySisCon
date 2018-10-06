@@ -251,4 +251,46 @@ public class Controlador {
        return cargo;
    }
    
+   public ArrayList<Mayor> mayorizarCuentas(int nivel) {
+        //Este metodo hace la mayorizacion de todo el catalogo basado en el nivel de la cuenta
+        List<Cuenta> listaC = null;
+        ArrayList<Mayor> mayor = new ArrayList<>();
+        List<CargoAbono> listCA = null;
+        Mayor m;
+        try {
+            openSession();
+            //Mediante esta instruccion se obtiene las cuentas de nivel seleccionado
+            listaC = (List<Cuenta>) this.session.createQuery("from Cuenta c where LENGTH(c.codigo)=" + nivel + " order by c.codigo asc").list();
+            //Con este for se recorreran estas cuentas del nivel seleccionado y tambien sus subniveles 
+            //se recojeran todos sus cargos o abonos mediante un metodo recursivo
+            for(Cuenta c : listaC){
+                m = new Mayor();
+                m.setCuenta(c);
+                recursivo(c, m);
+                mayor.add(m);
+            }
+        } catch (Exception e) {
+        }
+        return mayor;
+
+    }
+    
+    public void recursivo(Cuenta t, Mayor mayor){
+        List<CargoAbono> listCA = null;
+        try {
+            if(t!=null){
+                openSession();
+                listCA = (List<CargoAbono>) this.session.createQuery("from CargoAbono ca where ca.cuenta.id = "+t.getId()).list();
+                mayor.getTransacciones().addAll(listCA);
+                if(t.getCuentas().size() > 0){
+                    for(Object c : t.getCuentas()){
+                        recursivo((Cuenta) c,mayor);
+                    }
+                }
+            }
+            
+        } catch (Exception e) {
+        }
+    }
+   
 }

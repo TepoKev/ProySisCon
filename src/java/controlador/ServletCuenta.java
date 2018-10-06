@@ -56,8 +56,6 @@ public class ServletCuenta extends HttpServlet {
                         + "Ha ocurrido un error. Los tamaños de los arreglos no coninciden. No se registrarán las partidas"
                         + "");
             }
-            request.getSession().setAttribute("actualizados", act);
-            request.getSession().setAttribute("nuevos", nue);
             response.sendRedirect("registrar-catalogo.jsp");
         }
     }

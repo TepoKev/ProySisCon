@@ -268,7 +268,9 @@ function initialize() {
   });
 
   //abrir o cerrar los nodos segun el atributo data-opened
-  elementos = $(treeCatalog.name + ' li a').each(function () {
+  elementos = $(treeCatalog.name + ' li a').each(
+		  function () 
+  {
 	/*
 	 * hacer expandible los elementos de una lista con subcuentas
 	 * <ul data-opened="true"></ul>
@@ -276,6 +278,7 @@ function initialize() {
 	 * <ul data-opened="false"></ul>
 	 */
 	var next = $(this).next('ul');
+	$(next).parent().prepend('<span data-childrens="true" style="font-size:.6em;"><i class="fa fa-arrow-down text-info"></i></span>');
 	var data_abierto = $(next).attr('data-opened');
 	//si el data-opened del ul esta en true, es porque desea abrirse o expandirse
 	//primero lo ponemos en false, 
@@ -288,7 +291,8 @@ function initialize() {
 	  $(next).attr('data-opened', true);
 	  collExp(this, 0);
 	}
-  });
+  }//Fin funcion anonima
+		  );
 }
 
 function guardarCuenta(e) {
@@ -343,10 +347,19 @@ function guardarCuenta(e) {
   } else {
 	$(treeCatalog.currentNode).html('<i class="fa fa-folder mr-1 text-warning"></i>' + obj.nombre);
   }
-  span = $(treeCatalog.currentNode).parent().find('span')[0];
+  
+  span = $(treeCatalog.currentNode).parent().children('span[data-codigo-heredado=""]')[0];
   $(span).html(fullCode(treeCatalog.currentNode));
+  //actualizar el indicador del nodo padre del elemento que esta editando
+  //updateNodoPadre(treeCatalog.currentNode);
 }
+
+/*
+ * fullCode(element): funcion que recibe un elemento <a>
+ * retorna el codigo completo del element, para ello recorre hacia afuera y obtiene cada codigo de su padre
+ */
 function fullCode(element) {
+  
   var code = $(element).attr('data-codigo');
   var i,reco;
   reco = element;
@@ -418,6 +431,7 @@ function createNode() {
 	//seleccionar el elemento recien creado
 	var a = $(nuevo).find('a')[0];
 	span = document.createElement('span');
+	$(span).attr('data-codigo-heredado','');
 	span.innerHTML = mayor;
 	$(span).insertBefore($(a));
 	$(a).attr('data-codigo', mayor);
@@ -454,7 +468,9 @@ function createNode() {
 //		 console.log('codigo: ' + mayor);
 	  $(nuevo).attr('data-codigo', mayor);
 	  $(nuevo).attr('data-saldo', dataSaldo);
+	  updateNodoPadre(nuevo);
 	  span = document.createElement('span');
+	  $(span).attr('data-codigo-heredado','');
 	  span.innerHTML = mayor;
 	  $(span).insertBefore(nuevo);
 	  seleccionarElemento(nuevo);
@@ -486,10 +502,12 @@ function createNode() {
 	  mayor = genCodNivel(mayor, nivel);
 //		 console.log('codigo: ' + mayor);
 	  span = document.createElement('span');
+	  $(span).attr('data-codigo-heredado','');
 	  span.innerHTML = mayor;
 	  $(span).insertBefore(nuevo);
 	  $(nuevo).attr('data-codigo', mayor);
 	  $(nuevo).attr('data-saldo', dataSaldo);
+	  updateNodoPadre(nuevo);
 	  seleccionarElemento(nuevo);
 	}
 	$(sel).show(125);
@@ -499,11 +517,51 @@ function createNode() {
   $('#nombre-cuenta').selectRange(0, $('#nombre-cuenta').val().length);
 }
 
-function deleteNode() {
+function updateNodoPadre(elementA) {
+  var indicadorHijos;
+  
+  var padre = $(elementA).parent().parent()[0];
+  padre = getParentA(elementA);
+  if (padre !== null) {
+	indicadorHijos = $(padre).parent().children('span[data-childrens="true"]');
+	//console.log(indicadorHijos);
+	if(indicadorHijos.length===0) {
+	  	$(padre).parent().prepend('<span data-childrens="true" style="font-size:.6em;"><i class="fa fa-arrow-down text-info"></i></span>');
+	}
+  }
+}
 
+function getParentA(elementA) {
+  var padre = $(elementA).parent().parent()[0];
+  if (padre !== $(treeCatalog.name)[0]) {
+	return $(padre).parent().children('a')[0];
+  } else {
+	return null;
+  }
+}
+function hasChildrensA(elementA) {
+  if($(elementA).next('ul').find('> li > a').length>0) {
+	return true;
+  } else {
+	return false;
+  }
+}
+function deleteNode() {
+  var padre = getParentA(treeCatalog.currentNode);
+  var indicador = $(padre).parent().children('span[data-childrens="true"]');
+  var hasChilds;
   $(treeCatalog.name + ' .focus-gained').removeClass('focus-gained');
   $(treeCatalog.currentNode).parent().remove();
+  hasChilds = hasChildrensA(padre); 
+  if(padre) {
+	if(hasChilds && indicador.length===0) {
+	  $(padre).parent().prepend('<span data-childrens="true" style="font-size:.6em;"><i class="fa fa-arrow-down text-info"></i></span>');
+	} else if(!hasChilds && indicador.length!==0) {
+	  $(indicador).remove();
+	}
+  }
   treeCatalog.currentNode = null;
+
   limpiarFormulario();
 }
 function deselect() {

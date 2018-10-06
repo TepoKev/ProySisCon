@@ -17,7 +17,7 @@
       <script src="js/vendor/popper.min.js"></script>
       <script src="js/bootstrap.min.js"></script>
       <script src="js/vendor/holder.min.js"></script>
-      <title>Registro de cátalogo de cuentas</title>
+      <title>ProySisCon</title>
    </head>
    <body>
       <div class="bg-danger text-white" style="margin-bottom: 50px;">
@@ -85,14 +85,14 @@
 	   <div class="card-body">
 	      <h5 class="card-title">Libro mayor</h5>
 	      <p class="card-text">Ver la mayorización en cualquier momento</p>
-	      <a href="#" class="btn btn-info">Ver más <i class="fa fa-plus"></i></a>
+	      <a href="libro-mayor.jsp" class="btn btn-info">Ver más <i class="fa fa-plus"></i></a>
 	   </div>
 	</div>
 	<div class="card">
 	   <div class="card-body">
 	      <h5 class="card-title">Balanza de comoprobación</h5>
-	      <p class="card-text">Mostrar la balanza de comprobaci[on para hacer comprobaciones</p>
-	      <a href="#" class="btn btn-info">Ver más <i class="fa fa-plus"></i></a>
+	      <p class="card-text">Mostrar la balanza de comprobacion para hacer comprobaciones</p>
+	      <a href="balanza-de-comprobacion.jsp" class="btn btn-info">Ver más <i class="fa fa-plus"></i></a>
 	   </div>
 	</div>
 	<div class="card">
