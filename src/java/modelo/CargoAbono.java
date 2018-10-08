@@ -2,6 +2,8 @@ package modelo;
 // Generated 12-26-2017 08:35:28 PM by Hibernate Tools 4.3.1
 
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -76,7 +78,7 @@ public class CargoAbono  implements java.io.Serializable {
     }
     
     public void setMonto(Float monto) {
-        this.monto = monto;
+        this.monto = new BigDecimal(monto).setScale(2, RoundingMode.HALF_UP).floatValue();
     }
     public String getOperacion() {
         return this.operacion;
@@ -92,8 +94,7 @@ public class CargoAbono  implements java.io.Serializable {
     public void setParciales(Set parciales) {
         this.parciales = parciales;
     }
-
-	
+    
 }
 
 

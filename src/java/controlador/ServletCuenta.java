@@ -18,7 +18,9 @@ import modelo.*;
  * @author kedut
  */
 public class ServletCuenta extends HttpServlet {
-     private int act,nue;//Estas 2 variables almacenaran la cantidad de datos guardados y actualizados   
+
+    private int act, nue;//Estas 2 variables almacenaran la cantidad de datos guardados y actualizados (Podrian eliminarse)   
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -31,11 +33,13 @@ public class ServletCuenta extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        /*********************************************************************
-         * Ojo: request.setCharacterEncoding("UTF-8") ha permitido 
-         * solucionar problemas con caracteres especiales como las tildes
-         * fuente: https://donnierock.com/2015/06/09/javajsp-al-enviar-formulario-por-metodo-post-los-caracteres-utf-8-no-aparecen-bien-representados/
-         *********************************************************************/
+        /**
+         * *******************************************************************
+         * Ojo: request.setCharacterEncoding("UTF-8") ha permitido solucionar
+         * problemas con caracteres especiales como las tildes fuente:
+         * https://donnierock.com/2015/06/09/javajsp-al-enviar-formulario-por-metodo-post-los-caracteres-utf-8-no-aparecen-bien-representados/
+         * *******************************************************************
+         */
         request.setCharacterEncoding("UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
@@ -44,18 +48,18 @@ public class ServletCuenta extends HttpServlet {
             String[] codigo_cuenta = request.getParameterValues("codigo-cuenta");
             String[] descripcion_cuenta = request.getParameterValues("descripcion-cuenta");
             String[] saldo = request.getParameterValues("saldo");
-            String[] id_cuenta = request.getParameterValues("id-cuenta");   
-            if (nombre_cuenta.length == codigo_cuenta.length
-                    && nombre_cuenta.length == descripcion_cuenta.length
-                    && nombre_cuenta.length == saldo.length
-                    && nombre_cuenta.length == id_cuenta.length) {
+            String[] id_cuenta = request.getParameterValues("id-cuenta");
+            if (validar(nombre_cuenta, codigo_cuenta, descripcion_cuenta, saldo, id_cuenta)) {
 
                 guardar(nombre_cuenta, codigo_cuenta, descripcion_cuenta, saldo, id_cuenta, ctr);
             } else {
                 out.print(""
-                        + "Ha ocurrido un error. Los tamaños de los arreglos no coninciden. No se registrarán las partidas"
+                        + "<script type=\"text/javascript\">"
+                        +   "window.alert(\"Ha ocurrido un error: Durante el registro se encontraron errores por lo que no se guardaran los datos :( \")"
+                        + "</script>"
                         + "");
             }
+
             response.sendRedirect("registrar-catalogo.jsp");
         }
     }
@@ -141,6 +145,23 @@ public class ServletCuenta extends HttpServlet {
                 ctr.actualizar(cue);
                 act++;
             }
+        }
+    }
+
+    //Esta funcion valida los datos de el formulario de registro de catalogo y devuelve verdadero si no se encuentra ninguna anomalia
+    private boolean validar(String[] nombre_cuenta, String[] codigo_cuenta, String[] descripcion_cuenta, String[] saldo, String[] id_cuenta) {
+        if (nombre_cuenta.length == codigo_cuenta.length
+                && nombre_cuenta.length == descripcion_cuenta.length
+                && nombre_cuenta.length == saldo.length
+                && nombre_cuenta.length == id_cuenta.length) {
+            for(int i = 0 ; i<nombre_cuenta.length ; i++){
+                if("".equals(nombre_cuenta[i]) || "".equals(codigo_cuenta[i]) || "".equals(saldo[i])){
+                    return false;
+                }
+            }
+            return true;
+        } else {
+            return false;
         }
     }
 

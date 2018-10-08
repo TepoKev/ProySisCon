@@ -68,7 +68,7 @@
                         <%
                             Controlador ctr = new Controlador();
                             ArrayList<Mayor> m = ctr.mayorizarCuentas(4);
-                            float tCargo = 0,tAbono = 0, tSD = 0, tSA = 0;
+                            float tCargo = 0, tAbono = 0, tSD = 0, tSA = 0;
                         %>
                         <thead>
                             <tr>
@@ -77,17 +77,19 @@
                         </thead>
                         <tbody>
                             <%
-                                for(Mayor may : m){
+                                for (Mayor may : m) {
                                     may.generarSaldos();
-                                    tCargo += may.getCargo();
-                                    tAbono += may.getAbono();
-                                    tSD += may.getSaldoD();
-                                    tSA += may.getSaldoA();
+                                    if (may.getSaldoA() > 0 || may.getSaldoD() > 0) {
+                                        tCargo += may.getCargo();
+                                        tAbono += may.getAbono();
+                                        tSD += may.getSaldoD();
+                                        tSA += may.getSaldoA();
                             %>
                             <tr>
                                 <td> <%= may.getCuenta().getCodigo()%> </td><td> <%= may.getCuenta().getNombre()%> </td><td> <%= may.getCargo()%> </td><td> <%= may.getAbono()%> </td><td> <%= may.getSaldoD()%> </td><td> <%= may.getSaldoA()%> </td>
                             </tr>    
                             <%
+                                    }
                                 }
                             %>
                             <tr>

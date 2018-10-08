@@ -142,7 +142,7 @@ public class ServletPartida extends HttpServlet {
 		return;
 	  }
 	  ctl.registrarPartidas(partidas, cargosAbonos);
-	  out.println("Se han registrado satisfactoria mente las partidas");
+	  out.println("Se han registrado satisfactoriamente las partidas");
 	}
   }//Fin processRequest 
 

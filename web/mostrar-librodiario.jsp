@@ -4,6 +4,8 @@
     Author     : tepokev
 --%>
 
+<%@page import="java.math.RoundingMode"%>
+<%@page import="java.math.BigDecimal"%>
 <%@page import="modelo.CargoAbono"%>
 <%@page import="modelo.Partida"%>
 <%@page import="java.util.ArrayList"%>
@@ -67,7 +69,8 @@
 	   <%
 	      Controlador ctr = new Controlador();
 	      ArrayList<Partida> partida = (ArrayList<Partida>) ctr.recuperarPartidas();
-	      float tCargo = 0, tAbono = 0;
+	      BigDecimal tCargo = new BigDecimal("0");
+              BigDecimal tAbono = new BigDecimal("0");
 	      for (Partida p : partida) {
 	   %>
 	   <div class="row">
@@ -97,12 +100,12 @@
 		   <th scope="row"><%= c.getCuenta().getCodigo()%></th>
 		   <td><%= c.getCuenta().getNombre()%></td>
 		   <%if (c.getOperacion().equals("c")) {
-		         tCargo += c.getMonto();
+                       tCargo = tCargo.add(new BigDecimal(c.getMonto()).setScale(2, RoundingMode.HALF_UP));
 		   %>
 		   <td><%= c.getMonto()%></td>
 		   <td></td>
 		   <%} else {
-		      tAbono += c.getMonto();
+                      tAbono = tAbono.add(new BigDecimal(c.getMonto()).setScale(2, RoundingMode.HALF_UP));
 		   %>
 		   <td></td>
 		   <td><%= c.getMonto()%></td><%}%>
@@ -125,22 +128,22 @@
 
 	      </div>
 	      <%
-	         if (tCargo == tAbono) {
+	         if (tCargo.equals(tAbono)) {
 	      %>
 	      <div class="col-sm-3">
-	         <p style="color:green">Total Cargo <%= tCargo%></p>
+	         <p style="color:green">Total Cargo <%= tCargo.toString()%></p>
 	      </div>
 	      <div class="col-sm-6">
-	         <p style="color:green">Total Abono <%= tAbono%></p>
+	         <p style="color:green">Total Abono <%= tAbono.toString()%></p>
 	      </div>
 	      <%
 	      } else {
 	      %>
 	      <div class="col-sm-3">
-	         <p style="color:red">Total Cargo <%= tCargo%></p>
+	         <p style="color:red">Total Cargo <%= tCargo.toString()%></p>
 	      </div>
 	      <div class="col-sm-6">
-	         <p style="color:red">Total Abono <%= tAbono%></p>
+	         <p style="color:red">Total Abono <%= tAbono.toString()%></p>
 	      </div>
 	      <%
 	         }

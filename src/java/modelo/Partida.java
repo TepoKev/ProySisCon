@@ -66,7 +66,7 @@ public class Partida implements java.io.Serializable {
    public void setFecha(String fecha) {
       //cadenas vacias o nulas indicaran la fecha actual
       //a la hora de insertar o modificar
-      if (fecha != null) {
+      if (fecha != null || !("".equals(fecha))) {
 
          if (fecha.equals("")) {
 	//fecha actual

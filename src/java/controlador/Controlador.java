@@ -6,8 +6,9 @@
 package controlador;
 
 import java.io.Serializable;
-import static java.lang.reflect.Array.set;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -180,7 +181,7 @@ public class Controlador {
 	  return i;
    }
    public void registrarPartidas(ArrayList<Partida> partidas, ArrayList<CargoAbono> cargosAbonos) {
-	  int i = 0;
+	  int i;
 	  int len;
 	  CargoAbono ch;
 	  Partida partida;
@@ -246,6 +247,7 @@ public class Controlador {
                    abono.add(aux);
                }
            }cargo.addAll(abono);
+           Collections.sort(cargo, (CargoAbono o1, CargoAbono o2) -> new Integer(o1.getId()).compareTo(new Integer(o2.getId())));
        } catch (Exception e) {
        }
        return cargo;
@@ -253,9 +255,8 @@ public class Controlador {
    
    public ArrayList<Mayor> mayorizarCuentas(int nivel) {
         //Este metodo hace la mayorizacion de todo el catalogo basado en el nivel de la cuenta
-        List<Cuenta> listaC = null;
+        List<Cuenta> listaC;
         ArrayList<Mayor> mayor = new ArrayList<>();
-        List<CargoAbono> listCA = null;
         Mayor m;
         try {
             openSession();
@@ -269,23 +270,23 @@ public class Controlador {
                 recursivo(c, m);
                 mayor.add(m);
             }
-        } catch (Exception e) {
+        } catch (HibernateException e) {
+        }finally{
+            this.session.close();
         }
         return mayor;
 
     }
     
-    public void recursivo(Cuenta t, Mayor mayor){
+    public void recursivo(Cuenta c, Mayor m){
         List<CargoAbono> listCA = null;
         try {
-            if(t!=null){
-                openSession();
-                listCA = (List<CargoAbono>) this.session.createQuery("from CargoAbono ca where ca.cuenta.id = "+t.getId()).list();
-                mayor.getTransacciones().addAll(listCA);
-                if(t.getCuentas().size() > 0){
-                    for(Object c : t.getCuentas()){
-                        recursivo((Cuenta) c,mayor);
-                    }
+            if(c!=null){
+                m.getTransacciones().addAll(c.getCargosAbonos());
+                if(c.getCuentas().size() > 0){
+                    c.getCuentas().forEach((Object aux) -> {
+                        recursivo((Cuenta) aux,m);
+                    });
                 }
             }
             

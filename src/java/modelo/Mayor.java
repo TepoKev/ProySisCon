@@ -5,7 +5,10 @@
  */
 package modelo;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  *
@@ -42,6 +45,7 @@ public class Mayor {
     }
 
     public ArrayList<CargoAbono> getTransacciones() {
+        Collections.sort(this.transacciones, (CargoAbono o1, CargoAbono o2) -> new Integer(o1.getId()).compareTo(new Integer(o2.getId())));
         return transacciones;
     }
 
@@ -95,25 +99,26 @@ public class Mayor {
 	*/
     public void generarSaldos(){
 	  //variables para los totales de cargo y abono
-        float cargo = 0, abono = 0;
+        BigDecimal c = new BigDecimal(this.cargo); 
+        BigDecimal a = new BigDecimal(this.abono);
 		//recorrer cada transaccion
         for(CargoAbono ca : this.transacciones){
 		  //es cargo
             if("c".equalsIgnoreCase(ca.getOperacion())){
-                cargo += ca.getMonto();
+                c = c.add(new BigDecimal(ca.getMonto()).setScale(2, RoundingMode.HALF_UP));
             }//o es abono
 			else if("a".equalsIgnoreCase(ca.getOperacion())){
-                abono += ca.getMonto();
+                a = a.add(new BigDecimal(ca.getMonto()).setScale(2, RoundingMode.HALF_UP));
             }
         }
 		//asignar cargo y abono a las variables globales
-        this.cargo = cargo;
-        this.abono = abono;
+        this.cargo = c.floatValue();
+        this.abono = a.floatValue();
 		//determinacion del saldo resultante de la cuenta
-        if(cargo > abono){
-            this.saldoD = cargo - abono;
+        if(c.floatValue() > a.floatValue()){
+            this.saldoD = c.subtract(a).floatValue();
         }else{
-            this.saldoA = abono - cargo;
+            this.saldoA = a.subtract(c).floatValue();
         }
         
     }
