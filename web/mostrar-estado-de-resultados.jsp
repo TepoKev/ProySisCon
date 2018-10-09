@@ -12,7 +12,7 @@
 	<title>Estado de Resultados</title>
   </head>
   <body>
-	<h1>Estado de resultados</h1>
+	<h1>Estado de resultados de prueba</h1>
 	<table>
 	  <thead>
 		<tr>
