@@ -64,7 +64,7 @@
             <div class="row">
                 <%@include file="aside.jsp" %>
                 <div class="col-lg-9">
-                    <table class="table">
+                    <table class="table table-sm">
                         <%
                             Controlador ctr = new Controlador();
                             ArrayList<Mayor> m = ctr.mayorizarCuentas(4);

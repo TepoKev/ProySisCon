@@ -83,7 +83,7 @@
 	   </div>  
 
 	   <div class="col-lg-9">
-	      <table class="table">
+	      <table class="table table-sm">
 	         <thead>
 		<tr>
 		   <th scope="col">Codigo</th>

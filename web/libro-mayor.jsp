@@ -72,7 +72,7 @@
                     <div class="container">
                         <h3 class="text-sm-center"><%=item.getCuenta().getNombre()%></h3>
                     </div>
-                    <table class="table">
+                    <table class="table table-sm">
                         <thead>
                             <tr>
                                 <th>Codigo</th>
