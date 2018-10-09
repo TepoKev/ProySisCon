@@ -12,6 +12,79 @@
 	<title>JSP Page</title>
   </head>
   <body>
-	<h1>Hello World!</h1>
+	<h1>Estado de resultados</h1>
+	<table>
+	  <thead>
+		<tr>
+		  <th></th>
+		  <th></th>
+		  <th></th>
+		  <th></th>
+		</tr>
+	  </thead>
+	  <tbody>
+		<tr>
+		  <td></td>
+		  <td></td>
+		  <td></td>
+		  <td></td>
+		</tr>
+		<tr>
+		  <td></td>
+		  <td></td>
+		  <td></td>
+		  <td></td>
+		</tr>
+		<tr>
+		  <td></td>
+		  <td></td>
+		  <td></td>
+		  <td></td>
+		</tr>
+		<tr>
+		  <td></td>
+		  <td></td>
+		  <td></td>
+		  <td></td>
+		</tr>
+		<tr>
+		  <td></td>
+		  <td></td>
+		  <td></td>
+		  <td></td>
+		</tr>
+		<tr>
+		  <td></td>
+		  <td></td>
+		  <td></td>
+		  <td></td>
+		</tr>
+		<tr>
+		  <td></td>
+		  <td></td>
+		  <td></td>
+		  <td></td>
+		</tr>
+		<tr>
+		  <td></td>
+		  <td></td>
+		  <td></td>
+		  <td></td>
+		</tr>
+		<tr>
+		  <td></td>
+		  <td></td>
+		  <td></td>
+		  <td></td>
+		</tr>
+		<tr>
+		  <td></td>
+		  <td></td>
+		  <td></td>
+		  <td></td>
+		</tr>
+	  </tbody>
+	</table>
+
   </body>
 </html>
