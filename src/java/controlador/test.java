@@ -21,19 +21,19 @@ import org.hibernate.HibernateException;
  */
 public class test {
 
-//   public static void main(String[] args) {
-//	  //Cuenta c = new Cuenta();
-//	  ArrayList<Cuenta> cts = new ArrayList();
-//	  try {
-//		 Controlador ctr = new Controlador();
+//    public static void main(String[] args) {
+//        //Cuenta c = new Cuenta();
+//        ArrayList<Cuenta> cts = new ArrayList();
+//        try {
+//            Controlador ctr = new Controlador();
 ////            c = ctr.recuperarCuenta("11");
 ////			cts = (ArrayList<Cuenta>) ctr.recuperarCuentaPrimerN();
-//		 ctr.resetContador();
-//	  } catch (HibernateException e) {
-//		 System.out.println(e.getMessage());
-//	  }
-//	  System.exit(0);
-//   }
+//            ctr.resetContador();
+//        } catch (HibernateException e) {
+//            System.out.println(e.getMessage());
+//        }
+//        System.exit(0);
+//    }
 
 //    public static void main(String[] args) throws ParseException {
 //        String fecha = "2018/07/28";
@@ -52,7 +52,6 @@ public class test {
 //        System.out.println("Fecha java.util.Date "+ fech.toString());
 //        System.out.println("Fecha java.sql.Date "+ fesq.toString());
 //    }
-    
 //    public static void main(String[] args) {
 //        Float num = new Float("1.9953563");
 //        BigDecimal numero = new BigDecimal(num);

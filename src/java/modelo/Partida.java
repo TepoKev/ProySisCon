@@ -13,98 +13,94 @@ import java.util.Set;
  */
 public class Partida implements java.io.Serializable {
 
-   private int id;
-   private Date fecha;
-   private String descripcion;
-   private Integer contador;//Numero de Partida
-   private Set cargosAbonos = new HashSet(0);
+    private int id;
+    private Date fecha;
+    private String descripcion;
+    private Integer contador;//Numero de Partida
+    private Set cargosAbonos = new HashSet(0);
 
-   public Partida() {
-   }
+    public Partida() {
+    }
 
-   public Partida(int id) {
-      this.id = id;
-   }
+    public Partida(int id) {
+        this.id = id;
+    }
 
-   public Partida(Date fecha, String descripcion, Integer contador) {
-      this.fecha = fecha;
-      this.descripcion = descripcion;
-      this.contador = contador;
-   }
+    public Partida(Date fecha, String descripcion, Integer contador) {
+        this.fecha = fecha;
+        this.descripcion = descripcion;
+        this.contador = contador;
+    }
 
-   public Partida(Date fecha, String descripcion, Integer contador, Set cargosAbonos) {
-      this.fecha = fecha;
-      this.descripcion = descripcion;
-      this.contador = contador;
-      this.cargosAbonos = cargosAbonos;
-   }
+    public Partida(Date fecha, String descripcion, Integer contador, Set cargosAbonos) {
+        this.fecha = fecha;
+        this.descripcion = descripcion;
+        this.contador = contador;
+        this.cargosAbonos = cargosAbonos;
+    }
 
-   public Partida(int id, Date fecha, String descripcion, Integer contador, Set cargosAbonos) {
-      this.id = id;
-      this.fecha = fecha;
-      this.descripcion = descripcion;
-      this.contador = contador;
-      this.cargosAbonos = cargosAbonos;
-   }
+    public Partida(int id, Date fecha, String descripcion, Integer contador, Set cargosAbonos) {
+        this.id = id;
+        this.fecha = fecha;
+        this.descripcion = descripcion;
+        this.contador = contador;
+        this.cargosAbonos = cargosAbonos;
+    }
 
-   public int getId() {
-      return this.id;
-   }
+    public int getId() {
+        return this.id;
+    }
 
-   public void setId(int id) {
-      this.id = id;
-   }
+    public void setId(int id) {
+        this.id = id;
+    }
 
-   public Date getFecha() {
-      return this.fecha;
-   }
+    public Date getFecha() {
+        return this.fecha;
+    }
 
-   public void setFecha(Date fecha) {
-      this.fecha = fecha;
-   }
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
+    }
 
-   public void setFecha(String fecha) {
-      //cadenas vacias o nulas indicaran la fecha actual
-      //a la hora de insertar o modificar
-      if (fecha != null || !("".equals(fecha))) {
+    public void setFecha(String fecha) {
+        //cadenas vacias o nulas indicaran la fecha actual
+        //a la hora de insertar o modificar
+        if (fecha != null || !("".equals(fecha))) {
+            //fecha actual
+            this.fecha = Calendar.getInstance().getTime();
+        } else {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+            try {
+                this.fecha = sdf.parse(fecha);
+            } catch (Exception e) {
 
-         if (fecha.equals("")) {
-	//fecha actual
-	this.fecha = Calendar.getInstance().getTime();
-         } else {
+            }
+        }
+    }
 
-	SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-	try {
-	   this.fecha = sdf.parse(fecha);
-	} catch (Exception e) {
+    public String getDescripcion() {
+        return this.descripcion;
+    }
 
-	}
-         }
-      }
-   }
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
 
-   public String getDescripcion() {
-      return this.descripcion;
-   }
+    public Integer getContador() {
+        return this.contador;
+    }
 
-   public void setDescripcion(String descripcion) {
-      this.descripcion = descripcion;
-   }
+    public void setContador(Integer contador) {
+        this.contador = contador;
+    }
 
-   public Integer getContador() {
-      return this.contador;
-   }
+    public Set getCargosAbonos() {
+        return this.cargosAbonos;
+    }
 
-   public void setContador(Integer contador) {
-      this.contador = contador;
-   }
-
-   public Set getCargosAbonos() {
-      return this.cargosAbonos;
-   }
-
-   public void setCargosAbonos(Set cargosAbonos) {
-      this.cargosAbonos = cargosAbonos;
-   }
+    public void setCargosAbonos(Set cargosAbonos) {
+        this.cargosAbonos = cargosAbonos;
+    }
 
 }
