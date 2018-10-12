@@ -66,12 +66,12 @@ public class Partida implements java.io.Serializable {
     public void setFecha(String fecha) {
         //cadenas vacias o nulas indicaran la fecha actual
         //a la hora de insertar o modificar
-        if (fecha != null || !("".equals(fecha))) {
+        if (fecha == null || "".equals(fecha)) {
             //fecha actual
             this.fecha = Calendar.getInstance().getTime();
         } else {
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
             try {
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                 this.fecha = sdf.parse(fecha);
             } catch (Exception e) {
 
