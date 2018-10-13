@@ -128,9 +128,9 @@ function manejadorDblclick(e) {
  * para expandir el <ul> hermano de alink_elem, en milisegundos, la logica es> esta cerrado el elemento?, ok, abralo, sino cierrelo
  * 
  */
-function collExp(alink_elem, milisegundos) {
+function collExp(elementA, milisegundos) {
 
-  var next_element = $(alink_elem).next('ul');
+  var next_element = nextUL(elementA);
   var open = $(next_element).attr('data-opened');
 
   if (open === null || open === 'false') {
@@ -278,8 +278,10 @@ function initialize() {
 	 * no permitr la expansion de la lista de subcuentas
 	 * <ul data-opened="false"></ul>
 	 */
-	var next = $(this).next('ul');
-	$(next).parent().prepend('<span data-childrens="true" style="font-size:.6em;"><i class="fa fa-arrow-down text-info"></i></span>');
+	var next = nextUL(this);
+	if(next.length > 0) {
+            $(this).after('<span data-childrens="true" style="font-size:.6em;"><i class="fa fa-arrow-down text-info"></i></span>');
+        }
 	var data_abierto = $(next).attr('data-opened');
 	//si el data-opened del ul esta en true, es porque desea abrirse o expandirse
 	//primero lo ponemos en false, 
@@ -371,7 +373,7 @@ function fullCode(elementA) {
 	if(reco===$(treeCatalog.name)[0]) {
 	  return code;
 	} else {
-	  reco = $(reco).prev('a');
+	  reco = $(reco).parent().children('a');
 	  code = $(reco).attr('data-codigo') + code;
 	}
   }
@@ -525,9 +527,12 @@ function createNode() {
 /*
  * Esta funcion actualiza el codigo heredado de cada nodo hijo, recursivamente
  */
+function nextUL(elementA) {
+    return $(elementA).parent().children('ul');
+}
 function updateNodosHijos(elementA,fc='') {
   
-  var hijos = $(elementA).next('ul').find('> li > a');
+  var hijos = nextUL(elementA).find('> li > a');
   if(fc==='') {
 	fc = fullCode(elementA);
   }
@@ -545,7 +550,7 @@ function updateNodoPadre(elementA) {
 	indicadorHijos = $(padre).parent().children('span[data-childrens="true"]');
 	//console.log(indicadorHijos);
 	if(indicadorHijos.length===0) {
-	  	$(padre).parent().prepend('<span data-childrens="true" style="font-size:.6em;"><i class="fa fa-arrow-down text-info"></i></span>');
+	  	$(padre).after('<span data-childrens="true" style="font-size:.6em;"><i class="fa fa-arrow-down text-info"></i></span>');
 	}
   }
 }
@@ -567,7 +572,7 @@ function getParentA(elementA) {
 }
 
 function hasChildrensA(elementA) {
-  if($(elementA).next('ul').find('> li > a').length>0) {
+  if(nextUL(elementA).find('> li > a').length>0) {
 	return true;
   } else {
 	return false;
@@ -582,7 +587,7 @@ function deleteNode() {
   hasChilds = hasChildrensA(padre); 
   if(padre) {
 	if(hasChilds && indicador.length===0) {
-	  $(padre).parent().prepend('<span data-childrens="true" style="font-size:.6em;"><i class="fa fa-arrow-down text-info"></i></span>');
+	  $(padre).after('<span data-childrens="true" style="font-size:.6em;"><i class="fa fa-arrow-down text-info"></i></span>');
 	} else if(!hasChilds && indicador.length!==0) {
 	  $(indicador).remove();
 	}
