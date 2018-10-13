@@ -62,7 +62,6 @@
             <%
                 Controlador ctr = new Controlador();
                 ArrayList<Mayor> lista = ctr.mayorizarCuentas(4);
-                ArrayList<CargoAbono> trans;
                 for (Mayor item : lista) {
                     if (item.getTransacciones().size() > 0) {
                         item.generarSaldos();

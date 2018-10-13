@@ -8,7 +8,6 @@ package controlador;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -271,7 +270,7 @@ public class Controlador {
                 mayor.add(m);
             }
         } catch (HibernateException e) {
-        }finally{
+        } finally {
             this.session.close();
         }
         return mayor;
