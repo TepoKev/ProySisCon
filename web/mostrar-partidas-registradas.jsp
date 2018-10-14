@@ -20,13 +20,13 @@ Contenido del modal
 <%
         return;
     }
-Partida partida;
+    Partida partida;
 
 %>
 <div class="modal-header" >Partidas</div>
 <div class="modal-body">
     <% for (int i = 0; i < partidas.size(); i++) {
-        partida=partidas.get(i);
+            partida = partidas.get(i);
     %>
     <h4>Partida #<%=partida.getContador()%> - <%=partida.getFecha()%></h4>
     <table class="table table-sm">
@@ -39,12 +39,22 @@ Partida partida;
             </tr>
         </thead>
         <tbody>
+            <%
+                for (CargoAbono ca : cargosAbonos) {
+                    if (partida.getId() == ca.getPartida().getId()) {
+            %>
             <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>            
+                <td><%=ca.getCuenta().getCodigo()%></td>
+                <td><%=ca.getCuenta().getNombre()%></td>
+                <td><%=("c".equalsIgnoreCase(ca.getOperacion())) ? ca.getMonto() : ""%></td>
+                <td><%=("a".equalsIgnoreCase(ca.getOperacion())) ? ca.getMonto() : ""%></td>
+            </tr>  
+
+            <%
+                    }
+                }
+            %>
+
         </tbody>
     </table>
     <p><%=partida.getDescripcion()%></p>

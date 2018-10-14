@@ -69,7 +69,7 @@
             <div class="row">
                 <div class="col-lg-12 py-3">
                     <div class="container">
-                        <h3 class="text-sm-center"><%=item.getCuenta().getNombre()%></h3>
+                        <h4 class="text-sm-center"><%=item.getCuenta().getNombre()%></h4>
                     </div>
                     <table class="table table-sm">
                         <thead>
@@ -88,8 +88,8 @@
                             <tr>
                                 <th><%=ca.getCuenta().getCodigo()%></th>
                                 <td><%=ca.getPartida().getDescripcion()%></td>
-                                <td><%=("c".equalsIgnoreCase(ca.getOperacion())) ? ca.getMonto() : 0%></td>
-                                <td><%=("a".equalsIgnoreCase(ca.getOperacion())) ? ca.getMonto() : 0%></td>
+                                <td><%=("c".equalsIgnoreCase(ca.getOperacion())) ? ca.getMonto() : ""%></td>
+                                <td><%=("a".equalsIgnoreCase(ca.getOperacion())) ? ca.getMonto() : ""%></td>
                                 <td><%=ca.getMonto()%></td>
                             </tr>
                             <%
@@ -100,9 +100,9 @@
                             <tr>
                                 <td></td>
                                 <th scope="row">Totales</th>
-                                <td><%=item.getCargo()%></td>
-                                <td><%=item.getAbono()%></td>
-                                <td><%= (item.getSaldoD() != 0) ? item.getSaldoD() : item.getSaldoA()%></td>
+                                <td><%=(item.getCargo() != 0) ? item.getCargo() : ""%></td>
+                                <td><%=(item.getAbono() != 0) ? item.getAbono() : ""%></td>
+                                <td><%= (item.getSaldoD() != 0) ? item.getSaldoD() : ((item.getSaldoA() != 0) ? item.getSaldoA() : "")%></td>
                             </tr>
                         </tfoot>
                     </table>
