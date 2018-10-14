@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
+import javax.servlet.RequestDispatcher;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -142,7 +143,12 @@ public class ServletPartida extends HttpServlet {
 		return;
 	  }
 	  ctl.registrarPartidas(partidas, cargosAbonos);
-	  out.println("Se han registrado satisfactoriamente las partidas");
+          
+          RequestDispatcher dispatcher = request.getRequestDispatcher("mostrar-partidas-registradas.jsp");
+          
+          request.setAttribute("listaPartidas", partidas);
+          request.setAttribute("listaCargosAbonos",cargosAbonos);
+          dispatcher.forward(request, response);
 	}
   }//Fin processRequest 
 

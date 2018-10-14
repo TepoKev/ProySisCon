@@ -175,7 +175,7 @@ function cargar_ajax_partida(data) {
 }
 function nuevo_cargo_abono(e) {
   e.preventDefault();
-  partida.actual = $(e.currentTarget).parent();
+  partida.actual = $(e.currentTarget).parent().parent().parent();
   $.post(partida.url.nueva, {'ajax-opcion': 'cargo-abono', 'num-partida': c}, cargar_ajax_cargo_abono);
 }
 function cargar_ajax_cargo_abono(data) {

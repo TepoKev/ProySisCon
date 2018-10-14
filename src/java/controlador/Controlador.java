@@ -195,6 +195,7 @@ public class Controlador {
 		 this.session.beginTransaction();
 		 //insercion en la base de datos
 		 for (i = 0; i < len; i++) {
+                     partidas.get(i).setContador(null);
 			id = this.session.save(partidas.get(i));
 			partidas.get(i).setId((Integer) id);
 		 }
@@ -270,6 +271,7 @@ public class Controlador {
                 mayor.add(m);
             }
         } catch (HibernateException e) {
+            e.printStackTrace();
         } finally {
             this.session.close();
         }
@@ -290,6 +292,7 @@ public class Controlador {
             }
             
         } catch (Exception e) {
+            e.printStackTrace();
         }
     }
    
