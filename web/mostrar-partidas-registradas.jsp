@@ -14,6 +14,7 @@ Contenido del modal
 <%
     ArrayList<Partida> partidas = (ArrayList<Partida>) request.getAttribute("listaPartidas");
     ArrayList<CargoAbono> cargosAbonos = (ArrayList<CargoAbono>) request.getAttribute("listaCargosAbonos");
+    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
     if (partidas == null || cargosAbonos == null) {
 %>
 <div class="modal-header" >Un error ha ocurrido</div>
@@ -25,12 +26,14 @@ Contenido del modal
     Partida partida;
 
 %>
-<div class="modal-header" >Partidas</div>
+<div class="modal-header bg-success">
+    <h4 class="text-white" style="text-align:center;">Partidas</h4>
+</div>
 <div class="modal-body">
     <% for (int i = 0; i < partidas.size(); i++) {
             partida = partidas.get(i);
     %>
-    <h4>Partida #<%=partida.getContador()%> - <%=partida.getFecha()%></h4>
+    <h4>Partida # <%=partida.getContador()%> - <%=partida.getFecha()==null? "<span class=\"text-danger font-weight-bold\">fecha nula</span>":sdf.format(partida.getFecha())%></h4>
     <table class="table table-sm">
         <thead>
             <tr>

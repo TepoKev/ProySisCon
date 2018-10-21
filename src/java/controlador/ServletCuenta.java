@@ -104,18 +104,25 @@ public class ServletCuenta extends HttpServlet {
     }// </editor-fold>
 
     private void guardar(String[] nombre_cuenta, String[] codigo_cuenta, String[] descripcion_cuenta, String[] saldo, String[] id_cuenta, Controlador ctr) {
-        Cuenta cue;
+        Cuenta cue,padre;
         for (int i = 0; i < nombre_cuenta.length; i++) {
             cue = new Cuenta();
+            
             if (id_cuenta[i].isEmpty()) {
+
+                //cuentas principales como activo, pasivo, patrimonio, etc. 
+                //Estas cuentas no tienen cuenta padre
                 if (codigo_cuenta[i].length() == 1) {
                     cue.setCuenta(null);
                 } else {
+                    
                     if (codigo_cuenta[i].length() == 2) {
-                        cue.setCuenta(ctr.recuperarCuenta(codigo_cuenta[i].substring(0, 1)));
+                        padre = ctr.recuperarCuenta(codigo_cuenta[i].substring(0, 1));
+                        cue.setCuenta(padre);
                     } else {
                         if (codigo_cuenta[i].length() > 2) {
-                            cue.setCuenta(ctr.recuperarCuenta(codigo_cuenta[i].substring(0, (codigo_cuenta[i].length() - 2))));
+                            padre = ctr.recuperarCuenta(codigo_cuenta[i].substring(0, (codigo_cuenta[i].length() - 2)));
+                            cue.setCuenta(padre);
                         }
                     }
                 }
@@ -130,14 +137,17 @@ public class ServletCuenta extends HttpServlet {
                     cue.setCuenta(null);
                 } else {
                     if (codigo_cuenta[i].length() == 2) {
-                        cue.setCuenta(ctr.recuperarCuenta(codigo_cuenta[i].substring(0, 1)));
+                        padre = ctr.recuperarCuenta(codigo_cuenta[i].substring(0, 1));
+                        cue.setCuenta(padre);
                     } else {
                         if (codigo_cuenta[i].length() > 2) {
-                            cue.setCuenta(ctr.recuperarCuenta(codigo_cuenta[i].substring(0, (codigo_cuenta[i].length() - 2))));
+                            padre = ctr.recuperarCuenta(codigo_cuenta[i].substring(0, (codigo_cuenta[i].length() - 2)));
+                            cue.setCuenta(padre);
                         }
                     }
                 }
                 cue.setId(Integer.parseInt(id_cuenta[i]));
+                cue = ctr.recuperarCuenta(cue);
                 cue.setNombre(nombre_cuenta[i]);
                 cue.setCodigo(codigo_cuenta[i]);
                 cue.setTipo(saldo[i]);
