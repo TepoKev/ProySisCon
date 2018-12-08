@@ -20,7 +20,15 @@ import org.hibernate.HibernateException;
  * @author kedut
  */
 public class test {
-
+    
+    public static void main(String [] args) {
+        
+        int result=(8-4)/2+1;
+        System.out.println(result);
+        result =  (int) (Math.round(3.5)+1);
+        System.out.println(result);
+        result = (7/2)+2;
+    }
 //    public static void main(String[] args) {
 //        //Cuenta c = new Cuenta();
 //        ArrayList<Cuenta> cts = new ArrayList();

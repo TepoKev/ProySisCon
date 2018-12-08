@@ -91,9 +91,9 @@
 								  + t.getDescripcion() + "\" data-saldo=\""
 								  + t.getTipo() + "\"><i class=\"fa fa-folder text-info mr-1\"></i>"
 								  + t.getNombre() + "</a>");
-						  if (t.getCuentas().size() > 0) {
+						  if (t.getCuentasHijas().size() > 0) {
 							out.print("<ul data-opened=true>");
-							for (Object aux : t.getCuentas()) {
+							for (Object aux : t.getCuentasHijas()) {
 							  recursivo((Cuenta) aux, out);
 							}
 							out.print("</ul>");

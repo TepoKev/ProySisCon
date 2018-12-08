@@ -30,7 +30,7 @@
             <one-to-many class="modelo.Parcial" />
         </set>
 
-        <set name="cuentas" table="cuentas" lazy="true" fetch="select">
+        <set name="cuentas" table="cuentas" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="id_superior" />
             </key>

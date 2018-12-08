@@ -2,7 +2,9 @@ package modelo;
 // Generated 12-26-2017 08:35:28 PM by Hibernate Tools 4.3.1
 
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -21,7 +23,7 @@ public class Cuenta  implements java.io.Serializable {
      private Set parciales = new HashSet(0);
      private Set cuentas  = new HashSet(0);
      private Set cargosAbonos = new HashSet(0);
-
+     private List<Cuenta> cuentasHijas = new ArrayList<Cuenta>();
     public Cuenta() {
     }
 
@@ -64,31 +66,31 @@ public class Cuenta  implements java.io.Serializable {
        this.cuentas = cuentas;
        this.cargosAbonos = cargosAbonos;
     }
-//
-//   @Override
-//   public int hashCode() {
-//	  int hash = 3;
-//	  hash = 53 * hash + this.id;
-//	  return hash;
-//   }
-//
-//   @Override
-//   public boolean equals(Object obj) {
-//	  if (this == obj) {
-//		 return true;
-//	  }
-//	  if (obj == null) {
-//		 return false;
-//	  }
-//	  if (getClass() != obj.getClass()) {
-//		 return false;
-//	  }
-//	  final Cuenta other = (Cuenta) obj;
-//	  if (this.id != other.id) {
-//		 return false;
-//	  }
-//	  return true;
-//   }
+
+   @Override
+   public int hashCode() {
+	  int hash = 3;
+	  hash = 53 * hash + this.id;
+	  return hash;
+   }
+
+   @Override
+   public boolean equals(Object obj) {
+	  if (this == obj) {
+		 return true;
+	  }
+	  if (obj == null) {
+		 return false;
+	  }
+	  if (getClass() != obj.getClass()) {
+		 return false;
+	  }
+	  final Cuenta other = (Cuenta) obj;
+	  if (this.id != other.id) {
+		 return false;
+	  }
+	  return true;
+   }
 
    
    
@@ -156,6 +158,15 @@ public class Cuenta  implements java.io.Serializable {
         this.cargosAbonos = cargosAbonos;
     }
 
+    public List<Cuenta> getCuentasHijas() {
+        return cuentasHijas;
+    }
+
+    public void setCuentasHijas(List<Cuenta> cuentasHijas) {
+        this.cuentasHijas = cuentasHijas;
+    }
+    
+    
 
 
 
