@@ -99,7 +99,7 @@
 	   <div class="card-body">
 	      <h5 class="card-title">Estado de resultados</h5>
 	      <p class="card-text">Mostrar el estado de resultados, para poder ver la utilidad en cualquier momento</p>
-	      <a href="#" class="btn btn-info">Ver más <i class="fa fa-plus"></i></a>
+	      <a href="mostrar-estado-de-resultados.jsp" class="btn btn-info">Ver más <i class="fa fa-plus"></i></a>
 	   </div>
 	</div>
          </div>

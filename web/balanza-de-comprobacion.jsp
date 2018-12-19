@@ -4,9 +4,11 @@
     Author     : tepokev
 --%>
 
+<%@page import="java.math.RoundingMode"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="controlador.Controlador"%>
 <%@page import="modelo.Mayor"%>
+<%@page import="java.math.BigDecimal"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -68,7 +70,10 @@
                         <%
                             Controlador ctr = new Controlador();
                             ArrayList<Mayor> m = ctr.mayorizarCuentas(4);
-                            float tCargo = 0, tAbono = 0, tSD = 0, tSA = 0;
+                            BigDecimal tCargo = new BigDecimal("0");
+		    BigDecimal tAbono = new BigDecimal("0");
+		    BigDecimal tSD = new BigDecimal("0");
+		    BigDecimal tSA = new BigDecimal("0");
                         %>
                         <thead>
                             <tr>
@@ -80,10 +85,10 @@
                                 for (Mayor may : m) {
                                     may.generarSaldos();
                                     if (may.getSaldoA() > 0 || may.getSaldoD() > 0) {
-                                        tCargo += may.getCargo();
-                                        tAbono += may.getAbono();
-                                        tSD += may.getSaldoD();
-                                        tSA += may.getSaldoA();
+			   tCargo	= tCargo.add(new BigDecimal(may.getCargo()));
+			   tAbono	= tAbono.add(new BigDecimal(may.getAbono()));
+			   tSD	= tSD.add(new BigDecimal(may.getSaldoD()));
+			   tSA	= tSA.add(new BigDecimal(may.getSaldoA()));
                             %>
                             <tr>
                                 <td> <%= may.getCuenta().getCodigo()%> </td><td> <%= may.getCuenta().getNombre()%> </td><td> <%= may.getCargo()%> </td><td> <%= may.getAbono()%> </td><td> <%= may.getSaldoD()%> </td><td> <%= may.getSaldoA()%> </td>
@@ -93,7 +98,7 @@
                                 }
                             %>
                             <tr>
-                                <th></th><th>Total</th><th><%= tCargo%></th><th><%= tAbono%></th><th><%= tSD%></th><th><%=  tSA%></th>
+		       <th></th><th>Total</th><th><p style="color:yellowgreen"><%= tCargo.setScale(2, RoundingMode.HALF_UP).toString()%></p></th><th><p style="color:yellowgreen"><%= tAbono.setScale(2, RoundingMode.HALF_UP).toString()%></p></th><th><p style="color:green"><%= tSD.setScale(2, RoundingMode.HALF_UP).toString()%></p></th><th><p style="color:green"><%= tSA.setScale(2, RoundingMode.HALF_UP).toString()%></p></th>
                             </tr>
                         </tbody>
                     </table>

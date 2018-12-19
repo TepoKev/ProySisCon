@@ -180,9 +180,9 @@ public class Controlador {
             codigoSig = sig.getCodigo();
             lenActual = codigoActual.length();
             lenSig = codigoSig.length();
-            if (lenSig == 1) {
-                arbol.add(sig);
-            }
+            /*if (lenSig == 1) {
+                //arbol.add(sig);
+            }*/
             if (lenSig > lenActual) //la cuenta siguiente es hija
             {
                 if (actual.getCuentasHijas() != null) {

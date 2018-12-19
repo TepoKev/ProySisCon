@@ -99,7 +99,7 @@ public class Mayor {
 	*/
     public void generarSaldos(){
 	  //variables para los totales de cargo y abono
-        BigDecimal c = new BigDecimal(this.cargo); 
+        BigDecimal c = new BigDecimal(this.cargo);
         BigDecimal a = new BigDecimal(this.abono);
 		//recorrer cada transaccion
         for(CargoAbono ca : this.transacciones){
