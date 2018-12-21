@@ -14,9 +14,7 @@
       <link rel="stylesheet" href="fonts/fonts.css">
       <link rel="stylesheet" href="css/style.css">
       <script src="js/jquery-3.2.1.slim.min.js"></script>
-      <script src="js/vendor/popper.min.js"></script>
       <script src="js/bootstrap.min.js"></script>
-      <script src="js/vendor/holder.min.js"></script>
       <title>ProySisCon</title>
    </head>
    <body>

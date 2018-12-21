@@ -14,13 +14,21 @@
       <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
       <title>Estado de Resultados</title>
       <link rel="stylesheet" href="css/bootstrap.css">
-      <link rel="stylesheet" href="css/jstree.css">
       <link rel="stylesheet" href="fonts/font-awesome.css">
       <link rel="stylesheet" href="fonts/fonts.css">
       <link rel="stylesheet" href="css/custom-tree.css">
       <script src="js/tether.min.js"></script>
       <script src="js/jquery-3.1.1.js"></script>
       <script src="js/bootstrap.js"></script>
+      <script>
+         $(document).ready(function () {
+	$(document).on('click', '#gen', function () {
+	   $.post("estado.jsp?inventariof=" + document.getElementById('invf').value + '&fechai=' + document.getElementById('fechi').value + '&fechaf=' + document.getElementById('fechf').value, function (data, status) {
+	      $("#dive").html(data);
+	   });
+	});
+         });
+      </script>
    </head>
    <body>
       <div class="bg-danger text-white" style="margin-bottom: 50px;">
@@ -107,7 +115,7 @@
 	</div>
 
 	<div class="col-md-2">
-	   <button type="button" class="btn btn-outline-danger">Generar</button>
+	   <button type="button" class="btn btn-outline-danger" name="gen" id="gen">Generar</button>
 	</div>
          </div>
 
@@ -117,193 +125,12 @@
          <div class="row">
 	<hr>
          </div>
-         <div class="row">
-	<%@include file="aside.jsp" %>
-	<div class="col-lg-9">
-	   <table class="table table-sm">
-	      <tbody>
-	         <tr>
-		<td></td>
-		<td>VENTAS</td>
-		<td></td>
-		<td></td>
-	         </tr>
-	         <tr>
-		<td>(-)</td>
-		<td>REBAJAS Y DEVOLUCIONES</td>
-		<td></td>
-		<td></td>
-	         </tr>
-	         <tr>
-		<td></td>
-		<td>SOBRE VENTAS</td>
-		<td></td>
-		<td></td>
-	         </tr>
-	         <tr class="table-info">
-		<td>(=)</td>
-		<td>VENTAS NETAS</td>
-		<td></td>
-		<td></td>
-	         </tr>
-	         <tr>
-		<td>(-)</td>
-		<td>COSTO DE VENTAS</td>
-		<td></td>
-		<td></td>
-	         </tr>
-	         <tr>
-		<td></td>
-		<td>COMPRAS</td>
-		<td></td>
-		<td></td>
-	         </tr>
-	         <tr>
-		<td>(+)</td>
-		<td>GASTOS SOBRE COMPRAS</td>
-		<td></td>
-		<td></td>
-	         </tr>
-	         <tr class="table-active">
-		<td>(=)</td>
-		<td>COMPRAS TOTALES</td>
-		<td></td>
-		<td></td>
-	         </tr>
-	         <tr>
-		<td>(-)</td>
-		<td>REBAJAS Y DEVOLUCIONES</td>
-		<td></td>
-		<td></td>
-	         </tr>
-	         <tr>
-		<td></td>
-		<td>SOBRE COMPRAS</td>
-		<td></td>
-		<td></td>
-	         </tr>
-	         <tr class="table-active">
-		<td>(=)</td>
-		<td>COMPRAS NETAS</td>
-		<td></td>
-		<td></td>
-	         </tr>
-	         <tr>
-		<td>(+)</td>
-		<td>INVENTARIO INICIAL</td>
-		<td></td>
-		<td></td>
-	         </tr>
-	         <tr class="table-active">
-		<td>(=)</td>
-		<td>MERCADERIA DISPONIBLE</td>
-		<td></td>
-		<td></td>
-	         </tr>
-	         <tr>
-		<td>(-)</td>
-		<td>INVENTARIO FINAL</td>
-		<td></td>
-		<td></td>
-	         </tr>
-	         <tr class="table-active">
-		<td>(=)</td>
-		<td>COSTO DE VENTA</td>
-		<td></td>
-		<td></td>
-	         </tr>
-	         <tr class="table-info">
-		<td>(=)</td>
-		<td>UTILIDAD BRUTA</td>
-		<td></td>
-		<td></td>
-	         </tr>
-	         <tr>
-		<td>(-)</td>
-		<td>GASTOS DE OPERACION</td>
-		<td></td>
-		<td></td>
-	         </tr>
-	         <tr>
-		<td></td>
-		<td>GASTOS DE ADMINISTRACION</td>
-		<td></td>
-		<td></td>
-	         </tr>
-	         <tr>
-		<td></td>
-		<td>GASTOS DE VENTA</td>
-		<td></td>
-		<td></td>
-	         </tr>
-	         <tr>
-		<td></td>
-		<td>GASTOS FINANCIEROS</td>
-		<td></td>
-		<td></td>
-	         </tr>
-	         <tr class="table-info">
-		<td>(=)</td>
-		<td>UTILIDAD DE OPERACION</td>
-		<td></td>
-		<td></td>
-	         </tr>
-	         <tr>
-		<td>(-)</td>
-		<td>OTROS GASTOS</td>
-		<td></td>
-		<td></td>
-	         </tr>
-	         <tr>
-		<td>(+)</td>
-		<td>OTROS INGRESOS</td>
-		<td></td>
-		<td></td>
-	         </tr>
-	         <tr class="table-info">
-		<td>(=)</td>
-		<td>UTILIDAD ANTES DE</td>
-		<td></td>
-		<td></td>
-	         </tr>
-	         <tr>
-		<td></td>
-		<td>IMPUESTO Y RESERVAS</td>
-		<td></td>
-		<td></td>
-	         </tr>
-	         <tr>
-		<td>(-)</td>
-		<td>RESERVA LEGAR 7%</td>
-		<td></td>
-		<td></td>
-	         </tr>
-	         <tr class="table-info">
-		<td>(=)</td>
-		<td>UTILIDAD ANTES DE IMPUESTO</td>
-		<td></td>
-		<td></td>
-	         </tr>
-	         <tr>
-		<td>(-)</td>
-		<td>IMPUESTO SOBRE LA RENTA</td>
-		<td></td>
-		<td></td>
-	         </tr>
-	         <tr class="table-info">
-		<td>(=)</td>
-		<td>UTILIDAD DEL EJERCICIO</td>
-		<td></td>
-		<td></td>
-	         </tr>
-	      </tbody>
-	   </table>
-	</div>
+         <div class="row" name="dive" id="dive">
          </div>
       </div>
       <div class="container">
          <div class="row">
-	
+
 	<div class="col-md-12 text-sm-center">
 	   <button type="button" class="btn btn-outline-success">Imprimir</button>
 	</div>
