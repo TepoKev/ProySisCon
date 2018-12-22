@@ -27,7 +27,7 @@
     <body>
         <div class="bg-danger text-white" style="margin-bottom: 50px;">
 
-            <div style="background-color: rgba(255,255,255,.2);">
+            <div style="background-color: rgba(255,255,255,.1);">
                 <div class="container">
                     <%@include file="nav.jsp" %>
                 </div>

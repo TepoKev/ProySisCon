@@ -11,19 +11,19 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-                <a class="nav-link" href="index.jsp">Inicio <span class="sr-only">(current)</span></a>
+            <li class="nav-item">
+                <a class="nav-link font-weight-bold" href="index.jsp"><i class="fa fa-home"></i> Inicio <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="configuracion.jsp">Configuración</a>
+                <a class="nav-link font-weight-bold" href="configuracion.jsp"><i class="fa fa-cog"></i> Configuración</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Acerca de</a>
+                <a class="nav-link font-weight-bold" href="#"><i class="fa fa-info-circle"></i> Acerca de</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link disabled" href="#">Ayuda</a>
+                <a class="nav-link font-weight-bold" href="#"><i class="fa fa-question-circle"></i> Ayuda</a>
             </li>
         </ul>
-        <span class="navbar-text text-white">Sistema Contable</span>
+        <span class="navbar-text font-weight-bold text-white">Sistema Contable</span>
     </div>
 </nav>
