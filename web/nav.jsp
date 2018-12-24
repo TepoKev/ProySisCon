@@ -27,3 +27,20 @@
         <span class="navbar-text font-weight-bold text-white">Sistema Contable</span>
     </div>
 </nav>
+<script>
+    $(document).ready(function () {
+        $("a").each(function () {
+            
+
+            if (window.location.pathname.endsWith($(this).attr("href"))) {
+                $(this).addClass("active");
+            }
+            var children = $(this).find('i');
+            console.log(children);
+            if ($(children).hasClass('text-danger') && $(this).hasClass('active')) {
+                $(children).removeClass('text-danger');
+                $(children).addClass('text-white');
+            }
+        });
+    });
+</script>

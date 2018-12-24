@@ -38,14 +38,42 @@
             <div class="row">
                 <%@include file="aside.jsp" %>
                 <div class="col-lg-9">
-                    <form class="my-5">
-                        <a class="text-sm-center  btn  btn-outline-danger" href="configuracion.jsp?default=true">Configuración por defectoo <i class="fa fa-cog"></i></a>
+                    <form class="mb-5">
                         <%
-                            String paramDefault = request.getParameter("default");
-                            boolean predeterminada = "true".equalsIgnoreCase(paramDefault) ? true : false;
+                            String FECHA_INICIAL = request.getParameter("FECHA_INICIAL"),
+                                    FECHA_FINAL = request.getParameter("FECHA_FINAL"),
+                                    INVENTARIO_FINAL = request.getParameter("INVENTARIO_FINAL"),
+                                    PORC_RESERVA = request.getParameter("PORC_RESERVA"),
+                                    PORC_IMPUESTO_S_LA_RENTA = request.getParameter("PORC_IMPUESTO_S_LA_RENTA"),
+                                    EXTREMO_DE_APLICACION = request.getParameter("EXTREMO_DE_APLICACION"),
+                                    VENTAS = request.getParameter("VENTAS"),
+                                    REB_Y_DEV_S_VENTAS = request.getParameter("REB_Y_DEV_S_VENTAS"),
+                                    COMPRAS = request.getParameter("COMPRAS"),
+                                    GASTOS_S_COMPRAS = request.getParameter("GASTOS_S_COMPRAS"),
+                                    REB_Y_DEV_S_COMPRAS = request.getParameter("REB_Y_DEV_S_COMPRAS"),
+                                    INVENTARIO = request.getParameter("INVENTARIO"),
+                                    GASTOS_DE_ADMON = request.getParameter("GASTOS_DE_ADMON"),
+                                    GASTOS_DE_VENTA = request.getParameter("GASTOS_DE_VENTA"),
+                                    GASTOS_FINANCIEROS = request.getParameter("GASTOS_FINANCIEROS"),
+                                    OTROS_GASTOS = request.getParameter("OTROS_GASTOS"),
+                                    OTROS_INGRESOS = request.getParameter("OTROS_INGRESOS"),
+                                    RESERVA_LEGAL = request.getParameter("RESERVA_LEGAL"),
+                                    IMPUESTO_S_LA_RENTA = request.getParameter("IMPUESTO_S_LA_RENTA"),
+                                    UTILIDAD_DEL_EJERCICIO = request.getParameter("UTILIDAD_DEL_EJERCICIO");
                         %>
+                        <div class="text-right">
+                            <a class="my-3 text-sm-center  btn btn-outline-info" href="configuracion.jsp?default=true">Configuración por defectoo <i class="fa fa-cog"></i></a>
+                        </div>
+                            <%
+                                String paramDefault = request.getParameter("default");
+                                boolean predeterminada = "true".equalsIgnoreCase(paramDefault) ? true : false;
+                            %>
                         <h2>Periodo de operación</h2>
-                        <div class="form-group row">
+                        <div class="alert alert-info">
+                            Si desea ver el estado de resultados debe ingresar el valor del inventario final, 
+                            los periodos de operaicón deben ingresarse para el correcto funcionamiento
+                        </div>
+                        <div class="form-group row mt-3">
                             <label for="FECHA_INICIAL" class="col-sm-3 col-form-label">Fecha inicial</label>
                             <div class="col-sm-4">
                                 <%if (predeterminada) {
@@ -87,7 +115,13 @@
                         </div>
                         <hr>
                         <h2>Porcentaje de reservas e impuestos</h2>
-                        <div class="form-group row">
+                        <div class="alert alert-info">
+                            El formato para estos campos debe ser: <strong>#</strong> , <strong>#(#,#)</strong> , <strong>#(#,#)#(#,#)</strong>
+                            <br>
+                            Por ejemplo: <strong>7</strong> para indicar que se aplica el 7%, o <strong>25(0,150000)30(150000,9000000000)</strong> para que se aplique el 25% de 0 a 150000  y 30% de 150000 en adelante
+                        </div>
+
+                        <div class="form-group row mt-3">
                             <label for="PORC_RESERVA" class="col-sm-3 col-form-label">Reserva Legal</label>
                             <div class="col-sm-4">
                                 <%if (predeterminada) {
@@ -114,9 +148,50 @@
                             </div>
                             <div class="col-md-3 font-weight-bold">PORC_IMPUESTO_S_LA_RENTA</div>
                         </div>
+                        <div class="form-group row">
+                            <label for="PORC_IMPUESTO_S_LA_RENTA" class="col-sm-3 col-form-label">Extremo de inclusion para aplicar el porcentaje: </label>
+                            <div class="col-sm-4">
+                                <%if (predeterminada) {
+                                %>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" checked="" name="EXTREMO_DE_APLICACION" id="inlineRadio1" value="I">
+                                    <label class="form-check-label" for="inlineRadio1">>= y <</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="EXTREMO_DE_APLICACION" id="inlineRadio2" value="S">
+                                    <label class="form-check-label" for="inlineRadio2">> y <=</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="EXTREMO_DE_APLICACION" id="inlineRadio3" value="A">
+                                    <label class="form-check-label" for="inlineRadio3">>= y <=</label>
+                                </div>                                
+                                <%
+                                } else { %>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="EXTREMO_DE_APLICACION" id="inlineRadio1" value="I">
+                                    <label class="form-check-label" for="inlineRadio1">>= y <</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="EXTREMO_DE_APLICACION" id="inlineRadio2" value="S">
+                                    <label class="form-check-label" for="inlineRadio2">> y <=</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="EXTREMO_DE_APLICACION" id="inlineRadio3" value="A">
+                                    <label class="form-check-label" for="inlineRadio3">>= y <=</label>
+                                </div>                                     
+                                <%}%>
+                            </div>
+                            <div class="col-md-3 font-weight-bold">EXTREMO_DE_APLICACION</div>
+                        </div>
                         <hr>
                         <h2>Cuentas de estado de resultados</h2>
-                        <div class="form-group row">
+                        <div class="alert alert-info">
+                            Ingrese los códigos de cuenta que se usarán en el estado de resultados
+                        </div>
+                        <div class="alert alert-info">
+                            Si su catálogo tiene separadas las cuentas rebajas y devoluciones sobre compras/ventas, separe los codigos con una <strong>,</strong>
+                        </div>
+                        <div class="form-group row mt-3">
                             <label for="VENTAS" class="col-sm-3 col-form-label">Ventas</label>
                             <div class="col-sm-4">
                                 <%if (predeterminada) {
@@ -275,7 +350,10 @@
                             </div>
                             <div class="col-md-3 font-weight-bold">UTILIDAD_DEL_EJERCICIO</div>
                         </div>
-
+                        <div class="text-center mt-4">
+                            <button type="reset" class="btn btn-warning"><i class="fa fa-undo"></i> Limpiar campos</button>
+                            <button type="submit" class="btn text-center btn-success"><i class="fa fa-check"></i> Aplicar configuración</button>
+                        </div>
                     </form>
                 </div>
             </div>

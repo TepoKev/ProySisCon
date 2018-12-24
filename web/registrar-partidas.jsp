@@ -53,7 +53,7 @@
                                     <div class="input-group">
                                         <input type="text" class="form-control" autocomplete="off" name="ajax-busqueda" placeholder="Código o nombre de cuenta">
                                         <span class="input-group-btn">
-                                            <button class="btn btn-primary" type="submit">Aceptar <i class="fa fa-arrow-right"></i></button>
+                                            <button class="btn btn-primary" type="submit"><i class="fa fa-check"></i> Aceptar</button>
                                         </span>
                                         <span class="input-group-btn">
                                             <button type="button" class="btn px-2 py-2 text-white btn-secondary btn-sm font-weight-bold" onclick="nueva_partida();"><i class="fa fa-plus"></i> Partida</button>
@@ -86,8 +86,8 @@
                                 <div id="partidas" class="mb-3">
 
                                 </div>
-                                <div>
-                                    <button class="btn btn-primary font-weight-bold" type="submit">Registrar Partidas <i class="fa fa-arrow-right"></i></button>
+                                <div class="text-right">
+                                    <button class="btn btn-primary font-weight-bold" type="submit"><i class="fa fa-check"></i> Registrar Partidas</button>
                                 </div>
                             </form>
                         </div>

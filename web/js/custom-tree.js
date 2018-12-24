@@ -110,11 +110,14 @@ function llenarFormulario(obj) {
   /*
    * saldo '+' representa cuentas de saldo deudor
    * saldo '-' representa cuentas de saldo acreedor
+   * saldo '=' usado para cuentas de cierre
    */
   if (obj.saldo === '+') {
 	$('#saldo-deudor').prop('checked', true);
   } else if (obj.saldo === '-') {
 	$('#saldo-acreedor').prop('checked', true);
+  } else if (obj.saldo==='0') {
+      $('#saldo-de-cierre').prop('checked', true);
   }
   $('#codigo-cuenta').val(obj.codigo);
   $('#descripcion-cuenta').val(obj.descripcion);
