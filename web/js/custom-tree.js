@@ -527,6 +527,17 @@ function createNode() {
   $('#nombre-cuenta').focus();
   $('#nombre-cuenta').selectRange(0, $('#nombre-cuenta').val().length);
 }
+function createSiblingNode() {
+    var aux = treeCatalog.currentNode;
+    if(aux===null) {
+        createNode();
+    } else {
+        deselect();
+        treeCatalog.currentNode = getParentA(aux);
+        createNode();
+    }
+}
+
 /*
  * Esta funcion actualiza el codigo heredado de cada nodo hijo, recursivamente
  */

@@ -105,7 +105,8 @@
 
                                         <div class="text-center">
                                             <div class="btn-group my-3" role='group' >
-                                                <button type="button" class="btn px-2 py-2 btn-success btn-sm font-weight-bold" onclick="createNode()"><i class="fa fa-plus"></i> Crear</button>
+                                                <button type="button" class="btn px-2 py-2 btn-success btn-sm font-weight-bold" onclick="createNode()"><i class="fa fa-plus"></i> Crear <i class="fa fa-arrow-right"></i></button>
+                                                <button type="button" class="btn px-2 py-2 btn-info btn-sm font-weight-bold" onclick="createSiblingNode()"><i class="fa fa-plus"></i> Crear <i class="fa fa-arrow-down"></i></button>
                                                 <button type="button" class="btn px-2 py-2 btn-danger btn-sm font-weight-bold" onclick="deleteNode();"><i class="fa fa-trash"></i> Eliminar</button>
                                                 <button type="button" class="btn px-2 py-2 btn-secondary btn-sm font-weight-bold" onclick="deselect();"><i class="fa fa-mouse-pointer"></i> Deseleccionar</button>
                                             </div>    
