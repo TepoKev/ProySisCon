@@ -13,6 +13,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import modelo.Cuenta;
+import modelo.EstResult;
+import modelo.Partida;
+import modelo.Partida;
 import org.hibernate.HibernateException;
 
 /**
@@ -21,13 +24,16 @@ import org.hibernate.HibernateException;
  */
 public class test {
     
-    public static void main(String [] args) {
+    public static void main(String [] args){
         
-        int result=(8-4)/2+1;
-        System.out.println(result);
-        result =  (int) (Math.round(3.5)+1);
-        System.out.println(result);
-        result = (7/2)+2;
+//        int result=(8-4)/2+1;
+//        System.out.println(result);
+//        result =  (int) (Math.round(3.5)+1);
+//        System.out.println(result);
+//        result = (7/2)+2;
+         Partida p = new Partida();
+         p.setFecha("");
+         System.out.println("");
     }
 //    public static void main(String[] args) {
 //        //Cuenta c = new Cuenta();

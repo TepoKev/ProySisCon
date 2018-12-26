@@ -9,8 +9,10 @@ import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashSet;
 import java.util.List;
 import org.hibernate.HibernateException;
@@ -366,41 +368,56 @@ public class Controlador {
       return mayor;
 
    }
-   
+
    public Mayor mayorizarCuenta(String codigo) {
       Mayor m = new Mayor();
       Cuenta c;
       List<CargoAbono> ca;
       try {
          openSession();
-         String sql = "from CargoAbono as ca where ca.cuenta.codigo = '"+codigo+"'";
+         String sql = "from CargoAbono as ca where ca.cuenta.codigo = '" + codigo + "'";
          ca = (List<CargoAbono>) this.session.createQuery(sql).list();
-         Query q = this.session.createQuery("from Cuenta as c where c.codigo='"+codigo+"'");
+         Query q = this.session.createQuery("from Cuenta as c where c.codigo='" + codigo + "'");
          q.setString(0, codigo);
          c = (Cuenta) q.uniqueResult();
          m.setCuenta(c);
          recursivo(c, m);
-         
+
       } catch (HibernateException e) {
          System.out.println(e.getMessage());
       }
       return m;
    }
 
-   public Mayor mayorizarCuenta(String codigo, String fechaI , String fechaF) {
+   public Mayor mayorizarCuenta(String codigo, String fechaI, String fechaF) {
       Mayor m = new Mayor();
       Cuenta c;
       List<CargoAbono> ca;
+      Date fechI = new Date();
+      Date fechF = new Date();
+      Calendar calendario;
+      SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
       try {
-         
+         if ("".equals(fechaI)) {
+	calendario = new GregorianCalendar();
+	sdf = new SimpleDateFormat("yyyy-MM-dd");
+	fechI = sdf.parse(String.valueOf(calendario.get(Calendar.YEAR)) + "-01-01");
+	
+         }
+         if ("".equals(fechaF)) {
+	calendario = new GregorianCalendar();
+	sdf = new SimpleDateFormat("yyyy-MM-dd");
+	fechF = sdf.parse(String.valueOf(calendario.get(Calendar.YEAR)) + "-12-31");
+         }
          openSession();
-         Query q1,q2;
+         Query q1, q2;
          String sql = "from CargoAbono as ca where ca.cuenta.codigo = ? and (ca.partida.fecha between ? and ?)";
          q1 = this.session.createQuery(sql);
          q1.setString(0, codigo);
-         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-         q1.setDate(1, sdf.parse(fechaI));
-         q1.setDate(2, sdf.parse(fechaF));
+
+         q1.setDate(1, fechI);
+         q1.setDate(2, fechF);
          ca = (List<CargoAbono>) q1.list();
          q2 = this.session.createQuery("from Cuenta as c where c.codigo=?");
          q2.setString(0, codigo);
@@ -412,7 +429,7 @@ public class Controlador {
          throw e;
       } catch (ParseException ex) {
          Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
-      } finally{
+      } finally {
          this.session.close();
       }
       return m;
