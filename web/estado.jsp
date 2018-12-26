@@ -34,7 +34,8 @@
 
    BigDecimal u = new BigDecimal(0);
    
-   BigDecimal invf = new BigDecimal(request.getParameter("inventariof")).setScale(2, RoundingMode.HALF_UP);
+   BigDecimal invf = new BigDecimal((("".equalsIgnoreCase(request.getParameter("inventariof"))) ? "0" : request.getParameter("inventariof"))).setScale(2, RoundingMode.HALF_UP);
+   
    String fechi = request.getParameter("fechai");
    String fechf = request.getParameter("fechaf");
    Controlador ctr = new Controlador();
