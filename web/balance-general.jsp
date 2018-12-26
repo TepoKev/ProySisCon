@@ -34,20 +34,8 @@
       </div>
 
       <div class="container">
-         <!-- Aqui va a ir la estructura de la pagina -->
          <%@include file="aside.jsp" %>
-      </div>
-      <div class="container">
-         <div class="row">
-
-	<div class="col-md-12 text-sm-center">
-	   <button type="button" class="btn btn-outline-success">Imprimir</button>
-	</div>
-
-         </div>
-         <div class="row">
-	<hr>
-         </div>
+         <div class="row"></div>
       </div>
       <footer style="min-height: 170px" class="text-white bg-info">
          <div class="container">

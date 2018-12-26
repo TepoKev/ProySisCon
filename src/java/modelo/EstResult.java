@@ -24,8 +24,30 @@ public class EstResult {
    private Date fechaI;
    private Date fechaF;
    private BigDecimal inventarioF;
+   private BigDecimal porc_reserva;
+   private BigDecimal porc_imp_renta;
+   private BigDecimal ;
+   private BigDecimal ;
+   private BigDecimal ;
+   private BigDecimal ;
+   private BigDecimal ;
    private Controlador ctr;
    private SimpleDateFormat sdf;
+EXTREMO_DE_APLICACIO­N
+VENTAS 
+REB_Y_DEV_S_VENTAS 
+COMPRAS 
+GASTOS_S_COMPRAS 
+REB_Y_DEV_S_COMPRAS 
+INVENTARIO 
+GASTOS_DE_ADMON 
+GASTOS_DE_VENTA 
+GASTOS_FINANCIEROS 
+OTROS_GASTOS 
+OTROS_INGRESOS 
+RESERVA_LEGAL 
+IMPUESTO_S_LA_RENTA 
+UTILIDAD_DEL_EJERCIC­IO
 
    public EstResult() {
       try {
