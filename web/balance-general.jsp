@@ -35,7 +35,9 @@
 
       <div class="container">
          <%@include file="aside.jsp" %>
-         <div class="row"></div>
+         <div class="row">
+	
+         </div>
       </div>
       <footer style="min-height: 170px" class="text-white bg-info">
          <div class="container">
