@@ -110,11 +110,14 @@ function llenarFormulario(obj) {
   /*
    * saldo '+' representa cuentas de saldo deudor
    * saldo '-' representa cuentas de saldo acreedor
+   * saldo '=' usado para cuentas de cierre
    */
   if (obj.saldo === '+') {
 	$('#saldo-deudor').prop('checked', true);
   } else if (obj.saldo === '-') {
 	$('#saldo-acreedor').prop('checked', true);
+  } else if (obj.saldo==='0') {
+      $('#saldo-de-cierre').prop('checked', true);
   }
   $('#codigo-cuenta').val(obj.codigo);
   $('#descripcion-cuenta').val(obj.descripcion);
@@ -524,6 +527,17 @@ function createNode() {
   $('#nombre-cuenta').focus();
   $('#nombre-cuenta').selectRange(0, $('#nombre-cuenta').val().length);
 }
+function createSiblingNode() {
+    var aux = treeCatalog.currentNode;
+    if(aux===null) {
+        createNode();
+    } else {
+        deselect();
+        treeCatalog.currentNode = getParentA(aux);
+        createNode();
+    }
+}
+
 /*
  * Esta funcion actualiza el codigo heredado de cada nodo hijo, recursivamente
  */

@@ -16,6 +16,11 @@
       <script src="js/jquery-3.2.1.slim.min.js"></script>
       <script src="js/bootstrap.min.js"></script>
       <title>ProySisCon</title>
+      <style>
+          .card {
+              box-shadow: 0 0 15px rgba(10, 10, 10, 0.3);
+          }
+      </style>
    </head>
    <body>
       <div class="bg-danger text-white" style="margin-bottom: 50px;">
@@ -31,7 +36,7 @@
          </div>
 
       </div>
-      <div class="container" style="margin-bottom: 9rem;margin-top: 5rem;">
+      <div class="container" style="margin-bottom: 9rem;margin-top: 5rem; ">
          <div class='card-deck'>
 	<div class="card"">
 	   <!--<img class="card-img-top" src="" alt=""> !-->
