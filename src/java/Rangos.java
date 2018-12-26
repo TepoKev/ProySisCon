@@ -18,7 +18,7 @@ public class Rangos {
 
     public static void main(String[] ar) {
         try {
-            Rangos rangos = new Rangos("25(0,150000)30(150000,300000000)",'I');
+            Rangos rangos = new Rangos("25(0,150000)30(150000,300000000)", 'I');
         } catch (Exception ex) {
             Logger.getLogger(Rangos.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -110,5 +110,26 @@ public class Rangos {
 
             }
         }
+    }
+
+    public RangoPorcentaje getRango(float ventas) {
+
+        for (RangoPorcentaje rangoPorcentaje : lista) {
+            if (rangoPorcentaje.estaEnRango(ventas)) {
+                return rangoPorcentaje;
+            }
+        }
+        return null;
+    }
+
+    public float aplicarSegun(float ventas, float utilidadAntesDeI) {
+
+        RangoPorcentaje rp = getRango(ventas);
+        if (rp != null) {
+            return rp.aplicarPorcentaje(ventas, utilidadAntesDeI);
+        } else {
+            return -1;
+        }
+
     }
 }

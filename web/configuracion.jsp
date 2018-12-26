@@ -40,6 +40,8 @@
                 <div class="col-lg-9">
                     <form class="mb-5">
                         <%
+                            String[] params = request.getParameterValues("params{}");
+                            String[] values = request.getParameterValues("values");
                             String FECHA_INICIAL = request.getParameter("FECHA_INICIAL"),
                                     FECHA_FINAL = request.getParameter("FECHA_FINAL"),
                                     INVENTARIO_FINAL = request.getParameter("INVENTARIO_FINAL"),

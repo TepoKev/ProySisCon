@@ -98,8 +98,8 @@ public class RangoPorcentaje {
         return false;
     }
 
-    public float aplicarPorcentaje(float valor) {
-        if (estaEnRango(valor)) {
+    public float aplicarPorcentaje(float ventas, float valor) {
+        if (estaEnRango(ventas)) {
             return (porcentaje / (float) 100) * valor;
         } else {
             return -1;
@@ -146,4 +146,5 @@ public class RangoPorcentaje {
             return false;
         }
     }
+
 }
