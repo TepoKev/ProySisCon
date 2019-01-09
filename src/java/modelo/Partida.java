@@ -1,9 +1,8 @@
 package modelo;
-// Generated 12-26-2017 08:35:28 PM by Hibernate Tools 4.3.1
+// Generated 01-03-2019 05:54:03 PM by Hibernate Tools 4.3.1
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -16,6 +15,7 @@ import java.util.Set;
 public class Partida implements java.io.Serializable {
 
    private int id;
+   private Periodo periodo;
    private Date fecha;
    private String descripcion;
    private Integer contador;//Numero de Partida
@@ -26,6 +26,11 @@ public class Partida implements java.io.Serializable {
 
    public Partida(int id) {
       this.id = id;
+   }
+
+   public Partida(int id, int contador) {
+      this.id = id;
+      this.contador = contador;
    }
 
    public Partida(Date fecha, String descripcion, Integer contador) {
@@ -41,8 +46,9 @@ public class Partida implements java.io.Serializable {
       this.cargosAbonos = cargosAbonos;
    }
 
-   public Partida(int id, Date fecha, String descripcion, Integer contador, Set cargosAbonos) {
+   public Partida(int id, Periodo periodo, Date fecha, String descripcion, int contador, Set cargosAbonos) {
       this.id = id;
+      this.periodo = periodo;
       this.fecha = fecha;
       this.descripcion = descripcion;
       this.contador = contador;
@@ -57,6 +63,14 @@ public class Partida implements java.io.Serializable {
       this.id = id;
    }
 
+   public Periodo getPeriodo() {
+      return this.periodo;
+   }
+
+   public void setPeriodo(Periodo periodo) {
+      this.periodo = periodo;
+   }
+
    public Date getFecha() {
       return this.fecha;
    }
@@ -64,7 +78,7 @@ public class Partida implements java.io.Serializable {
    public void setFecha(Date fecha) {
       this.fecha = fecha;
    }
-
+   
    public void setFecha(String fecha) {
       //cadenas vacias o nulas indicaran la fecha actual
       //a la hora de insertar o modificar
@@ -91,7 +105,7 @@ public class Partida implements java.io.Serializable {
       this.descripcion = descripcion;
    }
 
-   public Integer getContador() {
+   public int getContador() {
       return this.contador;
    }
 

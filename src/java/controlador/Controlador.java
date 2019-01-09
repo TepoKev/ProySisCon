@@ -13,7 +13,6 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.HashSet;
 import java.util.List;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -352,6 +351,35 @@ public class Controlador {
          openSession();
          //Mediante esta instruccion se obtiene las cuentas de nivel seleccionado
          listaC = (List<Cuenta>) this.session.createQuery("from Cuenta c where LENGTH(c.codigo)=" + nivel + " order by c.codigo asc").list();
+         //Con este for se recorreran estas cuentas del nivel seleccionado y tambien sus subniveles 
+         //se recojeran todos sus cargos o abonos mediante un metodo recursivo
+         for (Cuenta c : listaC) {
+	m = new Mayor();
+	m.setCuenta(c);
+	recursivo(c, m);
+	mayor.add(m);
+         }
+      } catch (HibernateException e) {
+         System.out.println(e.getMessage());
+      } finally {
+         this.session.close();
+      }
+      return mayor;
+
+   }
+   
+   public ArrayList<Mayor> mayorizarCuentas(int nivel, String contiene) {
+      //Este metodo hace la mayorizacion de todo el catalogo basado en el nivel de la cuenta
+      List<Cuenta> listaC;
+      ArrayList<Mayor> mayor = new ArrayList<>();
+      Mayor m;
+      try {
+         openSession();
+         //Mediante esta instruccion se obtiene las cuentas de nivel seleccionado
+         Query q = this.session.createQuery("from Cuenta c where LENGTH(c.codigo) = ? and (SUBSTRING(c.codigo,1,3) like ?) order by c.codigo asc");
+         q.setInteger(0, nivel);
+         q.setString(1, "%"+contiene+"%");
+         listaC = q.list();
          //Con este for se recorreran estas cuentas del nivel seleccionado y tambien sus subniveles 
          //se recojeran todos sus cargos o abonos mediante un metodo recursivo
          for (Cuenta c : listaC) {

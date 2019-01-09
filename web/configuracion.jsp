@@ -40,8 +40,6 @@
                 <div class="col-lg-9">
                     <form class="mb-5">
                         <%
-                            String[] params = request.getParameterValues("params{}");
-                            String[] values = request.getParameterValues("values");
                             String FECHA_INICIAL = request.getParameter("FECHA_INICIAL"),
                                     FECHA_FINAL = request.getParameter("FECHA_FINAL"),
                                     INVENTARIO_FINAL = request.getParameter("INVENTARIO_FINAL"),
@@ -64,7 +62,7 @@
                                     UTILIDAD_DEL_EJERCICIO = request.getParameter("UTILIDAD_DEL_EJERCICIO");
                         %>
                         <div class="text-right">
-                            <a class="my-3 text-sm-center  btn btn-outline-info" href="configuracion.jsp?default=true">Configuración por defectoo <i class="fa fa-cog"></i></a>
+                            <a class="my-3 text-sm-center  btn btn-outline-info" href="configuracion.jsp?default=true">Configuración por defecto <i class="fa fa-cog"></i></a>
                         </div>
                             <%
                                 String paramDefault = request.getParameter("default");

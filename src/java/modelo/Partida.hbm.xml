@@ -1,29 +1,31 @@
-<?xml version="1.0"?>
-<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
-"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 12-26-2017 08:35:49 PM by Hibernate Tools 4.3.1 -->
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 01-03-2019 05:54:05 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="modelo.Partida" table="partidas" schema="public" optimistic-lock="version">
-        <id name="id" type="int">
-            <column name="id" />
-            <generator class="increment" />
-        </id>
-        <property name="fecha" type="date">
-            <column name="fecha" length="13" />
-        </property>
-        <property name="descripcion" type="string">
-            <column name="descripcion" length="150" />
-        </property>
-        <property name="contador" generated="insert" type="java.lang.Integer">
-            <column name="contador">
-                <comment>representa el numero de partida y que cada inicio de anio se reinicia a 1 y siempre que se realiza una partida se incrementa en 1</comment>
-            </column>
-        </property>
-        <set name="cargosAbonos" table="cargos_abonos" inverse="true" lazy="false" fetch="select">
-            <key>
-                <column name="id_partida" />
-            </key>
-            <one-to-many class="modelo.CargoAbono" />
-        </set>
-    </class>
+   <class name="modelo.Partida" optimistic-lock="version" schema="public" table="partidas">
+      <id name="id" type="int">
+         <column name="id"/>
+         <generator class="increment"/>
+      </id>
+      <many-to-one class="modelo.Periodo" fetch="select" name="periodo">
+         <column name="id_periodo"/>
+      </many-to-one>
+      <property name="fecha" type="date">
+         <column length="13" name="fecha"/>
+      </property>
+      <property name="descripcion" type="string">
+         <column length="150" name="descripcion"/>
+      </property>
+      <property name="contador" generated="insert" type="java.lang.Integer">
+         <column name="contador">
+	<comment>representa el numero de partida y que cada inicio de anio se reinicia a 1 y siempre que se realiza una partida se incrementa en 1</comment>
+         </column>
+      </property>
+      <set fetch="select" inverse="true" lazy="false" name="cargosAbonos" table="cargos_abonos">
+         <key>
+	<column name="id_partida"/>
+         </key>
+         <one-to-many class="modelo.CargoAbono"/>
+      </set>
+   </class>
 </hibernate-mapping>

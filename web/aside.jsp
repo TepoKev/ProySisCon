@@ -13,7 +13,7 @@
         <a class="list-group-item list-group-item-action" href="libro-mayor.jsp"><i class="text-danger fa fa-book mr-1"></i>Libro Mayor</a>
         <a class="list-group-item list-group-item-action" href="balanza-de-comprobacion.jsp"><i class="text-danger fa fa-balance-scale mr-1"></i>Balanza de Comprobación</a>
         <a class="list-group-item list-group-item-action" href="mostrar-estado-de-resultados.jsp"><i class="text-danger fa fa-book mr-1"></i>Estado de Resultados</a>
-        <a class="list-group-item list-group-item-action" href="#"><i class="text-danger fa fa-balance-scale mr-1"></i>Balance General</a>
+        <a class="list-group-item list-group-item-action" href="balance-general.jsp"><i class="text-danger fa fa-balance-scale mr-1"></i>Balance General</a>
         <a class="list-group-item list-group-item-action" href="#"><i class="text-danger fa fa-lock mr-1"></i>Cierre Contable</a>
     </div>
 </div>

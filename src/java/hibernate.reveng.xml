@@ -41,8 +41,9 @@ Contributor(s):
 -->
 <hibernate-reverse-engineering>
   <schema-selection match-catalog="proy-siscon-db" match-schema="public"/>
-  <table-filter match-name="cuentas"/>
-  <table-filter match-name="parciales"/>
-  <table-filter match-name="partidas"/>
+  <table-filter match-name="periodo"/>
   <table-filter match-name="cargos_abonos"/>
+  <table-filter match-name="partidas"/>
+  <table-filter match-name="parametro"/>
+  <table-filter match-name="cuentas"/>
 </hibernate-reverse-engineering>

@@ -46,9 +46,10 @@ Contributor(s):
     <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/proy-siscon-db</property>
     <property name="hibernate.connection.username">postgres</property>
     <property name="hibernate.connection.password">root</property>
-    <mapping class="modelo.Cuenta" package="modelo.Cuenta.hbm.xml" resource="modelo/Cuenta.hbm.xml"/>
-    <mapping class="modelo.Partida" package="modelo.Partida.hbm.xml" resource="modelo/Partida.hbm.xml"/>
-    <mapping class="modelo.Parcial" package="modelo.Parcial.hbm.xml" resource="modelo/Parcial.hbm.xml"/>
-    <mapping class="modelo.CargoAbono" package="modelo.CargoAbono.hbm.xml" resource="modelo/CargoAbono.hbm.xml"/>
+    <mapping resource="modelo/Cuenta.hbm.xml"/>
+    <mapping resource="modelo/Periodo.hbm.xml"/>
+    <mapping resource="modelo/Partida.hbm.xml"/>
+    <mapping resource="modelo/CargoAbono.hbm.xml"/>
+    <mapping resource="modelo/Parametro.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>

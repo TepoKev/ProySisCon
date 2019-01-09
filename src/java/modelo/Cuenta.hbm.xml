@@ -1,46 +1,41 @@
-<?xml version="1.0"?>
-<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
-"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 12-26-2017 08:35:49 PM by Hibernate Tools 4.3.1 -->
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 01-03-2019 05:54:05 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="modelo.Cuenta" table="cuentas" schema="public" optimistic-lock="version">
-        <id name="id" type="int">
-            <column name="id" />
-            <generator class="increment" />
-        </id>
-        <many-to-one name="cuenta" class="modelo.Cuenta" fetch="select">
-            <column name="id_superior" />
-        </many-to-one>
-        <property name="codigo" type="string">
-            <column name="codigo" length="20" />
-        </property>
-        <property name="nombre" type="string">
-            <column name="nombre" length="100" />
-        </property>
-        <property name="descripcion" type="string">
-            <column name="descripcion" length="150" />
-        </property>
-        <property name="tipo" type="string">
-            <column name="tipo" length="1" />
-        </property>
-        <set name="parciales" table="parciales" inverse="true" lazy="true" fetch="select">
-            <key>
-                <column name="id_cuenta" />
-            </key>
-            <one-to-many class="modelo.Parcial" />
-        </set>
-
-        <set name="cuentas" table="cuentas" inverse="true" lazy="true" fetch="select">
-            <key>
-                <column name="id_superior" />
-            </key>
-            <one-to-many class="modelo.Cuenta" />
-        </set>
-        <set name="cargosAbonos" table="cargos_abonos" inverse="true" lazy="true" fetch="select">
-            <key>
-                <column name="id_cuenta" />
-            </key>
-            <one-to-many class="modelo.CargoAbono" />
-        </set>
-    </class>
+  <class name="modelo.Cuenta" optimistic-lock="version" schema="public" table="cuentas">
+    <id name="id" type="int">
+      <column name="id"/>
+      <generator class="increment"/>
+    </id>
+    <many-to-one class="modelo.Cuenta" fetch="select" name="cuenta">
+      <column name="id_superior"/>
+    </many-to-one>
+    <property name="codigo" type="string">
+      <column length="20" name="codigo" unique="true"/>
+    </property>
+    <property name="nombre" type="string">
+      <column length="100" name="nombre"/>
+    </property>
+    <property name="descripcion" type="string">
+      <column length="150" name="descripcion"/>
+    </property>
+    <property name="tipo" type="string">
+      <column length="1" name="tipo"/>
+    </property>
+    <property name="saldo" type="java.lang.Float">
+      <column name="saldo" precision="8" scale="8"/>
+    </property>
+    <set fetch="select" inverse="true" lazy="true" name="cuentas" table="cuentas">
+      <key>
+        <column name="id_superior"/>
+      </key>
+      <one-to-many class="modelo.Cuenta"/>
+    </set>
+    <set fetch="select" inverse="true" lazy="true" name="cargosAbonos" table="cargos_abonos">
+      <key>
+        <column name="id_cuenta"/>
+      </key>
+      <one-to-many class="modelo.CargoAbono"/>
+    </set>
+  </class>
 </hibernate-mapping>

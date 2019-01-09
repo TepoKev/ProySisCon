@@ -8,6 +8,10 @@
         <servlet-name>ServletPartida</servlet-name>
         <servlet-class>controlador.ServletPartida</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ServletConfig</servlet-name>
+        <servlet-class>controlador.ServletConfig</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ServletCuenta</servlet-name>
         <url-pattern>/ServletCuenta</url-pattern>
@@ -15,6 +19,10 @@
     <servlet-mapping>
         <servlet-name>ServletPartida</servlet-name>
         <url-pattern>/ServletPartida</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ServletConfig</servlet-name>
+        <url-pattern>/ServletConfig</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

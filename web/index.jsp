@@ -106,7 +106,7 @@
                     <div class="card-body">
                         <h5 class="card-title">Balance General</h5>
                         <p class="card-text"> </p>
-                        <a href="#" class="btn btn-info">Ver más <i class="fa fa-plus"></i></a>
+                        <a href="balance-general.jsp" class="btn btn-info">Ver más <i class="fa fa-plus"></i></a>
                     </div>
                 </div>
                 <div class="card bg-info text-white">
