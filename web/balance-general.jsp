@@ -59,215 +59,270 @@
 	         ArrayList<Mayor> PAT = ctr.mayorizarCuentas(4, "31");
 	      %>
 	      <div class="col-lg-6">
-	         <div>
-		<h3>Activo</h3>
-		<div class="pl-3">
-		   <h4>Corriente</h4>
-		   <div class="row pl-4">
-		      <div class="col-lg-6">
-		         <%
-			for (Mayor m : AC) {
-			   m.generarSaldos();
-			   if ((m.getSaldoD() != 0 || m.getSaldoA() != 0) && !("INVENTARIOS".equalsIgnoreCase(m.getCuenta().getNombre()))) {
-		         %>
-		         <div><p><%= m.getCuenta().getNombre()%></p></div>
-		         <%
-			   }
-			}
-		         %>	
-		         <div><p>INVENTARIO</p></div>
-		      </div>
-		      <div class="col-lg-6">
-		         <%
-			for (Mayor m : AC) {
-			   if ((m.getSaldoD() != 0) && !("INVENTARIOS".equalsIgnoreCase(m.getCuenta().getNombre()))) {
-			      Tac = Tac.add(new BigDecimal(m.getSaldoD()).setScale(2, RoundingMode.HALF_UP));
-		         %>
-		         <div><p><%= m.getSaldoD()%></p></div>
-		         <%
-		         } else if ((m.getSaldoA() != 0) && !("INVENTARIOS".equalsIgnoreCase(m.getCuenta().getNombre()))) {
-			Tac = Tac.subtract(new BigDecimal(m.getSaldoA()).setScale(2, RoundingMode.HALF_UP));
-		         %>
-		         <div><p><%= m.getSaldoA()%></p></div>
-		         <%
-			   }
-			}
-			Tac = Tac.add(estado.getInventarioF());
-		         %>
-		         <div><p><%= estado.getInventarioF().toString()%></p></div>
-		      </div>
+	         <h4>ACTIVO</h4>
+	         <div class="pl-3">
+		CORRIENTE
+		<div class="row">
+		   <%
+		      for (Mayor m : AC) {
+		         m.generarSaldos();
+		         if ((m.getSaldoD() != 0 || m.getSaldoA() != 0) && !("INVENTARIOS".equalsIgnoreCase(m.getCuenta().getNombre()))) {
+			if (m.getSaldoD() != 0 && m.getSaldoA() == 0) {
+			   Tac = Tac.add(new BigDecimal(m.getSaldoD()).setScale(2, RoundingMode.HALF_UP));
+		   %>
+		   <div class="col-lg-6 pl-5">
+		      <%= m.getCuenta().getNombre()%>
 		   </div>
-		   <div class="pl-3">
-		      <h4>No Corriente</h4>
-		      <div class="row pl-4">
-		         <div class="col-lg-6">
-			<%    for (Mayor m : ANC) {
-			      m.generarSaldos();
-			      if (m.getSaldoD() != 0 || m.getSaldoA() != 0) {
-			%>
-			<div><p><%= m.getCuenta().getNombre()%></p></div>
-			<%
-			      }
+		   <div class="col-lg-6">
+		      <%= m.getSaldoD()%>
+		   </div>
+		   <%
+		   } else {
+		      if (m.getSaldoA() != 0 && m.getSaldoD() == 0) {
+		         Tac = Tac.subtract(new BigDecimal(m.getSaldoA()).setScale(2, RoundingMode.HALF_UP));
+		   %>
+		   <div class="col-lg-6 pl-5">
+		      <%= m.getCuenta().getNombre()%>
+		   </div>
+		   <div class="col-lg-6">
+		      <%= m.getSaldoA()%>
+		   </div>
+		   <%
 			   }
-			%>	
-		         </div>
-		         <div class="col-lg-6">
-			<%
-			   for (Mayor m : ANC) {
-			      if ((m.getSaldoD() != 0) && !("INVENTARIOS".equalsIgnoreCase(m.getCuenta().getNombre()))) {
-			         Tanc = Tanc.add(new BigDecimal(m.getSaldoD()).setScale(2, RoundingMode.HALF_UP));
-			%>
-			<div><p><%= m.getSaldoD()%></p></div>
-			<%
-			} else if ((m.getSaldoA() != 0) && !("INVENTARIOS".equalsIgnoreCase(m.getCuenta().getNombre()))) {
-			   Tanc = Tanc.subtract(new BigDecimal(m.getSaldoA()).setScale(2, RoundingMode.HALF_UP));
-			%>
-			<div><p><%= m.getSaldoA()%></p></div>
-			<%
-			      }
-			   }
-
-			%>
-		         </div>
-		      </div>
+			}
+		         }
+		      }
+		      Tac = Tac.add(estado.getInventarioF());
+		   %>
+		   <div class="col-lg-6 pl-5">
+		      INVENTARIO
+		   </div>
+		   <div class="col-lg-6">
+		      <%= estado.getInventarioF().toString()%>
+		   </div>
+		   <div class="col-lg-6 pl-5 pt-3">
+		      <span class="font-weight-bold text-warning">TOTAL</span>
+		   </div>
+		   <div class="col-lg-6 pt-3">
+		      <span class="font-weight-bold text-warning"><%= Tac.toString()%></span>
 		   </div>
 		</div>
-		<div>TOTAL ACTIVO <%= Tac.add(Tanc).setScale(2, RoundingMode.HALF_UP).toString()%></div>
+	         </div>
+	         <div class="pl-3 mt-3">
+		NO CORRIENTE
+		<div class="row">
+		   <%
+		      for (Mayor m : ANC) {
+		         m.generarSaldos();
+		         if ((m.getSaldoD() != 0 || m.getSaldoA() != 0) && !("INVENTARIOS".equalsIgnoreCase(m.getCuenta().getNombre()))) {
+			if (m.getSaldoD() != 0 && m.getSaldoA() == 0) {
+			   Tanc = Tanc.add(new BigDecimal(m.getSaldoD()).setScale(2, RoundingMode.HALF_UP));
+		   %>
+		   <div class="col-lg-6 pl-5">
+		      <%= m.getCuenta().getNombre()%>
+		   </div>
+		   <div class="col-lg-6">
+		      <%= m.getSaldoD()%>
+		   </div>
+		   <%
+		   } else {
+		      if (m.getSaldoA() != 0 && m.getSaldoD() == 0) {
+		         Tanc = Tanc.subtract(new BigDecimal(m.getSaldoA()).setScale(2, RoundingMode.HALF_UP));
+		   %>
+		   <div class="col-lg-6 pl-5">
+		      <%= m.getCuenta().getNombre()%>
+		   </div>
+		   <div class="col-lg-6">
+		      <%= m.getSaldoA()%>
+		   </div>
+		   <%
+			   }
+			}
+		         }
+		      }
+		   %>
+		   <div class="col-lg-6 pl-5 pt-3">
+		      <span class="font-weight-bold text-warning">TOTAL</span>
+		   </div>
+		   <div class="col-lg-6 pt-3">
+		      <span class="font-weight-bold text-warning"><%= Tanc.toString()%></span>
+		   </div>
+		</div>
 	         </div>
 
 	      </div>
 	      <div class="col-lg-6">
-	         <div>
-		<h3>Pasivo</h3>
-		<div class="pl-3">
-		   <h4>Corriente</h4>
-		   <div class="row pl-4">
-		      <div class="col-lg-6">
-		         <%		         for (Mayor m : PC) {
-			   m.generarSaldos();
-			   if (m.getSaldoA() != 0 || m.getSaldoD() != 0) {
-		         %>
-		         <div><p><%= m.getCuenta().getNombre()%></p></div>
-		         <%
-			   }
-			}
-		         %>
-		         <div><p>IMPUESTO SOBRE LA RENTA</p></div>
-		      </div>
-		      <div class="col-lg-6">
-		         <%
-			for (Mayor m : PC) {
-			   if ((m.getSaldoD() != 0) && !("INVENTARIOS".equalsIgnoreCase(m.getCuenta().getNombre()))) {
-			      Tpc = Tpc.subtract(new BigDecimal(m.getSaldoD()).setScale(2, RoundingMode.HALF_UP));
-		         %>
-		         <div><p><%= m.getSaldoD()%></p></div>
-		         <%
-		         } else if ((m.getSaldoA() != 0) && !("INVENTARIOS".equalsIgnoreCase(m.getCuenta().getNombre()))) {
-			Tpc = Tpc.add(new BigDecimal(m.getSaldoA()).setScale(2, RoundingMode.HALF_UP));
-		         %>
-		         <div><p><%= m.getSaldoA()%></p></div>
-		         <%
-			   }
-			}
-			Tpc = Tpc.add(estado.ImpuestoRenta());
-		         %>
-		         <div><p><%= estado.ImpuestoRenta().toString()%></p></div>
-		      </div>
-		   </div>
-		</div>
-	         </div>
-
+	         <h4>PASIVO</h4>
 	         <div class="pl-3">
-		<h4>No Corriente</h4>
-		<div class="row pl-4">
-		   <div class="col-lg-6">
-		      <%
-		         for (Mayor m : PNC) {
-			m.generarSaldos();
-			if (m.getSaldoA() != 0 || m.getSaldoD() != 0) {
-		      %>
-		      <div><p><%= m.getCuenta().getNombre()%></p></div>
-		      <%
-			}
-		         }
-		      %>	
+		CORRIENTE
+		<div class="row">
+		   <%
+		      for (Mayor m : PC) {
+		         m.generarSaldos();
+		         if ((m.getSaldoD() != 0 || m.getSaldoA() != 0) && !("INVENTARIOS".equalsIgnoreCase(m.getCuenta().getNombre()))) {
+			if (m.getSaldoD() != 0 && m.getSaldoA() == 0) {
+			   Tpc = Tpc.subtract(new BigDecimal(m.getSaldoD()).setScale(2, RoundingMode.HALF_UP));
+		   %>
+		   <div class="col-lg-6 pl-5">
+		      <%= m.getCuenta().getNombre()%>
 		   </div>
 		   <div class="col-lg-6">
-		      <%
-		         for (Mayor m : PNC) {
-			if ((m.getSaldoD() != 0) && !("INVENTARIOS".equalsIgnoreCase(m.getCuenta().getNombre()))) {
+		      <%= m.getSaldoD()%>
+		   </div>
+		   <%
+		   } else {
+		      if (m.getSaldoA() != 0 && m.getSaldoD() == 0) {
+		         Tpc = Tpc.add(new BigDecimal(m.getSaldoA()).setScale(2, RoundingMode.HALF_UP));
+		   %>
+		   <div class="col-lg-6 pl-5">
+		      <%= m.getCuenta().getNombre()%>
+		   </div>
+		   <div class="col-lg-6">
+		      <%= m.getSaldoA()%>
+		   </div>
+		   <%
+			   }
+			}
+		         }
+		      }
+		      Tpc = Tpc.add(estado.ImpuestoRenta());
+		   %>
+		   <div class="col-lg-6 pl-5">
+		      IMPUESTO SOBRE LA RENTA
+		   </div>
+		   <div class="col-lg-6">
+		      <%= estado.ImpuestoRenta().setScale(2, RoundingMode.HALF_UP).toString()%>
+		   </div>
+		   <div class="col-lg-6 pl-5 pt-3">
+		      <span class="font-weight-bold text-warning">TOTAL</span>
+		   </div>
+		   <div class="col-lg-6 pt-3">
+		      <span class="font-weight-bold text-warning"><%= Tpc.toString()%></span>
+		   </div>
+		</div>
+	         </div>
+	         <div class="pl-3 mt-3">
+		NO CORRIENTE
+		<div class="row">
+		   <%
+		      for (Mayor m : PNC) {
+		         m.generarSaldos();
+		         if ((m.getSaldoD() != 0 || m.getSaldoA() != 0) && !("INVENTARIOS".equalsIgnoreCase(m.getCuenta().getNombre()))) {
+			if (m.getSaldoD() != 0 && m.getSaldoA() == 0) {
 			   Tpnc = Tpnc.subtract(new BigDecimal(m.getSaldoD()).setScale(2, RoundingMode.HALF_UP));
-		      %>
-		      <div><p><%= m.getSaldoD()%></p></div>
-		      <%
-		      } else if ((m.getSaldoA() != 0) && !("INVENTARIOS".equalsIgnoreCase(m.getCuenta().getNombre()))) {
+		   %>
+		   <div class="col-lg-6 pl-5">
+		      <%= m.getCuenta().getNombre()%>
+		   </div>
+		   <div class="col-lg-6">
+		      <%= m.getSaldoD()%>
+		   </div>
+		   <%
+		   } else {
+		      if (m.getSaldoA() != 0 && m.getSaldoD() == 0) {
+
 		         Tpnc = Tpnc.add(new BigDecimal(m.getSaldoA()).setScale(2, RoundingMode.HALF_UP));
-		      %>
-		      <div><p><%= m.getSaldoA()%></p></div>
-		      <%
+		   %>
+		   <div class="col-lg-6 pl-5">
+		      <%= m.getCuenta().getNombre()%>
+		   </div>
+		   <div class="col-lg-6">
+		      <%= m.getSaldoA()%>
+		   </div>
+		   <%
+			   }
 			}
 		         }
-
-		      %>
+		      }
+		   %>
+		   <div class="col-lg-6 pl-5 pt-3">
+		      <span class="font-weight-bold text-warning">TOTAL</span>
+		   </div>
+		   <div class="col-lg-6 pt-3">
+		      <span class="font-weight-bold text-warning"><%= Tpnc.toString()%></span>
 		   </div>
 		</div>
 	         </div>
-	         <div>TOTAL PASIVO <%= Tpc.add(Tpnc).setScale(2, RoundingMode.HALF_UP).toString()%></div>
-	         <hr>
-	         <div>
-		<h3>Patrimonio</h3>
-		<div class="row pl-4">
-		   <div class="col-lg-6">
-		      <div><p>RESERVA LEGAL</p></div>
-		      <%		         for (Mayor m : PAT) {
-			m.generarSaldos();
-			if (m.getSaldoA() != 0 || m.getSaldoD() != 0) {
-		      %>
-		      <div><p><%= m.getCuenta().getNombre()%></p></div>
-		      <%
-			}
-		         }
-		      %>
-		      <div><p>UTILIDAD DEL EJERCICIO</p></div>
+	         <div class="pl-4 pt-3">
+		<span class="font-weight-bold text-success">TOTAL PASIVO <%= Tpc.add(Tpnc).setScale(2, RoundingMode.HALF_UP).toString()%></span>
+	         </div>
+	         <h4 class="mt-3">PATRIMONIO</h4>
+	         <div class="pl-3">
+		<div class="row">
+		   <div class="col-lg-6 pl-5">
+		      RESERVA LEGAL
 		   </div>
 		   <div class="col-lg-6">
-		      <div><p><%= estado.ReservaLegal().toString()%></p></div>
-		      <%
-		         for (Mayor m : PAT) {
-			if ((m.getSaldoD() != 0) && !("INVENTARIOS".equalsIgnoreCase(m.getCuenta().getNombre()))) {
+		      <%= estado.ReservaLegal().setScale(2, RoundingMode.HALF_UP).toString()%>
+		   </div>
+		   <%
+		      Tpat = Tpat.add(estado.ReservaLegal());
+		      Tpat = Tpat.add(estado.UtilidadEjercicio());
+		      for (Mayor m : PAT) {
+		         m.generarSaldos();
+		         if ((m.getSaldoD() != 0 || m.getSaldoA() != 0) && !("INVENTARIOS".equalsIgnoreCase(m.getCuenta().getNombre()))) {
+			if (m.getSaldoD() != 0 && m.getSaldoA() == 0) {
 			   Tpat = Tpat.subtract(new BigDecimal(m.getSaldoD()).setScale(2, RoundingMode.HALF_UP));
-		      %>
-		      <div><p><%= m.getSaldoD()%></p></div>
-		      <%
-		      } else if ((m.getSaldoA() != 0) && !("INVENTARIOS".equalsIgnoreCase(m.getCuenta().getNombre()))) {
-
+		   %>
+		   <div class="col-lg-6 pl-5">
+		      <%= m.getCuenta().getNombre()%>
+		   </div>
+		   <div class="col-lg-6">
+		      <%= m.getSaldoD()%>
+		   </div>
+		   <%
+		   } else {
+		      if (m.getSaldoA() != 0 && m.getSaldoD() == 0) {
 		         Tpat = Tpat.add(new BigDecimal(m.getSaldoA()).setScale(2, RoundingMode.HALF_UP));
-		      %>
-		      <div><p><%= m.getSaldoA()%></p></div>
-		      <%
+		   %>
+		   <div class="col-lg-6 pl-5">
+		      <%= m.getCuenta().getNombre()%>
+		   </div>
+		   <div class="col-lg-6">
+		      <%= m.getSaldoA()%>
+		   </div>
+		   <%
+			   }
 			}
 		         }
-		         Tpat = Tpat.add(estado.ReservaLegal().add(estado.UtilidadEjercicio()));
-		      %>
-		      <div><p><%= estado.UtilidadEjercicio().toString()%></p></div>
+		      }
+		   %>
+		   <div class="col-lg-6 pl-5">
+		      UTILIDAD DEL EJERCICIO
+		   </div>
+		   <div class="col-lg-6">
+		      <%= estado.UtilidadEjercicio().setScale(2, RoundingMode.HALF_UP).toString()%>
+		   </div>
+		   <div class="col-lg-6 pl-5 pt-3">
+		      <span class="font-weight-bold text-warning">TOTAL</span>
+		   </div>
+		   <div class="col-lg-6 pt-3">
+		      <span class="font-weight-bold text-warning"><%= Tpat.toString()%></span>
 		   </div>
 		</div>
 	         </div>
-	         <div>TOTAL PATRIMONIO <%= Tpat.setScale(2, RoundingMode.HALF_UP).toString()%></div>
-	         
-	         <div>TOTAL PASIVO + PATRIMONIO <%= Tpat.add(Tpc.add(Tpnc)).setScale(2, RoundingMode.HALF_UP).toString()%></div>
 	      </div>
-	         
 	   </div>
+	   <div class="row">
+	      <div class="col-lg-6">
+	         <div class="pl-4 pt-3">
+		<span class="font-weight-bold text-success">TOTAL ACTIVO <%= Tac.add(Tanc).setScale(2, RoundingMode.HALF_UP).toString()%></span>
+	         </div>
+	      </div>
+	      <div class="col-lg-6">
+	         <div class="pl-4 pt-3">
+
+		<span class="font-weight-bold text-success">TOTAL PASIVO + PATRIMONIO <%= Tpat.add(Tpc.add(Tpnc)).setScale(2, RoundingMode.HALF_UP).toString()%></span>
+
+	         </div>
+	      </div>
+	   </div>
+	</div>
+         </div>
+         <footer style="min-height: 170px; margin-top: 75px;" class="text-white bg-info">
+	<div class="container">
 
 	</div>
-
-         </div>
-      </div>
-      <footer style="min-height: 170px" class="text-white bg-info">
-         <div class="container">
-
-         </div>
-      </footer>
+         </footer>
    </body>
 </html>
