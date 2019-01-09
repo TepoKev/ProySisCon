@@ -376,7 +376,7 @@ public class Controlador {
       try {
          openSession();
          //Mediante esta instruccion se obtiene las cuentas de nivel seleccionado
-         Query q = this.session.createQuery("from Cuenta c where LENGTH(c.codigo) = ? and (SUBSTRING(c.codigo,1,3) like ?) order by c.codigo asc");
+         Query q = this.session.createQuery("from Cuenta c where LENGTH(c.codigo) = ? and (SUBSTRING(c.codigo,1,2) like ?) order by c.codigo asc");
          q.setInteger(0, nivel);
          q.setString(1, "%"+contiene+"%");
          listaC = q.list();

@@ -348,7 +348,7 @@ public class EstResult {
    }
 
    public BigDecimal UtilidadAIR() {
-      return UtilidadBruta().subtract(this.gast_admon.add(this.gast_vent).add(this.gast_fin)).setScale(2, RoundingMode.HALF_UP);
+      return (UtilidadOperacion().subtract(this.otros_gast)).add(this.otros_ingre).setScale(2, RoundingMode.HALF_UP);
    }
 
    public BigDecimal ReservaLegal() {
@@ -369,5 +369,13 @@ public class EstResult {
 
    public BigDecimal UtilidadEjercicio() {
       return UtilidadAI().subtract(ImpuestoRenta()).setScale(2, RoundingMode.HALF_UP);
+   }
+   
+   public BigDecimal GastosOperacion(){
+      return this.gast_admon.add(this.gast_vent.add(this.gast_fin)).setScale(2, RoundingMode.HALF_UP);
+   }
+   
+   public BigDecimal UtilidadOperacion(){
+      return UtilidadBruta().subtract(GastosOperacion()).setScale(2, RoundingMode.HALF_UP);
    }
 }
