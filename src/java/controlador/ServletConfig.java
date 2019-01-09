@@ -7,10 +7,12 @@ package controlador;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import modelo.Parametro;
 
 /**
  *
@@ -30,7 +32,19 @@ public class ServletConfig extends HttpServlet {
    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
            throws ServletException, IOException {
       response.setContentType("text/html;charset=UTF-8");
-      
+      try {
+         String fechaI = request.getParameter("FECHA_INICIAL");
+         String fechaF = request.getParameter("FECHA_FINAL");
+         String inventarioF = request.getParameter("INVENTARIO_FINAL");
+         Controlador ctr = new Controlador();
+         ctr.actualizarParamNombre("FECHA_INICIAL", fechaI);
+         ctr.actualizarParamNombre("FECHA_FINAL", fechaF);
+         ctr.actualizarParamNombre("INVENTARIO_FINAL",inventarioF);
+         RequestDispatcher dispatcher = request.getRequestDispatcher("configuracion.jsp");
+         dispatcher.forward(request, response);
+      } catch (IOException | ServletException e) {
+      }
+
    }
 
    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

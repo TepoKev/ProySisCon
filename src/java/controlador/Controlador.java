@@ -71,6 +71,21 @@ public class Controlador {
       }
 
    }
+   
+   public void actualizarParamNombre(String nombre, String valor) {
+      try {
+         openSession();
+         Query q = this.session.createQuery("update Parametro p set valor = ? where p.nombre = ?");
+         q.setString(0, valor);
+         q.setString(1, nombre);
+         int executeUpdate = q.executeUpdate();
+      } catch (HibernateException e) {
+
+      } finally {
+         this.session.close();
+      }
+
+   }
 
    public void eliminar(Object obj) {
       try {
@@ -118,6 +133,24 @@ public class Controlador {
 
       }
       return cuenta;
+   }
+   
+   public Parametro recuperarParametro(String nombre) {
+      Parametro param = null;
+      if (nombre != null) {
+         try {
+	openSession();
+	Query q = this.session.createQuery("from Parametro p WHERE p.nombre=?");
+	q.setString(0,nombre);
+	param = (Parametro) q.uniqueResult();
+         } catch (HibernateException he) {
+
+         } finally {
+	this.session.close();
+         }
+
+      }
+      return param;
    }
 
    //Este metodo recuperara cuentas de la base de datos mediante un codigo de cuenta

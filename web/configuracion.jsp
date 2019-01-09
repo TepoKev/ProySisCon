@@ -38,8 +38,10 @@
             <div class="row">
                 <%@include file="aside.jsp" %>
                 <div class="col-lg-9">
-                    <form class="mb-5">
+	       <form class="mb-5" action="ServletConfig" method="post" name="frmConfig" id="frmConfig">
                         <%
+		   Controlador ctr = new Controlador();
+		   
                             String FECHA_INICIAL = request.getParameter("FECHA_INICIAL"),
                                     FECHA_FINAL = request.getParameter("FECHA_FINAL"),
                                     INVENTARIO_FINAL = request.getParameter("INVENTARIO_FINAL"),
@@ -81,7 +83,7 @@
                                 <input value="2018-01-01" type="date" class="form-control" name="FECHA_INICIAL" id="FECHA_INICIAL" placeholder="Fecha inicial">
                                 <%
                                 } else {%>
-                                <input type="date" class="form-control" name="FECHA_INICIAL" id="FECHA_INICIAL" placeholder="Fecha inicial">
+                                <input value="<%= ctr.recuperarParametro("FECHA_INICIAL").getValor()%>" type="date" class="form-control" name="FECHA_INICIAL" id="FECHA_INICIAL" placeholder="Fecha inicial">
                                 <%}%>
                             </div>
                             <div class="col-md-3 font-weight-bold">FECHA_INICIAL</div>
@@ -95,7 +97,7 @@
                                 <input value="2018-12-31" type="date" class="form-control" name="FECHA_FINAL" id="FECHA_FINAL" placeholder="Fecha final">
                                 <%
                                 } else {%>
-                                <input type="date" class="form-control" name="FECHA_FINAL" id="FECHA_FINAL" placeholder="Fecha final">
+                                <input value="<%= ctr.recuperarParametro("FECHA_FINAL").getValor()%>" type="date" class="form-control" name="FECHA_FINAL" id="FECHA_FINAL" placeholder="Fecha final">
                                 <%}%>
                             </div>
                             <div class="col-md-3 font-weight-bold">FECHA_FINAL</div>
@@ -108,7 +110,7 @@
                                 <input value=""  type="number" step="any" class="form-control" name="INVENTARIO_FINAL" id="INVENTARIO_FINAL" placeholder="Inventario final">
                                 <%
                                 } else {%>
-                                <input type="number" step="any" class="form-control" name="INVENTARIO_FINAL" id="INVENTARIO_FINAL" placeholder="Inventario final">
+                                <input value="<%= ctr.recuperarParametro("INVENTARIO_FINAL").getValor()%>" type="number" step="any" class="form-control" name="INVENTARIO_FINAL" id="INVENTARIO_FINAL" placeholder="Inventario final">
                                 <%}%>
                             </div>
                             <div class="col-md-3 font-weight-bold">INVENTARIO_FINAL</div>
