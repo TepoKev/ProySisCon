@@ -36,6 +36,9 @@ public class ServletConfig extends HttpServlet {
          String fechaI = request.getParameter("FECHA_INICIAL");
          String fechaF = request.getParameter("FECHA_FINAL");
          String inventarioF = request.getParameter("INVENTARIO_FINAL");
+         if("".equals(inventarioF)){
+	inventarioF = "0";
+         }
          Controlador ctr = new Controlador();
          ctr.actualizarParamNombre("FECHA_INICIAL", fechaI);
          ctr.actualizarParamNombre("FECHA_FINAL", fechaF);

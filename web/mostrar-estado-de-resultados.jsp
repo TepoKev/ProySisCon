@@ -52,6 +52,15 @@
          <div class="row">
 	<!-- Aqui va el estado de resultados-->
 	<%@include file="aside.jsp" %>
+	<%
+	   if (estado.getInventarioF().doubleValue() <= 0) {
+	%>
+	<div class="col-lg-9">
+	   Para mostrar el estado de resultados primero se tiene que dar un valor a inventario final por favor valla a la pagina de configuracion y asigne un valor.
+	</div>
+	<%
+	} else {
+	%>
 	<div class="col-lg-9">
 	   <table class="table table-sm">
 	      <tbody>
@@ -232,6 +241,10 @@
 	      </tbody>
 	   </table>
 	</div>
+	<%
+	   }
+	%>
+
          </div>
       </div>
       <div class="container">

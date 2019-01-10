@@ -42,25 +42,34 @@
       <div class="container">
          <div class="row">
 	<%@include file="aside.jsp" %>
+	<%
+	   Controlador ctr = new Controlador();
+	   BigDecimal Tac = new BigDecimal(0);
+	   BigDecimal Tanc = new BigDecimal(0);
+	   BigDecimal Tpc = new BigDecimal(0);
+	   BigDecimal Tpnc = new BigDecimal(0);
+	   BigDecimal Tpat = new BigDecimal(0);
+	   String fechI = ctr.recuperarParametro("FECHA_INICIAL").getValor();
+	   String fechF = ctr.recuperarParametro("FECHA_FINAL").getValor();
+	   String invF = ctr.recuperarParametro("INVENTARIO_FINAL").getValor();
+	   EstResult estado = new EstResult(fechI, fechF, invF);
+	   ArrayList<Mayor> AC = ctr.mayorizarCuentas(4, "11");
+	   ArrayList<Mayor> ANC = ctr.mayorizarCuentas(4, "12");
+	   ArrayList<Mayor> PC = ctr.mayorizarCuentas(4, "21");
+	   ArrayList<Mayor> PNC = ctr.mayorizarCuentas(4, "22");
+	   ArrayList<Mayor> PAT = ctr.mayorizarCuentas(4, "31");
+	   if (estado.getInventarioF().doubleValue() <= 0) {
+	%>
+	<div class="col-lg-9">
+	   Para mostrar el balance general primero se tiene que dar un valor a inventario final por favor valla a la pagina de configuracion y asigne un valor.
+	</div>
+	<%
+	} else {
+	%>
 	<div class="col-lg-9">
 	   <div class="row">
-	      <%
-	         Controlador ctr = new Controlador();
-	         BigDecimal Tac = new BigDecimal(0);
-	         BigDecimal Tanc = new BigDecimal(0);
-	         BigDecimal Tpc = new BigDecimal(0);
-	         BigDecimal Tpnc = new BigDecimal(0);
-	         BigDecimal Tpat = new BigDecimal(0);
-	         String fechI = ctr.recuperarParametro("FECHA_INICIAL").getValor();
-	         String fechF = ctr.recuperarParametro("FECHA_FINAL").getValor();
-	         String invF = ctr.recuperarParametro("INVENTARIO_FINAL").getValor();
-	         EstResult estado = new EstResult(fechI, fechF, invF);
-	         ArrayList<Mayor> AC = ctr.mayorizarCuentas(4, "11");
-	         ArrayList<Mayor> ANC = ctr.mayorizarCuentas(4, "12");
-	         ArrayList<Mayor> PC = ctr.mayorizarCuentas(4, "21");
-	         ArrayList<Mayor> PNC = ctr.mayorizarCuentas(4, "22");
-	         ArrayList<Mayor> PAT = ctr.mayorizarCuentas(4, "31");
-	      %>
+
+
 	      <div class="col-lg-6">
 	         <h4>ACTIVO</h4>
 	         <div class="pl-3">
@@ -321,6 +330,10 @@
 	      </div>
 	   </div>
 	</div>
+	<%
+	   }
+	%>
+
          </div>
          <footer style="min-height: 170px; margin-top: 75px;" class="text-white bg-info">
 	<div class="container">
