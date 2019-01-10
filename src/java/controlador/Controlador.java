@@ -75,10 +75,12 @@ public class Controlador {
    public void actualizarParamNombre(String nombre, String valor) {
       try {
          openSession();
+         this.session.beginTransaction();
          Query q = this.session.createQuery("update Parametro p set valor = ? where p.nombre = ?");
          q.setString(0, valor);
          q.setString(1, nombre);
          int executeUpdate = q.executeUpdate();
+         this.session.getTransaction().commit();
       } catch (HibernateException e) {
 
       } finally {

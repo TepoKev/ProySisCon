@@ -309,13 +309,13 @@
 	   <div class="row">
 	      <div class="col-lg-6">
 	         <div class="pl-4 pt-3">
-		<span class="font-weight-bold text-success">TOTAL ACTIVO <%= Tac.add(Tanc).setScale(2, RoundingMode.HALF_UP).toString()%></span>
+		<span class="font-weight-bold text-success">TOTAL ACTIVO = <%= Tac.add(Tanc).setScale(2, RoundingMode.HALF_UP).toString()%></span>
 	         </div>
 	      </div>
 	      <div class="col-lg-6">
 	         <div class="pl-4 pt-3">
 
-		<span class="font-weight-bold text-success">TOTAL PASIVO + PATRIMONIO <%= Tpat.add(Tpc.add(Tpnc)).setScale(2, RoundingMode.HALF_UP).toString()%></span>
+		<span class="font-weight-bold text-success">TOTAL PASIVO + PATRIMONIO = <%= Tpat.add(Tpc.add(Tpnc)).setScale(2, RoundingMode.HALF_UP).toString()%></span>
 
 	         </div>
 	      </div>
