@@ -5,18 +5,16 @@
  */
 package controlador;
 
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.math.RoundingMode;
-import java.sql.Date;
+
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import modelo.Cuenta;
-import modelo.EstResult;
+import java.time.LocalDate;
+import java.util.Date;
+import java.util.Set;
+import modelo.CargoAbono;
 import modelo.Partida;
-import modelo.Partida;
-import org.hibernate.HibernateException;
+import modelo.Periodo;
+import modelo.partidasCierre;
+
 
 /**
  *
@@ -24,16 +22,37 @@ import org.hibernate.HibernateException;
  */
 public class test {
     
-    public static void main(String [] args){
+    public static void main(String [] args) throws ParseException{
         
 //        int result=(8-4)/2+1;
 //        System.out.println(result);
 //        result =  (int) (Math.round(3.5)+1);
 //        System.out.println(result);
 //        result = (7/2)+2;
-         Partida p = new Partida();
-         p.setFecha("");
-         System.out.println("");
+//         Partida p = new Partida();
+//         p.setFecha("");
+//         System.out.println("");
+         
+//         Periodo p = new Periodo("01-01-2017","31-12-2017",false,true);
+//         Controlador ctr = new Controlador();
+//         ctr.guardar(p);
+         LocalDate.now().getYear();
+         partidasCierre par = new partidasCierre();
+         par.generarPartidasCierre();
+         for(Partida p : par.partidas){
+	System.out.println("\n Descripcion: "+p.getDescripcion()+"\n");
+	for(CargoAbono ca : (Set<CargoAbono>)p.getCargosAbonos()){
+	   System.out.print("Cuenta :"+ca.getCuenta().getNombre()+" Monto :"+ ca.getMonto());
+	   if("c".equals(ca.getOperacion())){
+	      System.out.println(" Cargo");
+	   }else{
+	      if("a".equals(ca.getOperacion())){
+	         System.out.println(" Abono");
+	      }
+	   }
+	}
+         }
+         System.exit(0);
     }
 //    public static void main(String[] args) {
 //        //Cuenta c = new Cuenta();

@@ -26,6 +26,20 @@ public class CargoAbono  implements java.io.Serializable {
     public CargoAbono(int id) {
         this.id = id;
     }
+    
+    public CargoAbono(Cuenta cuenta, Float monto, String operacion) {
+       this.cuenta = cuenta;
+       this.monto = monto;
+       this.operacion = operacion;
+    }
+    
+    public CargoAbono(Cuenta cuenta, Partida partida, Float monto, String operacion) {
+       this.cuenta = cuenta;
+       this.partida = partida;
+       this.monto = monto;
+       this.operacion = operacion;
+    }
+    
     public CargoAbono(int id, Cuenta cuenta, Partida partida, Float monto, String operacion) {
        this.id = id;
        this.cuenta = cuenta;

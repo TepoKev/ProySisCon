@@ -71,7 +71,7 @@ public class Controlador {
       }
 
    }
-   
+
    public void actualizarParamNombre(String nombre, String valor) {
       try {
          openSession();
@@ -120,6 +120,40 @@ public class Controlador {
       return cuentas;
    }
 
+   public Periodo periodoNow() {
+      ArrayList<Periodo> per = new ArrayList<>();
+      try {
+         openSession();
+         Query q = this.session.createQuery("FROM Periodo");
+         per = (ArrayList<Periodo>) q.list();
+      } catch (HibernateException he) {
+
+      } finally {
+         this.session.close();
+      }
+      for (Periodo periodo : per) {
+         if (periodo.getEncurso() == true) {
+	return periodo;
+         }
+      }
+      return null;
+   }
+
+   public Periodo recuperarPeriodo(int id) {
+      Periodo p = null;
+      try {
+         openSession();
+         Query q = this.session.createQuery("FROM Periodo p WHERE p.id=?");
+         q.setInteger(0, id);
+         p = (Periodo) q.uniqueResult();
+      } catch (HibernateException he) {
+
+      } finally {
+         this.session.close();
+      }
+      return p;
+   }
+
    public Cuenta recuperarCuenta(Cuenta cuenta) {
       if (cuenta != null) {
          try {
@@ -136,14 +170,14 @@ public class Controlador {
       }
       return cuenta;
    }
-   
+
    public Parametro recuperarParametro(String nombre) {
       Parametro param = null;
       if (nombre != null) {
          try {
 	openSession();
 	Query q = this.session.createQuery("from Parametro p WHERE p.nombre=?");
-	q.setString(0,nombre);
+	q.setString(0, nombre);
 	param = (Parametro) q.uniqueResult();
          } catch (HibernateException he) {
 
@@ -174,8 +208,25 @@ public class Controlador {
    public List<Partida> recuperarPartidas() {
       List<Partida> p = null;
       try {
+         Periodo per = periodoNow();
          openSession();
-         p = (List<Partida>) this.session.createQuery("from Partida p").list();
+         p = (List<Partida>) this.session.createQuery("from Partida p where id_periodo =" + per.getId()).list();
+      } catch (HibernateException e) {
+         System.out.println("");
+      } finally {
+         this.session.close();
+      }
+      if (p == null) {
+         return new ArrayList();
+      }
+      return p;
+   }
+
+   public List<Periodo> recuperarPeriodos() {
+      List<Periodo> p = null;
+      try {
+         openSession();
+         p = (List<Periodo>) this.session.createQuery("from Periodo").list();
       } catch (HibernateException e) {
          System.out.println("");
       } finally {
@@ -206,7 +257,7 @@ public class Controlador {
    }
 
    public List<Cuenta> listaAArbol(List<Cuenta> cuentas) throws Exception {
-      List<Cuenta> arbol = new ArrayList<Cuenta>();
+      List<Cuenta> arbol = new ArrayList<>();
       Cuenta actual = null, sig = null;
       String codigoActual = null, codigoSig = null;
       int lenActual = 0, lenSig = 0, nivel = 0;
@@ -216,7 +267,7 @@ public class Controlador {
       for (int i = 0; i < cuentas.size() - 1; i++) {
          actual = cuentas.get(i);
          msj = msj + "\n" + actual.getCodigo();
-         actual.setCuentasHijas(new ArrayList<Cuenta>());
+         actual.setCuentasHijas(new ArrayList<>());
          sig = cuentas.get(i + 1);
          codigoActual = actual.getCodigo();
          codigoSig = sig.getCodigo();
@@ -229,9 +280,9 @@ public class Controlador {
          {
 	if (actual.getCuentasHijas() != null) {
 	   if (actual.getCuentasHijas().isEmpty()) {
-	      actual.setCuentasHijas(new ArrayList<Cuenta>());
-	   } else if (actual.getCuentasHijas().size() == 0) {
-	      actual.setCuentasHijas(new ArrayList<Cuenta>());
+	      actual.setCuentasHijas(new ArrayList<>());
+	   } else if (actual.getCuentasHijas().isEmpty()) {
+	      actual.setCuentasHijas(new ArrayList<>());
 	   }
 	}
 
@@ -307,24 +358,23 @@ public class Controlador {
    public void registrarPartidas(ArrayList<Partida> partidas, ArrayList<CargoAbono> cargosAbonos) {
       int i;
       int len;
-      CargoAbono ch;
-      Partida partida;
       Serializable id;
       try {
-         openSession();
 
          len = partidas.size();
 
-         //comienza la transaccion
-         this.session.beginTransaction();
          //insercion en la base de datos
          for (i = 0; i < len; i++) {
 	partidas.get(i).setContador(null);
+	partidas.get(i).setPeriodo(periodoNow());
+	openSession();
+	//comienza la transaccion
+	this.session.beginTransaction();
 	id = this.session.save(partidas.get(i));
 	partidas.get(i).setId((Integer) id);
+	//fin de la transaccion
+	this.session.getTransaction().commit();
          }
-         //fin de la transaccion
-         this.session.getTransaction().commit();
 
          len = cargosAbonos.size();
          //comienza la transaccion
@@ -332,6 +382,37 @@ public class Controlador {
          //insercion en la base de datos
          for (i = 0; i < len; i++) {
 	this.session.save(cargosAbonos.get(i));
+         }
+         //fin de la transaccion
+         this.session.getTransaction().commit();
+
+      } catch (HibernateException e) {
+         System.out.println("");
+      } finally {
+         this.session.close();
+      }
+   }
+
+   public void registrarPartida(Partida partida) {
+      Serializable id;
+      try {
+         //insercion en la base de datos
+         partida.setContador(0);
+         partida.setPeriodo(periodoNow());
+         //comienza la transaccion
+         openSession();
+         this.session.beginTransaction();
+         boolean opc = this.session.isOpen();
+         id = this.session.save(partida);
+         partida.setId((Integer) id);
+         //fin de la transaccion
+         this.session.getTransaction().commit();
+         //comienza la transaccion
+         this.session.beginTransaction();
+         //insercion en la base de datos
+         for (CargoAbono ca : (Set<CargoAbono>) partida.getCargosAbonos()) {
+	ca.setPartida(partida);
+	this.session.save(ca);
          }
          //fin de la transaccion
          this.session.getTransaction().commit();
@@ -371,7 +452,7 @@ public class Controlador {
 	}
          }
          cargo.addAll(abono);
-         Collections.sort(cargo, (CargoAbono o1, CargoAbono o2) -> new Integer(o1.getId()).compareTo(new Integer(o2.getId())));
+         Collections.sort(cargo, (CargoAbono o1, CargoAbono o2) -> new Integer(o1.getId()).compareTo(o2.getId()));
       } catch (Exception e) {
       }
       return cargo;
@@ -402,7 +483,7 @@ public class Controlador {
       return mayor;
 
    }
-   
+
    public ArrayList<Mayor> mayorizarCuentas(int nivel, String contiene) {
       //Este metodo hace la mayorizacion de todo el catalogo basado en el nivel de la cuenta
       List<Cuenta> listaC;
@@ -413,7 +494,7 @@ public class Controlador {
          //Mediante esta instruccion se obtiene las cuentas de nivel seleccionado
          Query q = this.session.createQuery("from Cuenta c where LENGTH(c.codigo) = ? and (SUBSTRING(c.codigo,1,2) like ?) order by c.codigo asc");
          q.setInteger(0, nivel);
-         q.setString(1, "%"+contiene+"%");
+         q.setString(1, "%" + contiene + "%");
          listaC = q.list();
          //Con este for se recorreran estas cuentas del nivel seleccionado y tambien sus subniveles 
          //se recojeran todos sus cargos o abonos mediante un metodo recursivo
@@ -440,7 +521,7 @@ public class Controlador {
          openSession();
          String sql = "from CargoAbono as ca where ca.cuenta.codigo = '" + codigo + "'";
          ca = (List<CargoAbono>) this.session.createQuery(sql).list();
-         Query q = this.session.createQuery("from Cuenta as c where c.codigo='" + codigo + "'");
+         Query q = this.session.createQuery("from Cuenta as c where c.codigo= ?");
          q.setString(0, codigo);
          c = (Cuenta) q.uniqueResult();
          m.setCuenta(c);
@@ -466,7 +547,7 @@ public class Controlador {
 	calendario = new GregorianCalendar();
 	sdf = new SimpleDateFormat("yyyy-MM-dd");
 	fechI = sdf.parse(String.valueOf(calendario.get(Calendar.YEAR)) + "-01-01");
-	
+
          }
          if ("".equals(fechaF)) {
 	calendario = new GregorianCalendar();
@@ -513,5 +594,4 @@ public class Controlador {
          System.out.println(e.getMessage());
       }
    }
-
 }

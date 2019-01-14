@@ -122,7 +122,6 @@ public class Mayor {
 	}
          }
       } catch (Exception e) {
-         e.printStackTrace();
       }
       //asignar cargo y abono a las variables globales
       this.cargo = c.floatValue();

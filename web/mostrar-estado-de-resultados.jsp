@@ -1,9 +1,9 @@
 <%-- 
     Document   : mostrar-estado-de-resultados
     Created on : 10-10-2018, 12:47:41 AM
-    Author     : diegoone
+    Author     : TepoKev
 --%>
-
+<%@page import="modelo.validarPeriodo"%>
 <%@page import="modelo.EstResult"%>
 <%@page import="controlador.Controlador" %>
 <%@page import="modelo.Mayor" %>
@@ -22,6 +22,16 @@
       <script src="js/jquery-3.1.1.js"></script>
       <script src="js/bootstrap.js"></script>
    </head>
+   <%
+      if (!validarPeriodo.val()) {
+   %>
+   <script type="text/javascript">
+      window.location = "configuracion.jsp?opc=n";
+   </script>
+   <%
+   } else {
+   %>
+
    <body>
       <div class="bg-danger text-white" style="margin-bottom: 50px;">
 
@@ -35,25 +45,18 @@
 	<h1 class="text-sm-center font-weight-bold">Estado de Resultados</h1>
          </div>
       </div>
-
-      <div class="container-fluid">
-         <%
-	Controlador ctr = new Controlador();
-	String fechI = ctr.recuperarParametro("FECHA_INICIAL").getValor();
-	String fechF = ctr.recuperarParametro("FECHA_FINAL").getValor();
-	String invF = ctr.recuperarParametro("INVENTARIO_FINAL").getValor();
-	EstResult estado = new EstResult(fechI, fechF, invF);
-         %>
-      </div>
+      <%
+         Controlador ctr = new Controlador();
+         String fechI = ctr.recuperarParametro("FECHA_INICIAL").getValor();
+         String fechF = ctr.recuperarParametro("FECHA_FINAL").getValor();
+         String invF = ctr.recuperarParametro("INVENTARIO_FINAL").getValor();
+         EstResult estado = new EstResult(fechI, fechF, invF);
+      %>
       <div class="container">
          <div class="row">
-	<hr>
-         </div>
-         <div class="row">
-	<!-- Aqui va el estado de resultados-->
 	<%@include file="aside.jsp" %>
-	<%
-	   if (estado.getInventarioF().doubleValue() <= 0) {
+	<!-- Aqui va el estado de resultados-->
+	<%	   if (estado.getInventarioF().doubleValue() <= 0) {
 	%>
 	<div class="col-lg-9">
 	   Para mostrar el estado de resultados primero se tiene que dar un valor a inventario final por favor valla a la pagina de configuracion y asigne un valor.
@@ -265,4 +268,7 @@
          </div>
       </footer>
    </body>
+   <%
+      }
+   %>
 </html>

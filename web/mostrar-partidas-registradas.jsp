@@ -3,6 +3,18 @@
     Created on : 10-14-2018, 06:01:16 AM
     Author     : Student
 --%>
+
+<%@page import="modelo.validarPeriodo"%>
+<%
+   if(!validarPeriodo.val()){
+      %>
+      <script type="text/javascript">
+         window.location = "configuracion.jsp?opc=n";
+      </script>
+<%
+   }
+%>
+
 <%@page import="java.util.Locale"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="modelo.CargoAbono"%>

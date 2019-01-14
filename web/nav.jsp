@@ -3,6 +3,7 @@
     Created on : 12-21-2018, 06:33:40 PM
     Author     : Student
 --%>
+<%@page import="modelo.validarPeriodo"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <nav class="navbar navbar-expand-lg navbar-dark">
     <a class="navbar-brand" href="#">Proy-SisCon</a>
@@ -15,7 +16,7 @@
                 <a class="nav-link font-weight-bold" href="index.jsp"><i class="fa fa-home"></i> Inicio <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link font-weight-bold" href="configuracion.jsp"><i class="fa fa-cog"></i> Configuración</a>
+	   <a class="nav-link font-weight-bold" href="<% if(!validarPeriodo.val()){%>configuracion.jsp?opc=n<%}else{%>configuracion.jsp<%}%>"><i class="fa fa-cog"></i> Configuración</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link font-weight-bold" href="#"><i class="fa fa-info-circle"></i> Acerca de</a>

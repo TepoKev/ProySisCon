@@ -3,7 +3,7 @@
     Created on : 12-24-2018, 04:57:07 PM
     Author     : student
 --%>
-
+<%@page import="modelo.validarPeriodo"%>
 <%@page import="modelo.EstResult"%>
 <%@page import="java.math.RoundingMode"%>
 <%@page import="java.math.BigDecimal"%>
@@ -25,6 +25,16 @@
       <script src="js/jquery-3.1.1.js"></script>
       <script src="js/bootstrap.js"></script>
    </head>
+   <%
+      if (!validarPeriodo.val()) {
+   %>
+   <script type="text/javascript">
+      window.location = "configuracion.jsp?opc=n";
+   </script>
+   <%
+   } else {
+   %>
+
    <body>
       <div class="bg-danger text-white" style="margin-bottom: 50px;">
 
@@ -42,8 +52,7 @@
       <div class="container">
          <div class="row">
 	<%@include file="aside.jsp" %>
-	<%
-	   Controlador ctr = new Controlador();
+	<%	   Controlador ctr = new Controlador();
 	   BigDecimal Tac = new BigDecimal(0);
 	   BigDecimal Tanc = new BigDecimal(0);
 	   BigDecimal Tpc = new BigDecimal(0);
@@ -341,4 +350,7 @@
 	</div>
          </footer>
    </body>
+   <%
+      }
+   %>
 </html>

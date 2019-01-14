@@ -2,6 +2,8 @@ package modelo;
 // Generated 01-03-2019 05:54:03 PM by Hibernate Tools 4.3.1
 
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -27,13 +29,31 @@ public class Periodo  implements java.io.Serializable {
     public Periodo(int id) {
         this.id = id;
     }
-    public Periodo(int id, Date fechaInicial, Date fechaFinal, Boolean encurso, Boolean finalizado, Set partidases, Set parametros) {
+    
+    public Periodo(String fechaInicial, String fechaFinal, Boolean encurso, Boolean finalizado) throws ParseException {
+       this.id = 0;
+       SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+       this.fechaInicial = sdf.parse(fechaInicial);
+       this.fechaFinal = sdf.parse(fechaFinal);
+       this.encurso = encurso;
+       this.finalizado = finalizado;
+    }
+    
+    public Periodo(Date fechaInicial, Date fechaFinal, Boolean encurso, Boolean finalizado) {
+       this.id = 0;
+       this.fechaInicial = fechaInicial;
+       this.fechaFinal = fechaFinal;
+       this.encurso = encurso;
+       this.finalizado = finalizado;
+    }
+    
+    public Periodo(int id, Date fechaInicial, Date fechaFinal, Boolean encurso, Boolean finalizado, Set partidas, Set parametros) {
        this.id = id;
        this.fechaInicial = fechaInicial;
        this.fechaFinal = fechaFinal;
        this.encurso = encurso;
        this.finalizado = finalizado;
-       this.partidas = partidases;
+       this.partidas = partidas;
        this.parametros = parametros;
     }
    
