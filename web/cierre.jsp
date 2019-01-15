@@ -29,7 +29,7 @@
       <script src="js/bootstrap.js"></script>
    </head>
    <%
-      if (!validarPeriodo.val()) {
+      if (!validarPeriodo.val() || !validarPeriodo.valF()) {
    %>
    <script type="text/javascript">
       window.location = "configuracion.jsp?opc=n";
