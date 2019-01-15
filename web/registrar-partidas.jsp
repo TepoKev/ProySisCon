@@ -24,7 +24,7 @@
       </script>
    </head>
    <%
-      if (!validarPeriodo.val() && !validarPeriodo.valF()) {
+      if (!validarPeriodo.val() || !validarPeriodo.valF()) {
    %>
    <script type="text/javascript">
       window.location = "configuracion.jsp?opc=n";

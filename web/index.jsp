@@ -112,6 +112,7 @@
 	      <a href="registrar-catalogo.jsp" class="btn btn-info">Ver más <i class="fa fa-plus"></i></a>
 	   </div>
 	</div>
+	
 	<div class="card bg-info text-white">
 	   <div class="card-body">
 	      <h5 class='card-title'>Libro Diario</h5>

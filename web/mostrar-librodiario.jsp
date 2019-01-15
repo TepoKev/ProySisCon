@@ -67,7 +67,8 @@
 	         </div>
 	      </div>
 	   </form>
-	   <%	           Controlador ctr = new Controlador();
+	   <%	           
+	      Controlador ctr = new Controlador();
 	      ArrayList<Partida> partida = (ArrayList<Partida>) ctr.recuperarPartidas();
 	      BigDecimal tCargo = new BigDecimal("0");
 	      BigDecimal tAbono = new BigDecimal("0");

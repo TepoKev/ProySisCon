@@ -58,9 +58,9 @@
 	   BigDecimal Tpc = new BigDecimal(0);
 	   BigDecimal Tpnc = new BigDecimal(0);
 	   BigDecimal Tpat = new BigDecimal(0);
-	   String fechI = ctr.recuperarParametro("FECHA_INICIAL").getValor();
-	   String fechF = ctr.recuperarParametro("FECHA_FINAL").getValor();
-	   String invF = ctr.recuperarParametro("INVENTARIO_FINAL").getValor();
+	   String fechI = ctr.recuperarParamPer("FECHA_INICIAL", ctr.periodoNow().getId()).getValor();
+	   String fechF = ctr.recuperarParamPer("FECHA_FINAL", ctr.periodoNow().getId()).getValor();
+	   String invF = ctr.recuperarParamPer("INVENTARIO_FINAL", ctr.periodoNow().getId()).getValor();
 	   EstResult estado = new EstResult(fechI, fechF, invF);
 	   ArrayList<Mayor> AC = ctr.mayorizarCuentas(4, "11");
 	   ArrayList<Mayor> ANC = ctr.mayorizarCuentas(4, "12");

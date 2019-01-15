@@ -72,13 +72,14 @@ public class Controlador {
 
    }
 
-   public void actualizarParamNombre(String nombre, String valor) {
+   public void actualizarParamNombre(String nombre, String valor, int idper) {
       try {
          openSession();
          this.session.beginTransaction();
-         Query q = this.session.createQuery("update Parametro p set valor = ? where p.nombre = ?");
+         Query q = this.session.createQuery("update Parametro p set valor = ? where p.nombre = ? and p.periodo.id = ?");
          q.setString(0, valor);
          q.setString(1, nombre);
+         q.setInteger(2, idper);
          int executeUpdate = q.executeUpdate();
          this.session.getTransaction().commit();
       } catch (HibernateException e) {
@@ -153,6 +154,23 @@ public class Controlador {
       }
       return p;
    }
+   
+   public Parametro recuperarParamPer(String nombre, int idper) {
+      Parametro p = null;
+      try {
+         openSession();
+         Query q = this.session.createQuery("from Parametro p WHERE (p.nombre = ? and p.periodo.id = ?)");
+         q.setString(0, nombre);
+         q.setInteger(1, idper);
+         p = (Parametro) q.uniqueResult();
+      } catch (HibernateException he) {
+
+      } finally {
+         this.session.close();
+      }
+      return p;
+   }
+   
 
    public Cuenta recuperarCuenta(Cuenta cuenta) {
       if (cuenta != null) {
@@ -171,21 +189,19 @@ public class Controlador {
       return cuenta;
    }
 
-   public Parametro recuperarParametro(String nombre) {
+   public Parametro recuperarParametro(int id) {
       Parametro param = null;
-      if (nombre != null) {
+      
          try {
 	openSession();
-	Query q = this.session.createQuery("from Parametro p WHERE p.nombre=?");
-	q.setString(0, nombre);
+	Query q = this.session.createQuery("from Parametro p WHERE p.id=?");
+	q.setInteger(0, id);
 	param = (Parametro) q.uniqueResult();
          } catch (HibernateException he) {
 
          } finally {
 	this.session.close();
          }
-
-      }
       return param;
    }
 
@@ -210,7 +226,10 @@ public class Controlador {
       try {
          Periodo per = periodoNow();
          openSession();
-         p = (List<Partida>) this.session.createQuery("from Partida p where id_periodo =" + per.getId()).list();
+         Query q = this.session.createQuery("from Partida p where p.periodo.id = ?");
+         q.setInteger(0, per.getId());
+         p = (List<Partida>) q.list();
+	     
       } catch (HibernateException e) {
          System.out.println("");
       } finally {

@@ -7,6 +7,7 @@
 <%@page import="modelo.validarPeriodo"%>
 <%@page import="java.time.LocalDate"%>
 <%@page import="modelo.Periodo"%>
+<%@page import="modelo.Parametro"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="controlador.Controlador"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -25,15 +26,33 @@
       <script src="js/bootstrap.js"></script>
    </head>
    <%
+      Controlador ctr = new Controlador();
+      Periodo periodoVal;
       if (request.getParameter("opc") != null) {
-         if ("".equals(request.getParameter("opc"))) {
+         if ("n".equals(request.getParameter("opc")) || "c".equals(request.getParameter("opc"))) {
+	periodoVal = ctr.periodoNow();
+	if ("n".equals(request.getParameter("opc")) && periodoVal != null) {
+	   if (periodoVal.getEncurso() == true && periodoVal.getFinalizado() == false) {
+   %>
+   <script type="text/javascript">
+      window.location = "configuracion.jsp?opc=c";
+   </script>
+   <%
+         }
+      }
+      if ("c".equals(request.getParameter("opc"))) {
+         if (periodoVal == null || periodoVal.getFinalizado() == true) {
    %>
    <script type="text/javascript">
       window.location = "configuracion.jsp?opc=n";
    </script>
    <%
-   } else {
+         }
+      }
+
    %>
+
+   <!-- Aqui va el boody -->
 
    <body>
       <div class="bg-danger text-white" style="margin-bottom: 50px;">
@@ -54,29 +73,7 @@
 	<%@include file="aside.jsp" %>
 	<div class="col-lg-9">
 	   <form class="mb-5" action="ServletConfig" method="post" name="frmConfig" id="frmConfig">
-	      <%	         Controlador ctr = new Controlador();
-	         Periodo aux = null;
-
-	         String FECHA_INICIAL = request.getParameter("FECHA_INICIAL"),
-		     FECHA_FINAL = request.getParameter("FECHA_FINAL"),
-		     INVENTARIO_FINAL = request.getParameter("INVENTARIO_FINAL"),
-		     PORC_RESERVA = request.getParameter("PORC_RESERVA"),
-		     PORC_IMPUESTO_S_LA_RENTA = request.getParameter("PORC_IMPUESTO_S_LA_RENTA"),
-		     EXTREMO_DE_APLICACION = request.getParameter("EXTREMO_DE_APLICACION"),
-		     VENTAS = request.getParameter("VENTAS"),
-		     REB_Y_DEV_S_VENTAS = request.getParameter("REB_Y_DEV_S_VENTAS"),
-		     COMPRAS = request.getParameter("COMPRAS"),
-		     GASTOS_S_COMPRAS = request.getParameter("GASTOS_S_COMPRAS"),
-		     REB_Y_DEV_S_COMPRAS = request.getParameter("REB_Y_DEV_S_COMPRAS"),
-		     INVENTARIO = request.getParameter("INVENTARIO"),
-		     GASTOS_DE_ADMON = request.getParameter("GASTOS_DE_ADMON"),
-		     GASTOS_DE_VENTA = request.getParameter("GASTOS_DE_VENTA"),
-		     GASTOS_FINANCIEROS = request.getParameter("GASTOS_FINANCIEROS"),
-		     OTROS_GASTOS = request.getParameter("OTROS_GASTOS"),
-		     OTROS_INGRESOS = request.getParameter("OTROS_INGRESOS"),
-		     RESERVA_LEGAL = request.getParameter("RESERVA_LEGAL"),
-		     IMPUESTO_S_LA_RENTA = request.getParameter("IMPUESTO_S_LA_RENTA"),
-		     UTILIDAD_DEL_EJERCICIO = request.getParameter("UTILIDAD_DEL_EJERCICIO");
+	      <%	         Periodo aux = null;
 	      %>
 	      <div class="text-right">
 	         <a class="my-3 text-sm-center  btn btn-outline-info" href="configuracion.jsp?default=true">Configuración por defecto <i class="fa fa-cog"></i></a>
@@ -91,9 +88,21 @@
 	         los periodos de operaicón deben ingresarse para el correcto funcionamiento
 	      </div>
 	      <%
-	         if (request.getParameter("opc").equals("n")) {
+	         if (request.getParameter("opc").equals("n") && ctr.periodoNow() == null) {
+		Periodo pero = ctr.periodoNow();
+		Parametro fechI = new Parametro();
+		Parametro fechF = new Parametro();
+		Parametro invF = new Parametro();
+		if (pero != null) {
+		   fechI = ctr.recuperarParamPer("FECHA_INICIAL", pero.getId());
+		   fechF = ctr.recuperarParamPer("FECHA_FINAL", pero.getId());
+		   invF = ctr.recuperarParamPer("INVENTARIO_FINAL", pero.getId());
+		}
 	      %>
 	      <input type="hidden" name="opc" id="opc" value="<%= request.getParameter("opc")%>">
+	      <input type="hidden" name="idfI" id="idfI" value="<%= fechI.getId()%>">
+	      <input type="hidden" name="idfF" id="idfF" value="<%= fechF.getId()%>">
+	      <input type="hidden" name="invF" id="invF" value="<%= invF.getId()%>">
 	      <div class="form-group row mt-3">
 	         <label for="FECHA_INICIAL" class="col-sm-3 col-form-label">Fecha inicial</label>
 	         <div class="col-sm-4">
@@ -159,8 +168,21 @@
 	         </div>
 	         <%
 	         } else {
+		Periodo pero = ctr.periodoNow();
+		Parametro fechI = new Parametro();
+		Parametro fechF = new Parametro();
+		Parametro invF = new Parametro();
+		if (pero != null) {
+		   fechI = ctr.recuperarParamPer("FECHA_INICIAL", pero.getId());
+		   fechF = ctr.recuperarParamPer("FECHA_FINAL", pero.getId());
+		   invF = ctr.recuperarParamPer("INVENTARIO_FINAL", pero.getId());
+		}
+
 	         %>
 	         <input type="hidden" name="opc" id="opc" value="<%= request.getParameter("opc")%>">
+	         <input type="hidden" name="idfI" id="idfI" value="<%= fechI.getId()%>">
+	         <input type="hidden" name="idfF" id="idfF" value="<%= fechF.getId()%>">
+	         <input type="hidden" name="invF" id="invF" value="<%= invF.getId()%>">
 	         <div class="form-group row mt-3">
 		<label for="FECHA_INICIAL" class="col-sm-3 col-form-label">Fecha inicial</label>
 		<div class="col-sm-4">
@@ -169,7 +191,7 @@
 		   <input value="2018-01-01" type="date" class="form-control" name="FECHA_INICIAL" id="FECHA_INICIAL" placeholder="Fecha inicial">
 		   <%
 		   } else {%>
-		   <input value="<%= ctr.recuperarParametro("FECHA_INICIAL").getValor()%>" type="date" class="form-control" name="FECHA_INICIAL" id="FECHA_INICIAL" placeholder="Fecha inicial">
+		   <input value="<%= fechI.getValor()%>" type="date" class="form-control" name="FECHA_INICIAL" id="FECHA_INICIAL" placeholder="Fecha inicial">
 		   <%}%>
 		</div>
 		<div class="col-md-3 font-weight-bold">FECHA_INICIAL</div>
@@ -183,7 +205,7 @@
 		   <input value="2018-12-31" type="date" class="form-control" name="FECHA_FINAL" id="FECHA_FINAL" placeholder="Fecha final">
 		   <%
 		   } else {%>
-		   <input value="<%= ctr.recuperarParametro("FECHA_FINAL").getValor()%>" type="date" class="form-control" name="FECHA_FINAL" id="FECHA_FINAL" placeholder="Fecha final">
+		   <input value="<%= fechF.getValor()%>" type="date" class="form-control" name="FECHA_FINAL" id="FECHA_FINAL" placeholder="Fecha final">
 		   <%}%>
 		</div>
 		<div class="col-md-3 font-weight-bold">FECHA_FINAL</div>
@@ -196,7 +218,7 @@
 		   <input value=""  type="number" step="any" class="form-control" name="INVENTARIO_FINAL" id="INVENTARIO_FINAL" placeholder="Inventario final">
 		   <%
 		   } else {%>
-		   <input value="<%= ctr.recuperarParametro("INVENTARIO_FINAL").getValor()%>" type="number" step="any" class="form-control" name="INVENTARIO_FINAL" id="INVENTARIO_FINAL" placeholder="Inventario final">
+		   <input value="<%= invF.getValor()%>" type="number" step="any" class="form-control" name="INVENTARIO_FINAL" id="INVENTARIO_FINAL" placeholder="Inventario final">
 		   <%}%>
 		</div>
 		<div class="col-md-3 font-weight-bold">INVENTARIO_FINAL</div>
@@ -261,16 +283,9 @@
 		   Iniciar Periodo
 		   <%
 		   } else {
-		      if (aux != null) {
-		   %>
-		   Iniciar Periodo
-		   <%
-		   } else {
 		   %>
 		   Aplicar Configuracion
 		   <%
-		         }
-
 		      }
 		   %>
 		</button>
@@ -287,14 +302,14 @@
          </div>
       </footer>
    </body>
+
+
    <%
-      }
-   } else {
-   %>
-   <script type="text/javascript">
-      window.location = "configuracion.jsp?opc=c";
-   </script>
-   <%
+         } else {
+	out.print(validarPeriodo.fullValidacion());
+         }
+      } else {
+         out.print(validarPeriodo.fullValidacion());
       }
    %>
 </html>

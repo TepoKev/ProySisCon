@@ -9,6 +9,9 @@ import controlador.Controlador;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 /**
@@ -17,12 +20,14 @@ import java.util.ArrayList;
  */
 public class partidasCierre {
 
-   public ArrayList<Partida> partidas;
+   public ArrayList<Partida> partidas; 
    private final Controlador ctr;
+   private SimpleDateFormat sdf;
 
    public partidasCierre() {
       this.partidas = new ArrayList<>();
       this.ctr = new Controlador();
+      this.sdf = new SimpleDateFormat("yyyy-MM-dd");
    }
 
    public void generarPartidasCierre() throws ParseException {
@@ -73,7 +78,7 @@ public class partidasCierre {
       crearPartida("Liquidacion de inventario", ca);
 
       Periodo actual = ctr.periodoNow();
-      EstResult result = new EstResult(actual.getFechaInicial().toString(), actual.getFechaFinal().toString(), ctr.recuperarParametro("INVENTARIO_FINAL").getValor());
+      EstResult result = new EstResult(actual.getFechaInicial().toString(), actual.getFechaFinal().toString(), ctr.recuperarParamPer("INVENTARIO_FINAL",ctr.periodoNow().getId()).getValor());
 
       //Determinacion del costo de venta
       ca = new ArrayList<>();
@@ -176,7 +181,7 @@ public class partidasCierre {
       ctr.actualizar(p);
    }
 
-   private Partida crearPartida(String descripcion, ArrayList<CargoAbono> ca) {
+   private Partida crearPartida(String descripcion, ArrayList<CargoAbono> ca){
       Partida p = new Partida();
       p.setPeriodo(ctr.periodoNow());
       p.setFecha("");
