@@ -384,7 +384,7 @@ public class Controlador {
 
          //insercion en la base de datos
          for (i = 0; i < len; i++) {
-	partidas.get(i).setContador(null);
+	partidas.get(i).setContador(0);
 	partidas.get(i).setPeriodo(periodoNow());
 	openSession();
 	//comienza la transaccion
