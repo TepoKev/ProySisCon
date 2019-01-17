@@ -21,7 +21,7 @@ import java.util.ArrayList;
 public class partidasCierre {
 
    public ArrayList<Partida> partidas; 
-   private final Controlador ctr;
+   private Controlador ctr;
    private SimpleDateFormat sdf;
 
    public partidasCierre() {
@@ -31,7 +31,12 @@ public class partidasCierre {
    }
 
    public void generarPartidasCierre() throws ParseException {
-      //Liquidacion de IVA
+      
+      //exportar la base de datos
+      ImportExport ie =  new ImportExport();
+      
+      ie.iniciar();
+      //Liquidacion de IVA      
       ArrayList<CargoAbono> ca = new ArrayList<>();
       Mayor m, m1;
       m = ctr.mayorizarCuenta("2109");
@@ -157,24 +162,9 @@ public class partidasCierre {
       crearPartida("Para determinar o trasladar la utilidad acuenta de capital", ca);
 
       //Cierre del ejercicio
-      ArrayList<Mayor> may = ctr.mayorizarCuentas(4, "11");
-      ca = new ArrayList<>();
-      may.addAll(ctr.mayorizarCuentas(4, "12"));
-      may.addAll(ctr.mayorizarCuentas(4, "21"));
-      may.addAll(ctr.mayorizarCuentas(4, "22"));
-      may.addAll(ctr.mayorizarCuentas(4, "31"));
       
-      for (Mayor mayor : may) {
-         mayor.generarSaldos();
-         if ("-".equals(mayor.getCuenta().getTipo()) && mayor.getSaldoA() != 0) {
-	ca.add(new CargoAbono(mayor.getCuenta(), mayor.getSaldoA(), "c"));
-         } else {
-	if ("+".equals(mayor.getCuenta().getTipo()) && mayor.getSaldoD() != 0) {
-	   ca.add(new CargoAbono(mayor.getCuenta(), mayor.getSaldoD(), "a"));
-	}
-         }
-      }
-      crearPartida("Cierre del ejercicio", ca);
+      generarCI();
+      
       Periodo p = ctr.periodoNow();
       p.setEncurso(false);
       p.setFinalizado(true);
@@ -182,9 +172,10 @@ public class partidasCierre {
    }
 
    private Partida crearPartida(String descripcion, ArrayList<CargoAbono> ca){
+      ca = ctr.ordenarCA(ca);
       Partida p = new Partida();
       p.setPeriodo(ctr.periodoNow());
-      p.setFecha("");
+      p.setFecha("");      
       p.setDescripcion(descripcion);
       ca.stream().map((cA) -> {
          cA.setPartida(p);
@@ -193,6 +184,42 @@ public class partidasCierre {
       ctr.registrarPartida(p);
       this.partidas.add(p);
       return p;
+   }
+   
+   private void generarCI(){
+      ArrayList<Mayor> may = ctr.mayorizarCuentas(4, "11");
+      ArrayList<CargoAbono> caF = new ArrayList<>();
+      ArrayList<CargoAbono> caI = new ArrayList<>();
+      may.addAll(ctr.mayorizarCuentas(4, "12"));
+      may.addAll(ctr.mayorizarCuentas(4, "21"));
+      may.addAll(ctr.mayorizarCuentas(4, "22"));
+      may.addAll(ctr.mayorizarCuentas(4, "31"));
+      
+      for (Mayor mayor : may) {
+         mayor.generarSaldos();
+         if ("-".equals(mayor.getCuenta().getTipo()) && mayor.getSaldoA() != 0) {
+	caF.add(new CargoAbono(mayor.getCuenta(), mayor.getSaldoA(), "c"));
+	caI.add(new CargoAbono(mayor.getCuenta(), mayor.getSaldoA(), "a"));
+         } else {
+	if ("+".equals(mayor.getCuenta().getTipo()) && mayor.getSaldoD() != 0) {
+	   caF.add(new CargoAbono(mayor.getCuenta(), mayor.getSaldoD(), "a"));
+	   caI.add(new CargoAbono(mayor.getCuenta(), mayor.getSaldoD(), "c"));
+	}
+         }
+      }
+      
+      crearPartida("Cierre del ejercicio", caF);
+      ctr.resetContador();
+      caI = ctr.ordenarCA(caI);
+      Partida p = new Partida();
+      p.setPeriodo(null);
+      p.setFecha("");
+      p.setDescripcion("Balance Inicial");
+      caI.stream().map((cA) -> {
+         cA.setPartida(p);
+         return cA;
+      }).forEachOrdered(p.getCargosAbonos()::add);
+      ctr.registrarPartida(p);
    }
 
 }

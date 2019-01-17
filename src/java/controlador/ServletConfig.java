@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import modelo.Parametro;
+import modelo.Partida;
 import modelo.Periodo;
 
 /**
@@ -67,12 +68,16 @@ public class ServletConfig extends HttpServlet {
 	if (idPeriodo.isEmpty() && ctr.periodoNow() == null) {
 	   actual = new Periodo(request.getParameter("FECHA_INICIAL"), request.getParameter("FECHA_FINAL"), true, false);
 	   actual.setId((int) ctr.guardar(actual));
-	   paramFechI.setPeriodo(actual);
+	   paramFechI.setPeriodo(ctr.periodoNow());
 	   ctr.guardar(paramFechI);
-	   paramFechF.setPeriodo(actual);
+	   paramFechF.setPeriodo(ctr.periodoNow());
 	   ctr.guardar(paramFechF);
-	   paramInvF.setPeriodo(actual);
+	   paramInvF.setPeriodo(ctr.periodoNow());
 	   ctr.guardar(paramInvF);
+	   Partida p = new Partida();
+	   p = ctr.partidaNow();
+	   p.setPeriodo(ctr.periodoNow());
+	   ctr.actualizar(p);
 	   dispatcher = request.getRequestDispatcher("index.jsp");
 	   dispatcher.forward(request, response);
 	} else {
@@ -105,6 +110,10 @@ public class ServletConfig extends HttpServlet {
 		ctr.guardar(paramFechF);
 		paramInvF.setPeriodo(actual);
 		ctr.guardar(paramInvF);
+		Partida p = new Partida();
+		p = ctr.partidaNow();
+		p.setPeriodo(ctr.periodoNow());
+		ctr.actualizar(p);
 		dispatcher = request.getRequestDispatcher("index.jsp");
 		dispatcher.forward(request, response);
 	         }

@@ -3,6 +3,7 @@
     Created on : 09-09-2018, 05:27:25 PM
     Author     : tepokev
 --%>
+<%@page import="modelo.Periodo"%>
 <%@page import="modelo.validarPeriodo"%>
 <%@page import="controlador.Controlador" %>
 <%@page import="modelo.Mayor" %>
@@ -71,7 +72,9 @@
 	      </thead>
 	      <tbody>
 	         <%
+		Periodo actual = ctr.periodoNow();
 		for (CargoAbono ca : item.getTransacciones()) {
+		   if (ca.getPartida().getPeriodo().getId() == actual.getId()) {
 	         %>
 	         <tr>
 		<th><%=ca.getCuenta().getCodigo()%></th>
@@ -81,6 +84,7 @@
 		<td><%=ca.getMonto()%></td>
 	         </tr>
 	         <%
+		   }
 		}
 	         %>
 	      </tbody>

@@ -54,7 +54,8 @@
 	<%@include file="aside.jsp" %>
 	<div class="col-lg-9">
 	   <table class="table table-sm">
-	      <%		   Controlador ctr = new Controlador();
+	      <%		   
+	         Controlador ctr = new Controlador();
 	         ArrayList<Mayor> m = ctr.mayorizarCuentas(4);
 	         BigDecimal tCargo = new BigDecimal("0");
 	         BigDecimal tAbono = new BigDecimal("0");

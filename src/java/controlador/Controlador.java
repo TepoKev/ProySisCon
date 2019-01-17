@@ -30,7 +30,6 @@ import org.hibernate.type.StandardBasicTypes;
  * @author kedut
  */
 public class Controlador {
-
    private Session session;
    private SessionFactory factory;
 
@@ -122,22 +121,29 @@ public class Controlador {
    }
 
    public Periodo periodoNow() {
-      ArrayList<Periodo> per = new ArrayList<>();
+      Periodo per = null;
       try {
          openSession();
-         Query q = this.session.createQuery("FROM Periodo");
-         per = (ArrayList<Periodo>) q.list();
+         Query q = this.session.createQuery("FROM Periodo p where p.encurso = true");
+         per = (Periodo) q.uniqueResult();
       } catch (HibernateException he) {
-
       } finally {
          this.session.close();
       }
-      for (Periodo periodo : per) {
-         if (periodo.getEncurso() == true) {
-	return periodo;
-         }
+      return per;
+   }
+   
+   public Partida partidaNow() {
+      Partida par = null;
+      try {
+         openSession();
+         Query q = this.session.createQuery("from Partida where id = (select max(p.id) from Partida p)");
+         par = (Partida) q.uniqueResult();
+      } catch (HibernateException he) {
+      } finally {
+         this.session.close();
       }
-      return null;
+      return par;
    }
 
    public Periodo recuperarPeriodo(int id) {
@@ -154,7 +160,7 @@ public class Controlador {
       }
       return p;
    }
-   
+
    public Parametro recuperarParamPer(String nombre, int idper) {
       Parametro p = null;
       try {
@@ -170,7 +176,6 @@ public class Controlador {
       }
       return p;
    }
-   
 
    public Cuenta recuperarCuenta(Cuenta cuenta) {
       if (cuenta != null) {
@@ -191,17 +196,17 @@ public class Controlador {
 
    public Parametro recuperarParametro(int id) {
       Parametro param = null;
-      
-         try {
-	openSession();
-	Query q = this.session.createQuery("from Parametro p WHERE p.id=?");
-	q.setInteger(0, id);
-	param = (Parametro) q.uniqueResult();
-         } catch (HibernateException he) {
 
-         } finally {
-	this.session.close();
-         }
+      try {
+         openSession();
+         Query q = this.session.createQuery("from Parametro p WHERE p.id=?");
+         q.setInteger(0, id);
+         param = (Parametro) q.uniqueResult();
+      } catch (HibernateException he) {
+
+      } finally {
+         this.session.close();
+      }
       return param;
    }
 
@@ -226,10 +231,10 @@ public class Controlador {
       try {
          Periodo per = periodoNow();
          openSession();
-         Query q = this.session.createQuery("from Partida p where p.periodo.id = ?");
+         Query q = this.session.createQuery("from Partida p where p.periodo.id = ? order by p.id asc");
          q.setInteger(0, per.getId());
          p = (List<Partida>) q.list();
-	     
+
       } catch (HibernateException e) {
          System.out.println("");
       } finally {
@@ -262,7 +267,7 @@ public class Controlador {
       try {
          openSession();
          //c = (List<Cuenta>) this.session.createQuery("from Cuenta c where LENGTH(c.codigo)='1'  order by c.codigo asc").list();
-         c = (List<Cuenta>) this.session.createQuery("from Cuenta c  order by c.codigo asc").list();
+         c = (List<Cuenta>) this.session.createQuery("from Cuenta c order by c.codigo asc").list();
       } catch (HibernateException e) {
          System.out.println("");
       } finally {
@@ -457,6 +462,26 @@ public class Controlador {
       return next;
    }
 
+   public ArrayList<CargoAbono> ordenarCA(ArrayList<CargoAbono> cargoAbono) {
+      ArrayList<CargoAbono> cargo = new ArrayList();
+      ArrayList<CargoAbono> abono = new ArrayList();
+      CargoAbono aux;
+      try {
+         for (CargoAbono ca : cargoAbono) {
+	aux =  ca;
+	if ("c".equals(aux.getOperacion())) {
+	   cargo.add(aux);
+	} else if ("a".equals(aux.getOperacion())) {
+	   abono.add(aux);
+	}
+         }
+         cargo.addAll(abono);
+         Collections.sort(cargo, (CargoAbono o1, CargoAbono o2) -> new Integer(o1.getId()).compareTo(o2.getId()));
+      } catch (Exception e) {
+      }
+      return cargo;
+   }
+   
    public ArrayList<CargoAbono> ordenarCA(Set cargoAbono) {
       ArrayList<CargoAbono> cargo = new ArrayList();
       ArrayList<CargoAbono> abono = new ArrayList();
@@ -485,7 +510,7 @@ public class Controlador {
       try {
          openSession();
          //Mediante esta instruccion se obtiene las cuentas de nivel seleccionado
-         listaC = (List<Cuenta>) this.session.createQuery("from Cuenta c where LENGTH(c.codigo)=" + nivel + " order by c.codigo asc").list();
+         listaC = (List<Cuenta>) this.session.createQuery("from Cuenta c where LENGTH(c.codigo) = " + nivel + " order by c.codigo asc").list();
          //Con este for se recorreran estas cuentas del nivel seleccionado y tambien sus subniveles 
          //se recojeran todos sus cargos o abonos mediante un metodo recursivo
          for (Cuenta c : listaC) {
@@ -548,6 +573,8 @@ public class Controlador {
 
       } catch (HibernateException e) {
          System.out.println(e.getMessage());
+      } finally {
+         this.session.close();
       }
       return m;
    }
@@ -578,7 +605,6 @@ public class Controlador {
          String sql = "from CargoAbono as ca where ca.cuenta.codigo = ? and (ca.partida.fecha between ? and ?)";
          q1 = this.session.createQuery(sql);
          q1.setString(0, codigo);
-
          q1.setDate(1, fechI);
          q1.setDate(2, fechF);
          ca = (List<CargoAbono>) q1.list();
@@ -596,6 +622,40 @@ public class Controlador {
          this.session.close();
       }
       return m;
+   }
+   
+   public int obtenerMaxValue(){
+      int n = -1;
+      try {
+         if (!recuperarPeriodos().isEmpty()) {
+	openSession();
+	Query q = this.session.createQuery("select max(p.id) from Partida p");
+	n = (Integer) q.uniqueResult();
+         }
+
+      } catch (HibernateException he) {
+
+      } finally {
+         this.session.close();
+      }
+      return n;
+   }
+
+   public Partida obtenerPrimera() {
+      Partida p = null;
+      try {
+         if (!recuperarPeriodos().isEmpty()) {
+	openSession();
+	Query q = this.session.createQuery("from Partida where id = (select max(p.id) from Partida p)");
+	p = (Partida) q.uniqueResult();
+         }
+
+      } catch (HibernateException he) {
+
+      } finally {
+         this.session.close();
+      }
+      return p;
    }
 
    public void recursivo(Cuenta c, Mayor m) {
