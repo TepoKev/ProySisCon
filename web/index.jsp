@@ -9,7 +9,6 @@
 <!DOCTYPE html>
 <html lang="es">
    <head>
-       
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
       <link rel="stylesheet" href="css/bootstrap.css">
@@ -220,13 +219,6 @@
 	      <h5 class="card-title">Cierre contable</h5>
 	      <p class="card-text"> </p>
 	      <a href="cierre.jsp" class="btn btn-info" data-toggle="modal" data-target="#exampleModal">Ver más <i class="fa fa-plus"></i></a>
-	   </div>
-	</div>
-	<div class="card bg-info text-white">
-	   <div class="card-body">
-	      <h5 class="card-title">Exportar</h5>
-	      <p class="card-text">Exportar cuentas, partidas / transacciones a Microsoft Excel o hacer un Backup de la base de datos</p>
-	      <a href="#" class="btn btn-info">Ver más <i class="fa fa-plus"></i></a>
 	   </div>
 	</div>
          </div>
